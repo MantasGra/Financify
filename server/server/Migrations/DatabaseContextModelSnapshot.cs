@@ -24,12 +24,14 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -48,7 +50,7 @@ namespace server.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateFrom")
@@ -60,7 +62,7 @@ namespace server.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -77,12 +79,13 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -99,9 +102,11 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Currency")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasMaxLength(10);
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -118,10 +123,13 @@ namespace server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -134,16 +142,17 @@ namespace server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("BugReportId")
+                    b.Property<int>("BugReportId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CustomerSupportId")
+                    b.Property<int>("CustomerSupportId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -161,22 +170,24 @@ namespace server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("Type")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -192,20 +203,21 @@ namespace server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
                         .HasColumnType("int");
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
-                    b.Property<int?>("Category")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<bool>("Disabled")
                         .HasColumnType("tinyint(1)");
@@ -228,13 +240,19 @@ namespace server.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Fullname")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Password")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime(6)");
@@ -257,53 +275,69 @@ namespace server.Migrations
                 {
                     b.HasOne("server.Models.User", "User")
                         .WithMany("Accounts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Budget", b =>
                 {
                     b.HasOne("server.Models.User", "User")
                         .WithMany("Budgets")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.BugReport", b =>
                 {
                     b.HasOne("server.Models.User", "User")
                         .WithMany("BugReports")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.CurrencySubscription", b =>
                 {
                     b.HasOne("server.Models.User", "User")
                         .WithMany("CurrencySubscriptions")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Response", b =>
                 {
                     b.HasOne("server.Models.BugReport", "BugReport")
                         .WithMany("Responses")
-                        .HasForeignKey("BugReportId");
+                        .HasForeignKey("BugReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("server.Models.CustomerSupport", "CustomerSupport")
                         .WithMany("Responses")
-                        .HasForeignKey("CustomerSupportId");
+                        .HasForeignKey("CustomerSupportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Subscription", b =>
                 {
                     b.HasOne("server.Models.Account", "Account")
                         .WithMany("Subscriptions")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Models.Transaction", b =>
                 {
                     b.HasOne("server.Models.Account", "Account")
                         .WithMany("Transactions")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

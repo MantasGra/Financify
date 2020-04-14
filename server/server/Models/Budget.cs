@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
@@ -17,12 +18,25 @@ namespace server.Models
     public class Budget
     {
         public int Id { get; set; }
+
+        [Required]
         public double Amount { get; set; }
-        public TransactionCategory? Category { get; set; }
+
+        [Required]
+        public TransactionCategory Category { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime DateFrom { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime DateTo { get; set; }
+
+        [Required]
         public BudgetStatus Status { get; set; }
 
+        [Required]
         public virtual User User { get; set; }
     }
 }

@@ -14,8 +14,8 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true)
+                    Content = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,9 +28,9 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: true),
-                    Fullname = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 255, nullable: false),
+                    Fullname = table.Column<string>(maxLength: 255, nullable: false),
+                    Password = table.Column<string>(maxLength: 255, nullable: false),
                     RegistrationDate = table.Column<DateTime>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false)
                 },
@@ -45,9 +45,9 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,7 +57,7 @@ namespace server.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,11 +67,11 @@ namespace server.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<double>(nullable: false),
-                    Category = table.Column<int>(nullable: true),
+                    Category = table.Column<int>(nullable: false),
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false),
                     Status = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -81,7 +81,7 @@ namespace server.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -90,9 +90,9 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,7 +102,7 @@ namespace server.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -111,8 +111,8 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Currency = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: true)
+                    Currency = table.Column<string>(maxLength: 10, nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,7 +122,7 @@ namespace server.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -131,12 +131,12 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
                     Amount = table.Column<double>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
-                    Type = table.Column<int>(nullable: true),
-                    Category = table.Column<int>(nullable: true),
-                    AccountId = table.Column<int>(nullable: true)
+                    Type = table.Column<int>(nullable: false),
+                    Category = table.Column<int>(nullable: false),
+                    AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,7 +146,7 @@ namespace server.Migrations
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,10 +157,10 @@ namespace server.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<double>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    Category = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
+                    Category = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(maxLength: 255, nullable: true),
                     Disabled = table.Column<bool>(nullable: false),
-                    AccountId = table.Column<int>(nullable: true)
+                    AccountId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -170,7 +170,7 @@ namespace server.Migrations
                         column: x => x.AccountId,
                         principalTable: "Accounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,10 +179,10 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: false),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    CustomerSupportId = table.Column<int>(nullable: true),
-                    BugReportId = table.Column<int>(nullable: true)
+                    CustomerSupportId = table.Column<int>(nullable: false),
+                    BugReportId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,13 +192,13 @@ namespace server.Migrations
                         column: x => x.BugReportId,
                         principalTable: "BugReports",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Responses_Users_CustomerSupportId",
                         column: x => x.CustomerSupportId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
