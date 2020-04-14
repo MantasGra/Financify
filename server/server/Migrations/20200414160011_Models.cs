@@ -90,7 +90,7 @@ namespace server.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Contnet = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: true)
                 },

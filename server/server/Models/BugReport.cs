@@ -8,7 +8,7 @@ namespace server.Models
     public class BugReport
     {
         public int Id { get; set; }
-        public string Contnet { get; set; }
+        public string Content { get; set; }
         public DateTime CreationDate { get; set; }
 
         public virtual User User { get; set; }
