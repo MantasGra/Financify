@@ -7,11 +7,11 @@ namespace server.Models
 {
     public enum BudgetStatus
     {
-        AlmostThere = "Almost there",
-        AtThreshold = "At threshold",
-        Under = "Under",
-        Undefined = "Undefined",
-        Over = "Over"
+        AlmostThere,
+        AtThreshold,
+        Under,
+        Undefined,
+        Over
     }
 
     public class Budget

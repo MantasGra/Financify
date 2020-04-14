@@ -7,10 +7,6 @@ namespace server.Models
 {
     public class CustomerSupport : User
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public AccountType? Type { get; set; }
-
-        public virtual Account Account { get; set; }
+        public virtual ICollection<Response> Responses { get; set; }
     }
 }

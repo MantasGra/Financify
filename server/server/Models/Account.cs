@@ -7,9 +7,9 @@ namespace server.Models
 {
     public enum AccountType
     {
-        Cash = "Cash",
-        CreditCard = "Credit card",
-        EWallet = "E-Wallet"
+        Cash,
+        CreditCard,
+        EWallet
     }
 
     public class Account

@@ -7,9 +7,9 @@ namespace server.Models
 {
     public enum SubscriptionType
     {
-        Weekly = "Weekly",
-        Monthly = "Monthly",
-        Yearly = "Yearly"
+        Weekly,
+        Monthly,
+        Yearly
     }
 
     public class Subscription

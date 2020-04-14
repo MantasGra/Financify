@@ -7,17 +7,17 @@ namespace server.Models
 {
     public enum TransactionCategory
     {
-        Food = "Food",
-        Shopping = "Shopping",
-        Travel = "Travel",
-        Savings = "Savings",
-        Transport = "Transport",
-        Salary = "Salary",
-        Bills = "Bills",
-        Fuel = "Fuel",
-        Gifts = "Gifts",
-        Holidays = "Holidays",
-        Other = "Other"
+        Food,
+        Shopping,
+        Travel,
+        Savings,
+        Transport,
+        Salary,
+        Bills,
+        Fuel,
+        Gifts,
+        Holidays,
+        Other
     }
 
     public class Transaction
