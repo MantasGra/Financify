@@ -9,7 +9,7 @@ using server.Models;
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200414204120_Models")]
+    [Migration("20200415102608_Models")]
     partial class Models
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

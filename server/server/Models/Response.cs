@@ -14,7 +14,7 @@ namespace server.Models
         public string Content { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime CreationDate { get; set; }
 
         [Required]

@@ -26,11 +26,11 @@ namespace server.Models
         public TransactionCategory Category { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime DateFrom { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime DateTo { get; set; }
 
         [Required]

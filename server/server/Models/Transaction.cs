@@ -29,7 +29,7 @@ namespace server.Models
         public double Amount { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime Date { get; set; }
 
         [Required]

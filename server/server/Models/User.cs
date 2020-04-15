@@ -24,7 +24,7 @@ namespace server.Models
         public string Password { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime RegistrationDate { get; set; }
 
         public virtual ICollection<CurrencySubscription> CurrencySubscriptions { get; set; }
