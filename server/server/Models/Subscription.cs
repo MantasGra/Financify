@@ -6,40 +6,33 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-    public enum TransactionCategory
+    public enum SubscriptionType
     {
-        Food,
-        Shopping,
-        Travel,
-        Savings,
-        Transport,
-        Salary,
-        Bills,
-        Fuel,
-        Gifts,
-        Holidays,
-        Other
+        Weekly,
+        Monthly,
+        Yearly
     }
 
-    public class Transaction
+    public class Subscription
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Name { get; set; }
 
         [Required]
         public double Amount { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public TransactionCategory Category { get; set;}
-
-        [StringLength(255)]
-        public string Description { get; set; }
+        public SubscriptionType Type { get; set; }
 
         [Required]
-        public bool Disabled { get; set; }
+        public TransactionCategory Category { get; set; }
 
         [Required]
         public virtual Account Account { get; set; }
