@@ -10,7 +10,7 @@ using server.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
-
+using Newtonsoft.Json;
 
 namespace server
 {
@@ -27,10 +27,13 @@ namespace server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<IAccountManager, AccountManager>();
+            services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
