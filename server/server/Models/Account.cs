@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
@@ -25,6 +26,7 @@ namespace server.Models
         public AccountType Type { get; set; }
 
         [Required]
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         public virtual ICollection<Subscription> Subscriptions { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -27,7 +28,8 @@ namespace server.ResourceManagers
 
         public IQueryable<User> GetUsers()
         {
-            return _userStorage.getCollection();
+            return _userStorage.getCollection()
+                .Include("Accounts");
         }
 
         public void DeleteUser(User user)

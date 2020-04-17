@@ -31,7 +31,6 @@ namespace server.Models
 
         public virtual ICollection<BugReport> BugReports { get; set; }
 
-        [Required]
         public virtual ICollection<Account> Accounts { get; set; }
 
         public virtual ICollection<Budget> Budgets { get; set; }

@@ -11,7 +11,8 @@ namespace server.ResourceManagers
         Account GetAccount(int id);
         Account AddAccount(Account account);
         IQueryable<Account> GetAccounts();
+        IQueryable<Account> GetUserAccounts(int userId);
         void DeleteAccount(Account account);
-
+        Account UpdateAccount(Account account);
     }
 }

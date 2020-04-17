@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.ResourceManagers;
 
@@ -13,56 +14,79 @@ namespace server.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountManager _accountManager;
+        private readonly IAccountManager _manager;
 
         public AccountController(IAccountManager accountManager)
         {
-            _accountManager = accountManager;
+            _manager = accountManager;
         }
 
         [HttpGet]
-        public ActionResult<Account> GetAccounts()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IQueryable<Account>> GetAccounts([FromQuery]int? userId)
         {
-            var accounts = _accountManager.GetAccounts();
+            IQueryable<Account> accounts = null;
+            if (userId.HasValue)
+            {
+                accounts = _manager.GetUserAccounts(userId.GetValueOrDefault(0));
+            }
+            else
+            {
+                accounts = _manager.GetAccounts();
+            }
             return Ok(accounts);
         }
 
-        [HttpPost]
-        public ActionResult<Account> PostAccount([FromBody]Account account)
-        {
-            _accountManager.AddAccount(account);
-            return Created(nameof(GetAccounts), account);
-        }
-
         [HttpGet("{id}")]
-        public ActionResult<Account> GetAccount(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Account> GetAccount([FromRoute]int id)
         {
-            var account = _accountManager.GetAccount(id);
+            var account = _manager.GetAccount(id);
 
             if (account == null)
             {
                 return NotFound();
             }
-
             return Ok(account);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<Account> DeleteAccount([FromRoute]int id)
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Account> AddAccount([FromBody]Account account)
         {
-            var account = _accountManager.GetAccount(id);
-            if (account != null)
-            {
-                _accountManager.DeleteAccount(account);
-                return Ok();
-            }
-            return NotFound();
+            _manager.AddAccount(account);
+
+            return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);
         }
 
         [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Account> UpdateAccount([FromRoute]int id, [FromBody]Account account)
         {
-            //TODO: implement PATCH method, for ref check https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1
+            if (id != account.Id)
+            {
+                return BadRequest();    
+            }
+
+            var updatedAccount = _manager.UpdateAccount(account);
+            return Ok(updatedAccount);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Account> DeleteAccount([FromRoute]int id)
+        {
+            var account = _manager.GetAccount(id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+            _manager.DeleteAccount(account);
             return Ok();
         }
     }

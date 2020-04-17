@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.Services;
 
@@ -27,7 +28,16 @@ namespace server.ResourceManagers
 
         public IQueryable<Account> GetAccounts()
         {
-            return _accountStorage.getCollection();
+            return _accountStorage.getCollection()
+                .Include("Transactions")
+                .Include("Subscriptions")
+                .Include("User");
+        }
+
+        public IQueryable<Account> GetUserAccounts(int userId)
+        {
+            return _accountStorage.getCollection()
+                .Where(a => a.User.Id == userId);
         }
 
         public void DeleteAccount(Account account)
@@ -40,6 +50,11 @@ namespace server.ResourceManagers
             {
                 throw e;
             }
+        }
+
+        public Account UpdateAccount(Account account)
+        {
+            return _accountStorage.updateItem(account);
         }
     }
 }

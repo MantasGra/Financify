@@ -52,6 +52,19 @@ namespace server.Services
                 throw e;
             }
         }
+
+        public T updateItem(T item)
+        {
+            try {
+                dbSet.Update(item);
+                SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return item;
+        }
         public void SaveChanges()
         {
             _context.SaveChanges();
