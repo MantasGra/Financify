@@ -28,7 +28,7 @@ namespace server.Controllers
             IQueryable<Account> accounts = null;
             if (userId.HasValue)
             {
-                accounts = _manager.GetUserAccounts(userId.GetValueOrDefault(0));
+                accounts = _manager.GetUserAccounts(userId.Value);
             }
             else
             {
@@ -54,8 +54,12 @@ namespace server.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Account> AddAccount([FromBody]Account account)
+        public ActionResult<Account> AddAccount([FromBody] Account account)
         {
+            if (account.User != null)
+            {
+                return BadRequest("userId must be provided.");
+            }
             _manager.AddAccount(account);
 
             return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);

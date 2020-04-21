@@ -4,10 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using server.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using System.Reflection.Metadata;
 
 namespace server.Services
 {
-    public class AbstractStorage<T> : IStorage<T> where T : class
+
+
+    public class AbstractStorage<T> : IStorage<T> where T : AModel
     {
         internal DatabaseContext _context = new DatabaseContext();
         internal DbSet<T> dbSet;
@@ -21,7 +25,7 @@ namespace server.Services
         {
             return dbSet;
         }
-        public T getItem(int id)
+        public T getItem(int id, string[] includes = null)
         {
             return dbSet.Find(id);
         }
