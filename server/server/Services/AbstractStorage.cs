@@ -9,12 +9,11 @@ using System.Reflection.Metadata;
 
 namespace server.Services
 {
-
-
     public class AbstractStorage<T> : IStorage<T> where T : AModel
     {
         internal DatabaseContext _context = new DatabaseContext();
         internal DbSet<T> dbSet;
+
 
         public AbstractStorage()
         {
@@ -27,7 +26,14 @@ namespace server.Services
         }
         public T getItem(int id, string[] includes = null)
         {
-            return dbSet.Find(id);
+            IQueryable<T> query = dbSet.AsQueryable();
+            if (includes != null) {
+                foreach (string include in includes) {
+                    query = query.Include(include);
+                }
+            }
+            Console.WriteLine(query.ToString());
+            return query.SingleOrDefault(item => item.Id == id);
         }
 
         public T createItem(T item)

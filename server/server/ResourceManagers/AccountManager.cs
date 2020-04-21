@@ -19,7 +19,7 @@ namespace server.ResourceManagers
 
         public Account GetAccount(int id)
         {
-            return _accountStorage.getItem(id, new string[] { "Transactions", "Subscriptions", "User" });
+            return _accountStorage.getItem(id, new string[] { "User", "Subscriptions", "Transactions" });
         }
         public Account AddAccount(Account account)
         {
