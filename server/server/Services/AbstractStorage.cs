@@ -20,15 +20,25 @@ namespace server.Services
             dbSet = _context.Set<T>();
         }
 
-        public IQueryable<T> getCollection()
+        public IQueryable<T> getCollection(string[] includes = null)
         {
-            return dbSet;
+            IQueryable<T> query = dbSet;
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+            return query;
         }
         public T getItem(int id, string[] includes = null)
         {
             IQueryable<T> query = dbSet.AsQueryable();
-            if (includes != null) {
-                foreach (string include in includes) {
+            if (includes != null)
+            {
+                foreach (string include in includes)
+                {
                     query = query.Include(include);
                 }
             }

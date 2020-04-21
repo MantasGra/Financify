@@ -16,6 +16,8 @@ namespace server.Controllers
     {
         private readonly IAccountManager _manager;
 
+        private readonly string[] _accountIncludes = new string[] { "User", "Subscriptions", "Transactions" };
+
         public AccountController(IAccountManager accountManager)
         {
             _manager = accountManager;
@@ -28,11 +30,11 @@ namespace server.Controllers
             IQueryable<Account> accounts = null;
             if (userId.HasValue)
             {
-                accounts = _manager.GetUserAccounts(userId.Value);
+                accounts = _manager.GetUserAccounts(userId.Value, _accountIncludes);
             }
             else
             {
-                accounts = _manager.GetAccounts();
+                accounts = _manager.GetAccounts(_accountIncludes);
             }
             return Ok(accounts);
         }
@@ -42,7 +44,7 @@ namespace server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Account> GetAccount([FromRoute]int id)
         {
-            var account = _manager.GetAccount(id);
+            var account = _manager.GetAccount(id, _accountIncludes);
             if (account == null)
             {
                 return NotFound();

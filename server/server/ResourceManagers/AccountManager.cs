@@ -17,26 +17,23 @@ namespace server.ResourceManagers
             _accountStorage = storage;
         }
 
-        public Account GetAccount(int id)
+        public Account GetAccount(int id, string[] includes = null)
         {
-            return _accountStorage.getItem(id, new string[] { "User", "Subscriptions", "Transactions" });
+            return _accountStorage.getItem(id, includes);
         }
         public Account AddAccount(Account account)
         {
             return _accountStorage.createItem(account);
         }
 
-        public IQueryable<Account> GetAccounts()
+        public IQueryable<Account> GetAccounts(string[] includes = null)
         {
-            return _accountStorage.getCollection()
-                .Include("Transactions")
-                .Include("Subscriptions")
-                .Include("User");
+            return _accountStorage.getCollection(includes);
         }
 
-        public IQueryable<Account> GetUserAccounts(int userId)
+        public IQueryable<Account> GetUserAccounts(int userId, string[] includes = null)
         {
-            return _accountStorage.getCollection()
+            return _accountStorage.getCollection(includes)
                 .Where(a => a.User.Id == userId);
         }
 
