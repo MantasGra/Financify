@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
-    public class Response
+    public class Response : AModel
     {
-        public int Id { get; set; }
-
         [Required]
         public string Content { get; set; }
 
@@ -18,6 +17,9 @@ namespace server.Models
         public DateTime CreationDate { get; set; }
 
         [Required]
+        public int CustomerSupportId { get; set; }
+
+        [ForeignKey("CustomerSupportId")]
         public virtual CustomerSupport CustomerSupport { get; set; }
 
         [Required]

@@ -43,7 +43,6 @@ namespace server.Controllers
         public ActionResult<Account> GetAccount([FromRoute]int id)
         {
             var account = _manager.GetAccount(id);
-            Console.WriteLine(id);
             if (account == null)
             {
                 return NotFound();

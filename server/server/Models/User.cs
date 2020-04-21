@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-    public class User
+    public class User : AModel
     {
-        public int Id { get; set; }
-
         [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(255)]

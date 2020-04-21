@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
@@ -21,10 +22,8 @@ namespace server.Models
         Other
     }
 
-    public class Transaction
+    public class Transaction : AModel
     {
-        public int Id { get; set; }
-
         [Required]
         public double Amount { get; set; }
 
@@ -42,6 +41,9 @@ namespace server.Models
         public bool Disabled { get; set; }
 
         [Required]
+        public int AccountId { get; set; }
+
+        [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
     }
 }

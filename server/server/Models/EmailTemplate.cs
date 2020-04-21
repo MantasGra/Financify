@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-    public class EmailTemplate
+    public class EmailTemplate : AModel
     {
-        public int Id { get; set; }
-
         [Required]
         public string Content { get; set; }
 

@@ -32,7 +32,6 @@ namespace server.Services
                     query = query.Include(include);
                 }
             }
-            Console.WriteLine(query.ToString());
             return query.SingleOrDefault(item => item.Id == id);
         }
 
