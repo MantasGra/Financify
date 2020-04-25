@@ -33,7 +33,7 @@ const Example: React.FC = () => {
       <div className={style.column}>
         <div className={style.title}>
           <Typography variant="h6">
-            Press button below to generate a random fact!
+            Press button below to pop out a random fact!
           </Typography>
           <div className={style.buttonContainer}>
             <Button variant="contained" onClick={handleClick}>
