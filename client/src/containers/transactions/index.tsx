@@ -9,8 +9,10 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, Paper, Divider } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import { TransactionCategories } from 'store/modules/transactions/types';
 import Routes from '../../utils/routes';
 import { getTransactions } from '../../store/modules/transactions/actions';
 import { State } from '../../store';
@@ -21,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       width: '100%',
       maxWidth: 360,
+      margin: 'auto',
       backgroundColor: theme.palette.background.paper,
     },
   })
@@ -38,33 +41,51 @@ const Trans: React.FC = () => {
   const classes = useStyles();
   return (
     <div>
-      <div className={style.buttonContainer}>
-        <Button
-          variant="contained"
-          className={style.buttonContainer}
-          color="primary"
-          onClick={() => changeRoute(Routes.TransactionsCreate)}
-        >
-          Create new transaction
-        </Button>
+      <div style={{ textAlign: 'center' }}>
+        <h1>Your transactions</h1>
       </div>
-      <List className={classes.root}>
-        {transactions.map((row) => (
-          <ListItem key={row.id}>
-            <ListItemText primary={row.category} secondary={row.amount} />
-            {row.account}
-            <IconButton>
-              <MoreIcon />
-            </IconButton>
-            <IconButton>
-              <EditIcon />
-            </IconButton>
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        <Paper
+          style={{
+            margin: 'auto',
+            width: 500,
+          }}
+          elevation={5}
+        >
+          <List className={classes.root}>
+            {transactions.map((row) => (
+              <>
+                <ListItem key={row.id}>
+                  <ListItemText
+                    primary={TransactionCategories[row.category]}
+                    secondary={row.amount}
+                  />
+                  {row.account}
+                  <IconButton>
+                    <MoreIcon />
+                  </IconButton>
+                  <IconButton>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItem>
+                <Divider />
+              </>
+            ))}
+          </List>
+        </Paper>
+      </div>
+      <Fab
+        size="medium"
+        color="secondary"
+        aria-label="add"
+        className={style.fab}
+        onClick={() => changeRoute(Routes.TransactionsCreate)}
+      >
+        <AddIcon />
+      </Fab>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Menu,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -15,6 +16,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
+import { TransactionCategories } from 'store/modules/transactions/types';
 import style from './style.module.scss';
 
 const TransactionCreate: React.FC = () => {
@@ -47,7 +49,7 @@ const TransactionCreate: React.FC = () => {
           </div>
           <div className={style.formArea}>
             <div className={style.formField}>
-              <TextField id="amount" label="amount" fullWidth />
+              <TextField id="amount" label="Amount" fullWidth />
             </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -56,21 +58,49 @@ const TransactionCreate: React.FC = () => {
                 format="MM/dd/yyyy"
                 margin="normal"
                 id="date-picker-inline"
-                label="Date picker inline"
+                label="Date"
                 value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
+                fullWidth
               />
             </MuiPickersUtilsProvider>
-            <Button
-              variant="contained"
-              color="primary"
-              className={style.button}
-            >
-              Submit
-            </Button>
+            <FormControl fullWidth>
+              <InputLabel id="categoryLabel">Category</InputLabel>
+
+              <Select id="category" labelId="categoryLabel" fullWidth>
+                {Object.keys(TransactionCategories).map((category) => {
+                  if (isNaN(parseFloat(category)))
+                    return (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    );
+                  return null;
+                })}
+              </Select>
+            </FormControl>
+
+            <TextField multiline label="Description" fullWidth />
+            <FormControl fullWidth>
+              <InputLabel id="categoryLabel">Account</InputLabel>
+
+              <Select id="category" labelId="categoryLabel" fullWidth>
+                <MenuItem value={1}>Cash</MenuItem>
+              </Select>
+            </FormControl>
+
+            <div style={{ margin: 10 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                className={style.button}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         </div>
       </div>
