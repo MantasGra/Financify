@@ -14,8 +14,8 @@ namespace server.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionManager _transactionManager;
-
-        public TransactionController(ITransactionManager transactionManager)
+		private readonly IAccountManager _accountManager;
+		public TransactionController(ITransactionManager transactionManager)
         {
             _transactionManager = transactionManager;
         }
@@ -65,5 +65,24 @@ namespace server.Controllers
             //TODO: implement PATCH method, for ref check https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1
             return Ok();
         }
+		public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
+		{
+			sum = 0;
+			var transactions = _accountManager.GetAccount(accountId).Transactions;
+			foreach(Transaction transaction in transactions)
+			{
+				sum += transaction.Amount;
+			}
+			var tmp = new Transaction() { AccountId = accountId, Date = DateTime(), Description = "Elimination transaction", Amount = newValue - sum };
+			_transactionManager.AddTransaction(tmp);
+			return Ok(tmp);
+		}
+
+
+
+
+
+
+
     }
 }
