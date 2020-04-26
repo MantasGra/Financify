@@ -9,7 +9,7 @@ using System.Reflection.Metadata;
 
 namespace server.Services
 {
-    public class AbstractStorage<T> : IStorage<T> where T : AModel
+    public class AbstractStorage<T> : IStorage<T> where T : Model
     {
         internal DatabaseContext _context = new DatabaseContext();
         internal DbSet<T> dbSet;

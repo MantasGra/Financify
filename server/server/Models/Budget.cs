@@ -16,7 +16,7 @@ namespace server.Models
         Over
     }
 
-    public class Budget : AModel
+    public class Budget : Model
     {
         [Required]
         public double Amount { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
-    public class CurrencySubscription : AModel
+    public class CurrencySubscription : Model
     {
         [Required]
         [StringLength(10)]

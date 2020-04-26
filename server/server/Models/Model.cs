@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace server.Models
 {
-    public abstract class AModel
+    public abstract class Model
     {
         public int Id { get; set; }
     }

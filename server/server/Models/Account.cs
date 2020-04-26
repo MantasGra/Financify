@@ -14,7 +14,7 @@ namespace server.Models
         EWallet
     }
 
-    public class Account : AModel
+    public class Account : Model
     {
         [Required]
         [StringLength(255)]

@@ -16,12 +16,15 @@ namespace server.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountManager _manager;
+   
+        private readonly IUserManager _userManager;
 
         private readonly string[] _accountIncludes = new string[] { "User", "Subscriptions", "Transactions" };
 
-        public AccountController(IAccountManager accountManager)
+        public AccountController(IAccountManager accountManager, IUserManager userManager)
         {
             _manager = accountManager;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -56,12 +59,19 @@ namespace server.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Account> AddAccount([FromBody] Account account)
         {
-            if (account.UserId == null)
+            if (account.UserId == 0)
             {
                 return BadRequest("userId must be provided.");
             }
+            var user = _userManager.GetUser(account.UserId);
+            if (user == null)
+            {
+                return NotFound("User was not found.");
+            }
+
             _manager.AddAccount(account);
 
             return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);
