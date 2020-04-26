@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.ResourceManagers;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace server.Controllers
 {
@@ -57,7 +58,7 @@ namespace server.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<Account> AddAccount([FromBody] Account account)
         {
-            if (account.User != null)
+            if (account.UserId == null)
             {
                 return BadRequest("userId must be provided.");
             }
@@ -66,19 +67,25 @@ namespace server.Controllers
             return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);
         }
 
-        [HttpPatch("{id}")]
+        /*
+        [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Account> UpdateAccount([FromRoute]int id, [FromBody]Account account)
+        public ActionResult<Account> UpdateAccount([FromBody] JsonPatchDocument<Account> patchDoc)
         {
-            if (id != account.Id)
+            if (patchDoc != null)
             {
-                return BadRequest();    
-            }
+                var account = new Account();
+                patchDoc.ApplyTo(account, ModelState);
 
-            var updatedAccount = _manager.UpdateAccount(account);
-            return Ok(updatedAccount);
+                return new ObjectResult(account);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
+        */
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
