@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
@@ -15,10 +16,8 @@ namespace server.Models
         Over
     }
 
-    public class Budget
+    public class Budget : Model
     {
-        public int Id { get; set; }
-
         [Required]
         public double Amount { get; set; }
 
@@ -37,6 +36,9 @@ namespace server.Models
         public BudgetStatus Status { get; set; }
 
         [Required]
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
     }
 }

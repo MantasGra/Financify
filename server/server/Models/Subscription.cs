@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
@@ -13,10 +14,8 @@ namespace server.Models
         Yearly
     }
 
-    public class Subscription
+    public class Subscription : Model
     {
-        public int Id { get; set; }
-
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
@@ -35,6 +34,9 @@ namespace server.Models
         public TransactionCategory Category { get; set; }
 
         [Required]
+        public int AccountId { get; set; }
+
+        [ForeignKey("AccountId")]
         public virtual Account Account { get; set; }
     }
 }
