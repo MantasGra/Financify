@@ -10,8 +10,12 @@ import {
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 import style from './style.module.scss';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 
 const TransactionCreate: React.FC = () => {
   const [type, setType] = React.useState('');
@@ -45,19 +49,21 @@ const TransactionCreate: React.FC = () => {
             <div className={style.formField}>
               <TextField id="amount" label="amount" fullWidth />
             </div>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Date picker inline"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Date picker inline"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+            </MuiPickersUtilsProvider>
             <Button
               variant="contained"
               color="primary"

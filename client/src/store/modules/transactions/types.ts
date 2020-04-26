@@ -6,7 +6,7 @@ export interface Transaction {
   category: TransactionCategories;
   description: string;
   disabled: boolean;
-  account: any;
+  account: string;
 }
 
 export enum TransactionCategories {

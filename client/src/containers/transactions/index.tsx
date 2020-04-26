@@ -4,17 +4,17 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MoreIcon from '@material-ui/icons/More';
 import { useSelector, useDispatch } from 'react-redux';
-import style from './style.module.scss';
-import { State } from '../../store';
-import { getTransactions } from '../../store/modules/transactions/actions';
 import { Transaction } from 'store/modules/transactions';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { IconButton, Button } from '@material-ui/core';
-import Routes from '../../utils/routes';
 import { useHistory } from 'react-router-dom';
+import Routes from '../../utils/routes';
+import { getTransactions } from '../../store/modules/transactions/actions';
+import { State } from '../../store';
+import style from './style.module.scss';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -50,7 +50,7 @@ const Trans: React.FC = () => {
       </div>
       <List className={classes.root}>
         {transactions.map((row) => (
-          <ListItem>
+          <ListItem key={row.id}>
             <ListItemText primary={row.category} secondary={row.amount} />
             {row.account}
             <IconButton>
