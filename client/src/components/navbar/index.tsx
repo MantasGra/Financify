@@ -20,6 +20,9 @@ const Navbar: React.FC = () => {
         <Button color="inherit" onClick={() => changeRoute(Routes.Example)}>
           Example
         </Button>
+        <Button color="inherit" onClick={() => changeRoute(Routes.Transactions)}>
+          Transactions
+        </Button>
       </Toolbar>
     </AppBar>
   );
