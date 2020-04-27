@@ -9,7 +9,7 @@ import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from 'store';
-import { setModalOpen } from 'store/modules/transactions';
+import { setModalOpen, deleteTransaction } from 'store/modules/transactions';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -25,12 +25,19 @@ const TransactionDeleteModal: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const deleteId = useSelector<State, number | undefined>(
+    (state) => state.transactions.deleteId
+  );
+  
   const handleClose = () => {
     dispatch(setModalOpen(false));
   };
 
-  const handleDelete = () => {
-    handleClose();
+  const handleDelete = (id?: number) => {
+    console.log('id ',id)
+    if (id) {
+      dispatch(deleteTransaction(id));
+    }
   };
 
   return (
@@ -50,7 +57,7 @@ const TransactionDeleteModal: React.FC = () => {
         <Button onClick={handleClose} color="secondary">
           Disagree
         </Button>
-        <Button onClick={handleDelete} color="primary">
+        <Button onClick={() => handleDelete(deleteId)} color="primary">
           Agree
         </Button>
       </DialogActions>

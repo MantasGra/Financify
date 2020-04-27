@@ -18,28 +18,78 @@ import {
 } from '@material-ui/pickers';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import style from './style.module.scss';
+import Routes from '../../../../utils/routes';
+import { createTransaction } from 'store/modules/transactions';
+
+
+interface IState {
+  amount?: number;
+  date: Date;
+  category: TransactionCategories;
+  description: string;
+  accountId: number;
+}
 
 const TransactionCreate: React.FC = () => {
-  const [type, setType] = React.useState('');
+  const [state, setState] = React.useState<IState>({ date: new Date(), description: '', category: 0, accountId: 0 });
 
   const history = useHistory();
   const changeRoute = (route: string) => {
     history.push(route);
   };
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setType(event.target.value as string);
+  const handleDateChange = (date: Date) => {
+    setState(prevState => ({
+      ...prevState, date
+    }));
   };
 
-  const dispatch = useDispatch();
+  const handleAmountChange = (amount: number) => {
+    setState(prevState => ({
+      ...prevState, amount
+    }));
+  };
+
+  const handleCategoryChange = (category: TransactionCategories) => {
+    setState(prevState => ({
+      ...prevState, category
+    }));
+  };
+
+  const handleDescriptionChange = (description: string) => {
+    setState(prevState => ({
+      ...prevState, description
+    }));
+  };
+
+  const handleAccountIdChange = (accountId: number) => {
+    setState(prevState => ({
+      ...prevState, accountId
+    }));
+  };
 
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
 
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+  const dispatch = useDispatch();
+
+  const handleSave = () => {
+    dispatch(
+      createTransaction({
+        transactionForm: {
+          amount: state.amount,
+          date: state.date,
+          category: state.category,
+          description: state.description,
+          accountId: state.accountId
+        },
+        callback: () => changeRoute(Routes.Transactions),
+      })
+    );
   };
+
+
   return (
     <Container>
       <div className={style.row}>
@@ -49,7 +99,7 @@ const TransactionCreate: React.FC = () => {
           </div>
           <div className={style.formArea}>
             <div className={style.formField}>
-              <TextField id="amount" label="Amount" fullWidth />
+              <TextField id="amount" label="Amount" onChange={(e) => handleAmountChange(parseFloat(e.target.value))} fullWidth />
             </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -60,7 +110,7 @@ const TransactionCreate: React.FC = () => {
                 id="date-picker-inline"
                 label="Date"
                 value={selectedDate}
-                onChange={handleDateChange}
+                onChange={(date) => { if (date) { handleDateChange(date) } }}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -70,7 +120,7 @@ const TransactionCreate: React.FC = () => {
             <FormControl fullWidth>
               <InputLabel id="categoryLabel">Category</InputLabel>
 
-              <Select id="category" labelId="categoryLabel" fullWidth>
+              <Select onChange={(e) => handleCategoryChange(e.target.value as number)} id="category" labelId="categoryLabel" fullWidth>
                 {Object.keys(TransactionCategories).map((category) => {
                   if (isNaN(parseFloat(category)))
                     return (
@@ -83,11 +133,11 @@ const TransactionCreate: React.FC = () => {
               </Select>
             </FormControl>
 
-            <TextField multiline label="Description" fullWidth />
+            <TextField multiline label="Description" onChange={(e) => handleDescriptionChange(e.target.value)} fullWidth />
             <FormControl fullWidth>
-              <InputLabel id="categoryLabel">Account</InputLabel>
+              <InputLabel id="accountLabel">Account</InputLabel>
 
-              <Select id="category" labelId="categoryLabel" fullWidth>
+              <Select onChange={(e) => handleAccountIdChange(e.target.value as number)} id="account" labelId="accountLabel" fullWidth>
                 <MenuItem value={1}>Cash</MenuItem>
               </Select>
             </FormControl>
@@ -97,6 +147,7 @@ const TransactionCreate: React.FC = () => {
                 variant="contained"
                 color="primary"
                 className={style.button}
+                onClick={handleSave}
               >
                 Submit
               </Button>

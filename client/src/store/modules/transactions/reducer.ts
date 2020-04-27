@@ -1,27 +1,9 @@
-import { TransactionState, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
+import { Transaction, TransactionState,STORE_ADD_TRANSACTION, SET_DELETE_ID, STORE_DELETE_TRANSACTION, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
 import { TransactionAction } from './actions';
+import { toDictionary } from 'utils/parsers';
 
 const initialState: TransactionState = {
-  transactions: [
-    {
-      id: 1,
-      amount: 56.1,
-      date: new Date('2019-01-10'),
-      category: 3,
-      description: 'Example description 1',
-      disabled: false,
-      account: {id:0, name:'Cash'},
-    },
-    {
-      id: 2,
-      amount: 12.54,
-      date: new Date('2020-05-21'),
-      category: 1,
-      description: 'Example description 2',
-      disabled: true,
-      account: {id:1, name:'Card'},
-    },
-  ],
+  transactions: [],
   isModalOpen: false,
   editTransactionId: 0,
   moreTransactionId: 0,
@@ -40,6 +22,7 @@ const reducer = (
     case SET_TRANSACTIONS:
       return {
         ...state,
+        transactions: action.payload,
       };
     case SET_MODAL:
       return {
@@ -51,10 +34,25 @@ const reducer = (
         ...state,
         editTransactionId: action.payload
       };
-      case SET_MORE_ID:
+    case SET_MORE_ID:
       return {
         ...state,
         moreTransactionId: action.payload
+      };
+    case SET_DELETE_ID:
+      return {
+        ...state,
+        deleteId: action.payload,
+      };
+    case STORE_DELETE_TRANSACTION:
+      return {
+        ...state,
+       
+      };
+    case STORE_ADD_TRANSACTION:
+      return {
+        ...state,
+        transactions: [ ...state.transactions,action.payload],
       };
     default:
       return state;

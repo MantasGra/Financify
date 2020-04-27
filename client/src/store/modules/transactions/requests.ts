@@ -1,22 +1,27 @@
 import axios, { AxiosResponse } from 'axios';
+import { Transaction, TransactionFormType } from './types';
 
-export const getTransactions = () => [
-  {
-    id: '1',
-    amount: '56.10',
-    date: '2020-04-26',
-    category: 3,
-    description: 'Example description 1',
-    disabled: false,
-    account: 'Swedbank',
-  },
-  {
-    id: '2',
-    amount: '12.54',
-    date: '2020-03-10',
-    category: 1,
-    description: 'Example description 2',
-    disabled: true,
-    account: 'Paypal',
-  },
-];
+interface GetTransactionsResponse extends AxiosResponse {
+  data: Transaction[];
+}
+
+export const getTransactions = () => 
+  axios
+  .get('https://localhost:5001/api/transactions')
+  .then((res: GetTransactionsResponse) => res.data);
+
+  export const deleteTransaction = (id: number) =>
+  axios
+    .delete(`https://localhost:5001/api/transactions/${id}`)
+    .then((res: AxiosResponse) => res.status);
+
+export const createTransaction = (transaction: TransactionFormType) =>
+  axios
+    .post('https://localhost:5001/api/transactions', { ...transaction, userId: 1 })
+    .then((res: AxiosResponse) => res.data);
+
+    
+    export const editTransaction = (transaction: Transaction) =>
+  axios
+    .put(`https://localhost:5001/api/transactions/${transaction.id}`, { ...transaction, userId: 1 })
+    .then((res: AxiosResponse) => res.data);

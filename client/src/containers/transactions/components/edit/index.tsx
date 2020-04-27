@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Transaction } from 'store/modules/transactions';
 import { State } from 'store';
 import Alert from '@material-ui/lab/Alert';
@@ -21,7 +21,9 @@ import {
 } from '@material-ui/pickers';
 import style from './style.module.scss';
 import { TransactionCategories } from 'store/modules/transactions/types';
-
+import { useHistory } from 'react-router-dom';
+import { editTransaction } from 'store/modules/transactions';
+import Routes from '../../../../utils/routes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,6 +92,29 @@ const TransactionEdit: React.FC = () => {
     }
   }, [transaction])
 
+  const dispatch = useDispatch();
+
+  
+  const history = useHistory();
+  const changeRoute = (route: string) => {
+    history.push(route);
+  };
+
+  const handleSave = () => {
+   /*  dispatch(
+      editTransaction({
+        transactionForm: {
+          amount: state.amount,
+          date: state.date,
+          category: state.category,
+          description: state.description,
+          accountId: state.accountId
+        },
+        callback: () => changeRoute(Routes.Transactions),
+      })
+    ); */
+  };
+
 
   return (
     <Container>
@@ -125,7 +150,6 @@ const TransactionEdit: React.FC = () => {
               <Select id="category" labelId="categoryLabel" value={state.category} onChange={(e) => handleCategoryChange(e.target.value as TransactionCategories)} fullWidth>
                 {Object.keys(TransactionCategories).map((category) => {
                   if (!isNaN(parseFloat(category))){
-                  console.log(parseFloat(category) === state.category)
                     return (
                       <MenuItem key={category} value={parseFloat(category)}>
                         {TransactionCategories[parseFloat(category)]}
@@ -150,6 +174,7 @@ const TransactionEdit: React.FC = () => {
                 variant="contained"
                 color="primary"
                 className={style.button}
+                onClick={handleSave}
               >
                 Submit
               </Button>

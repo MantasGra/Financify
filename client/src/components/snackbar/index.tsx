@@ -24,7 +24,10 @@ const Snackbar = () => {
   const classes = useStyles();
 
   const snackbar = useSelector<State, SnackbarType>(
-    (state) => state.globals.snackbar
+    (state) => {
+     
+      return state.globals.snackbar;
+    }
   );
 
   const dispatch = useDispatch();

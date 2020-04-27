@@ -42,6 +42,8 @@ const TransactionMore: React.FC = () => {
     }
   }, [transaction])
 
+
+  
       return (
         <div>
           <div style={{ textAlign: 'center' }}>
@@ -61,7 +63,7 @@ const TransactionMore: React.FC = () => {
                   <ListItemText primary="Amount" secondary={state.amount} />        
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="Date" secondary={state.date.toDateString()} />            
+                  <ListItemText primary="Date" secondary={new Date(state.date).toDateString()} />            
                 </ListItem>
                 <ListItem>
                   <ListItemText primary="Category" secondary={TransactionCategories[state.category]} />            
