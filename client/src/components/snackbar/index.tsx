@@ -23,20 +23,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Snackbar = () => {
   const classes = useStyles();
 
-  const snackbar = useSelector<State, SnackbarType | undefined>(
+  const snackbar = useSelector<State, SnackbarType>(
     (state) => state.globals.snackbar
   );
 
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    dispatch(setSnackbar());
+    dispatch(setSnackbar({ ...snackbar, isOpen: false }));
   };
 
   return (
     <div className={classes.root}>
       <MUISnackbar
-        open={!!snackbar}
+        open={snackbar.isOpen}
         autoHideDuration={6000}
         onClose={handleClose}
       >

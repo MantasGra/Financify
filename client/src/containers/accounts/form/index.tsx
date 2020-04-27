@@ -9,31 +9,51 @@ import {
   FormControl,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { setSnackbar } from 'store/modules/global/actions';
 import { useHistory } from 'react-router-dom';
-import { AccountTypes } from '../../../store/modules/accounts';
+import { AccountTypes, createAccount } from '../../../store/modules/accounts';
 import style from './style.module.scss';
 import Routes from '../../../utils/routes';
 
+export interface IState {
+  name: string;
+  type?: number;
+}
+
 const AccountCreate: React.FC = () => {
-  const [type, setType] = React.useState('');
+  const [state, setState] = React.useState<IState>({
+    name: '',
+    type: undefined,
+  });
 
   const history = useHistory();
   const changeRoute = (route: string) => {
     history.push(route);
   };
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setType(event.target.value as string);
+  const handleTitleChange = (value: string) => {
+    setState((prevState) => ({ ...prevState, name: value }));
+  };
+  const handleTypeChange = (value: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      type: value,
+    }));
   };
 
   const dispatch = useDispatch();
 
   const handleSave = () => {
-    changeRoute(Routes.Accounts);
-    dispatch(
-      setSnackbar({ severity: 'success', text: 'Account added succesfully' })
-    );
+    // validate();
+    if (!state.type) {
+      // jabytute
+    } else {
+      dispatch(
+        createAccount({
+          accountForm: { name: state.name, type: state.type },
+          callback: () => changeRoute(Routes.Accounts),
+        })
+      );
+    }
   };
 
   return (
@@ -45,24 +65,34 @@ const AccountCreate: React.FC = () => {
           </div>
           <div className={style.formArea}>
             <div className={style.formField}>
-              <TextField id="title" label="Title" fullWidth />
+              <TextField
+                id="title"
+                label="Title"
+                fullWidth
+                value={state.name}
+                onChange={(e) => handleTitleChange(e.target.value)}
+                error
+              />
             </div>
             <div className={style.formField}>
               <FormControl fullWidth>
-                <InputLabel id="typeLabel">Type</InputLabel>
+                <InputLabel id="typeLabel" error>
+                  Type
+                </InputLabel>
 
                 <Select
                   id="type"
                   labelId="typeLabel"
-                  value={type || undefined}
-                  onChange={handleChange}
+                  value={state.type ? AccountTypes[state.type] : undefined}
+                  onChange={(e) => handleTypeChange(e.target.value as number)}
                   fullWidth
+                  error
                 >
                   {Object.keys(AccountTypes).map((accountType) => {
-                    if (isNaN(parseFloat(accountType)))
+                    if (!isNaN(parseFloat(accountType)))
                       return (
                         <MenuItem key={accountType} value={accountType}>
-                          {accountType}
+                          {AccountTypes[parseFloat(accountType)]}
                         </MenuItem>
                       );
                     return null;

@@ -14,7 +14,13 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { getAccounts, AccountType, setModalOpen } from 'store/modules/accounts';
+import {
+  getAccounts,
+  AccountType,
+  setModalOpen,
+  AccountTypes,
+  setDeleteId,
+} from 'store/modules/accounts';
 import { State } from 'store';
 import { useHistory } from 'react-router-dom';
 import style from './style.module.scss';
@@ -33,8 +39,9 @@ const Accounts: React.FC = () => {
     dispatch(getAccounts());
   }, [dispatch]);
 
-  const openModal = () => {
+  const openModal = (id: number) => {
     dispatch(setModalOpen(true));
+    dispatch(setDeleteId(id));
   };
 
   const history = useHistory();
@@ -42,6 +49,7 @@ const Accounts: React.FC = () => {
   const changeRoute = (route: string) => {
     history.push(route);
   };
+
   // Select the random fact from redux state.
   return (
     <div className={style.row}>
@@ -63,14 +71,14 @@ const Accounts: React.FC = () => {
                 {accounts.map((row) => (
                   <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                      {row.title}
+                      {row.name}
                     </TableCell>
-                    <TableCell>{row.type}</TableCell>
+                    <TableCell>{AccountTypes[row.type]}</TableCell>
                     <TableCell align="right">
                       <IconButton>
                         <EditIcon />
                       </IconButton>
-                      <IconButton onClick={openModal}>
+                      <IconButton onClick={() => openModal(row.id)}>
                         <DeleteIcon style={{ color: 'red' }} />
                       </IconButton>
                     </TableCell>

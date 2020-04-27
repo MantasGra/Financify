@@ -9,8 +9,7 @@ import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from 'store';
-import { setModalOpen } from 'store/modules/accounts';
-import { setSnackbar } from 'store/modules/global/actions';
+import { setModalOpen, deleteAccount } from 'store/modules/accounts';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement },
@@ -24,17 +23,20 @@ const AccountDeleteModal: React.FC = () => {
     (state) => state.account.isModalOpen
   );
 
+  const deleteId = useSelector<State, number | undefined>(
+    (state) => state.account.deleteId
+  );
+
   const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(setModalOpen(false));
   };
 
-  const handleDelete = () => {
-    handleClose();
-    dispatch(
-      setSnackbar({ severity: 'success', text: 'Account deleted successfully' })
-    );
+  const handleDelete = (id?: number) => {
+    if (id) {
+      dispatch(deleteAccount(id));
+    }
   };
 
   return (
@@ -59,7 +61,7 @@ const AccountDeleteModal: React.FC = () => {
         <Button onClick={handleClose} color="secondary">
           Disagree
         </Button>
-        <Button onClick={handleDelete} color="primary">
+        <Button onClick={() => handleDelete(deleteId)} color="primary">
           Agree
         </Button>
       </DialogActions>
