@@ -74,6 +74,8 @@ namespace server.Services
 
         public T updateItem(T item)
         {
+            //_context.Entry(item).State = EntityState.Modified;
+
             try {
                 dbSet.Update(item);
                 SaveChanges();

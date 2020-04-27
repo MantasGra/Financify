@@ -77,6 +77,30 @@ namespace server.Controllers
             return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);
         }
 
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Account> UpdateAccount([FromRoute] int id, [FromBody] Account account)
+        {
+            if (account.Id == 0)
+            {
+                return BadRequest("Id must be provided.");
+            }
+            if (id != account.Id)
+            {
+                return BadRequest("Resource Id and route id does not match.");
+            }
+            try
+            {
+                var updated = _manager.UpdateAccount(account);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
         /*
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
