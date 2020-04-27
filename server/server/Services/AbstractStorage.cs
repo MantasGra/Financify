@@ -30,7 +30,7 @@ namespace server.Services
                     query = query.Include(include);
                 }
             }
-            return query;
+            return query.AsNoTracking();
         }
         public T getItem(int id, string[] includes = null)
         {
@@ -42,7 +42,9 @@ namespace server.Services
                     query = query.Include(include);
                 }
             }
-            return query.SingleOrDefault(item => item.Id == id);
+            return query
+                .AsNoTracking()
+                .SingleOrDefault(item => item.Id == id);
         }
 
         public T createItem(T item)
@@ -72,19 +74,18 @@ namespace server.Services
             }
         }
 
-        public T updateItem(T item)
+        public T updateItem(T item, string[] includes = null)
         {
-            //_context.Entry(item).State = EntityState.Modified;
-
-            try {
-                dbSet.Update(item);
+            _context.Entry(item).State = EntityState.Modified;
+            try
+            {
                 SaveChanges();
             }
             catch (Exception e)
             {
                 throw e;
             }
-            return item;
+            return getItem(item.Id, includes);
         }
         public void SaveChanges()
         {

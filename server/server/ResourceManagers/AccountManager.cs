@@ -49,9 +49,9 @@ namespace server.ResourceManagers
             }
         }
 
-        public Account UpdateAccount(Account account)
+        public Account UpdateAccount(Account account, string[] includes = null)
         {
-            return _accountStorage.updateItem(account);
+            return _accountStorage.updateItem(account, includes);
         }
     }
 }
