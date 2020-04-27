@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-    public class User : AModel
+    public class User : Model
     {
         [Required]
         [DataType(DataType.EmailAddress)]

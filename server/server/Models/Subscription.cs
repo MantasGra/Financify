@@ -14,7 +14,7 @@ namespace server.Models
         Yearly
     }
 
-    public class Subscription : AModel
+    public class Subscription : Model
     {
         [Required]
         [StringLength(255)]

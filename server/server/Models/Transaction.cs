@@ -22,7 +22,7 @@ namespace server.Models
         Other
     }
 
-    public class Transaction : AModel
+    public class Transaction : Model
     {
         [Required]
         public double Amount { get; set; }

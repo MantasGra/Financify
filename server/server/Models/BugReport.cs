@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Models
 {
-    public class BugReport : AModel
+    public class BugReport : Model
     {
         [Required]
         public string Content { get; set; }
