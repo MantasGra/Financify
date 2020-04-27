@@ -11,6 +11,11 @@ import {
   AccountFormType,
   CREATE_ACCOUNT,
   STORE_ADD_ACCOUNT,
+  SET_ACCOUNT_FORM_ERRORS,
+  CLEAR_ACCOUNT_FORM_ERRORS,
+  SET_ACCOUNT_EDIT_ID,
+  AccountTypes,
+  EDIT_ACCOUNT,
 } from './types';
 
 // Define action creators
@@ -25,6 +30,16 @@ export const createAccount = createAction<{
   callback: () => void;
 }>(CREATE_ACCOUNT);
 export const storeAddAccount = createAction<AccountType>(STORE_ADD_ACCOUNT);
+export const clearAccountFormErrors = createAction(CLEAR_ACCOUNT_FORM_ERRORS);
+export const setAccountFormErrors = createAction<{
+  prop: string;
+  error: string;
+}>(SET_ACCOUNT_FORM_ERRORS);
+export const setAccountEditId = createAction<number>(SET_ACCOUNT_EDIT_ID);
+export const editAccount = createAction<{
+  accountForm: AccountType;
+  callback: () => void;
+}>(EDIT_ACCOUNT);
 
 // Define action types (nest through "|")
 export type AccountsActionType =
@@ -35,4 +50,7 @@ export type AccountsActionType =
   | ReturnType<typeof storeDeleteAccount>
   | ReturnType<typeof setDeleteId>
   | ReturnType<typeof createAccount>
+  | ReturnType<typeof setAccountFormErrors>
+  | ReturnType<typeof setAccountEditId>
+  | ReturnType<typeof editAccount>
   | ReturnType<typeof storeAddAccount>;

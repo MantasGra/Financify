@@ -12,11 +12,18 @@ export interface AccountsState {
   accounts: Dictionary<AccountType>;
   isModalOpen: boolean;
   deleteId?: number;
+  errors: AccountFormErrors;
+  editId?: number;
 }
 
 export interface AccountFormType {
   name: string;
-  type: number;
+  type: AccountTypes;
+}
+
+export interface AccountFormErrors {
+  name: string;
+  type: string;
 }
 
 export enum AccountTypes {
@@ -34,6 +41,10 @@ export const STORE_DELETE_ACCOUNT = 'accounts/STORE_DELETE_ACCOUNT';
 export const SET_DELETE_ID = 'accounts/STORE_SET_DELETE_ID';
 export const CREATE_ACCOUNT = 'accounts/CREATE_ACCOUNT';
 export const STORE_ADD_ACCOUNT = 'accounts/STORE_ADD_ACCOUNT';
+export const SET_ACCOUNT_FORM_ERRORS = 'accounts/SET_ACCOUNT_FORM_ERRORS';
+export const CLEAR_ACCOUNT_FORM_ERRORS = 'accounts/CLEAR_ACCOUNT_FORM_ERRORS';
+export const EDIT_ACCOUNT = 'accounts/EDIT_ACCOUNT';
+export const SET_ACCOUNT_EDIT_ID = 'accounts/SET_ACCOUNT_EDIT_ID';
 // Define action name types (multiple types should be nested through "|")
 export type AccountActionNameType =
   | typeof GET_ACCOUNTS
@@ -43,4 +54,8 @@ export type AccountActionNameType =
   | typeof STORE_DELETE_ACCOUNT
   | typeof SET_DELETE_ID
   | typeof STORE_ADD_ACCOUNT
+  | typeof SET_ACCOUNT_FORM_ERRORS
+  | typeof CLEAR_ACCOUNT_FORM_ERRORS
+  | typeof SET_ACCOUNT_EDIT_ID
+  | typeof EDIT_ACCOUNT
   | typeof CREATE_ACCOUNT;

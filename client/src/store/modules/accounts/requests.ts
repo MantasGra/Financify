@@ -20,15 +20,8 @@ export const createAccount = (account: AccountFormType) =>
     .post('https://localhost:5001/api/accounts', { ...account, userId: 1 })
     .then((res: AxiosResponse) => res.data);
 
-// export const getAccounts = () => [
-//   {
-//     id: 1,
-//     title: 'Personal Savings',
-//     type: 'Cash',
-//   },
-//   {
-//     id: 2,
-//     title: 'Salary',
-//     type: 'Debit Card',
-//   },
-// ];
+export const editAccount = (account: AccountType) =>
+  axios
+    .put(`https://localhost:5001/api/accounts/${account.id}`, { ...account, userId: 1 })
+    .then((res: AxiosResponse) => res.data);
+

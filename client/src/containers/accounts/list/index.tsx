@@ -20,6 +20,7 @@ import {
   setModalOpen,
   AccountTypes,
   setDeleteId,
+  setAccountEditId,
 } from 'store/modules/accounts';
 import { State } from 'store';
 import { useHistory } from 'react-router-dom';
@@ -44,13 +45,17 @@ const Accounts: React.FC = () => {
     dispatch(setDeleteId(id));
   };
 
+  const handleEdit = (id: number) => {
+    dispatch(setAccountEditId(id));
+    changeRoute(Routes.AccountEdit);
+  };
+
   const history = useHistory();
 
   const changeRoute = (route: string) => {
     history.push(route);
   };
 
-  // Select the random fact from redux state.
   return (
     <div className={style.row}>
       <div className={style.column}>
@@ -75,7 +80,7 @@ const Accounts: React.FC = () => {
                     </TableCell>
                     <TableCell>{AccountTypes[row.type]}</TableCell>
                     <TableCell align="right">
-                      <IconButton>
+                      <IconButton onClick={() => handleEdit(row.id)}>
                         <EditIcon />
                       </IconButton>
                       <IconButton onClick={() => openModal(row.id)}>

@@ -20,6 +20,9 @@ const App = () => {
           <Route path={Routes.Example}>
             <Example />
           </Route>
+          <Route path={Routes.AccountEdit}>
+            <AccountCreate />
+          </Route>
           <Route path={Routes.AccountCreate}>
             <AccountCreate />
           </Route>
