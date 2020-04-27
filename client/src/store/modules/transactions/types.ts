@@ -41,6 +41,12 @@ export interface TransactionState {
   editTransactionId : number;
   moreTransactionId : number;
   deleteId?: number;
+  errors: TransactionFormErrors;
+}
+
+export interface TransactionFormErrors {
+  name: string;
+  type: string;
 }
 
 // Define action names
@@ -49,6 +55,9 @@ export const GET_TRANSACTIONS = 'transactions/GET_TRANSACTIONS';
 export const SET_MODAL = 'transactions/SET_MODAL';
 export const SET_EDIT_ID = 'transactions/SET_EDIT_ID'
 export const SET_MORE_ID = 'transactions/SET_MORE_ID'
+
+export const SET_TRANSACTION_FORM_ERRORS = 'accounts/SET_TRANSACTION_FORM_ERRORS';
+export const CLEAR_TRANSACTION_FORM_ERRORS = 'accounts/CLEAR_TRANSACTION_FORM_ERRORS';
 
 export const DELETE_TRANSACTION = 'transactions/DELETE_TRANSACTION';
 export const STORE_DELETE_TRANSACTION = 'transactions/STORE_DELETE_TRANSACTION';
@@ -68,4 +77,6 @@ export type TransactionActionType =
   | typeof SET_DELETE_ID
   | typeof CREATE_TRANSACTION
   | typeof STORE_ADD_TRANSACTION
+  | typeof SET_TRANSACTION_FORM_ERRORS
+  | typeof CLEAR_TRANSACTION_FORM_ERRORS
   | typeof EDIT_TRANSACTION;

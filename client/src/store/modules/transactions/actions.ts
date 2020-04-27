@@ -1,5 +1,21 @@
 import { createAction } from '../../actions';
-import { Transaction,TransactionFormType,EDIT_TRANSACTION, STORE_ADD_TRANSACTION,CREATE_TRANSACTION, DELETE_TRANSACTION,STORE_DELETE_TRANSACTION,SET_DELETE_ID, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
+import {
+  Transaction,
+  TransactionFormType,
+  EDIT_TRANSACTION,
+  STORE_ADD_TRANSACTION,
+  CREATE_TRANSACTION,
+  DELETE_TRANSACTION,
+  STORE_DELETE_TRANSACTION,
+  SET_DELETE_ID,
+  SET_TRANSACTIONS,
+  GET_TRANSACTIONS,
+  SET_MODAL,
+  SET_EDIT_ID,
+  SET_MORE_ID,
+  SET_TRANSACTION_FORM_ERRORS,
+  CLEAR_TRANSACTION_FORM_ERRORS,
+} from './types';
 
 // Define action creators
 export const setModalOpen = createAction<boolean>(SET_MODAL);
@@ -11,6 +27,13 @@ export const setMoreTransactionsId = createAction<number>(SET_MORE_ID);
 export const deleteTransaction = createAction<number>(DELETE_TRANSACTION);
 export const storeDeleteTransaction = createAction<number>(STORE_DELETE_TRANSACTION);
 export const setDeleteId = createAction(SET_DELETE_ID);
+
+
+export const clearTransactionFormErrors = createAction(CLEAR_TRANSACTION_FORM_ERRORS);
+export const setTransactionFormErrors = createAction<{
+  prop: string;
+  error: string;
+}>(SET_TRANSACTION_FORM_ERRORS);
 
 export const createTransaction = createAction<{
   transactionForm: TransactionFormType;
@@ -35,5 +58,7 @@ export type TransactionAction =
   | ReturnType<typeof storeDeleteTransaction>
   | ReturnType<typeof createTransaction>
   | ReturnType<typeof storeAddTransaction>
+  | ReturnType<typeof setTransactionFormErrors>
+  | ReturnType<typeof clearTransactionFormErrors>
   | ReturnType<typeof editTransaction>;
 

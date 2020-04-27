@@ -29,6 +29,7 @@ function* createTransactionSaga(action: ReturnType<typeof actions.createTransact
     return null;
   });
   if (transaction) {
+    alert("Transaction succesfully created")
     yield put(actions.storeAddTransaction(transaction));
     if (action.payload) {
       yield call(action.payload.callback);
@@ -57,6 +58,7 @@ function* editTransactionSaga(action: ReturnType<typeof actions.editTransaction>
   });
 
   if (transaction) {
+    
     yield put(actions.storeAddTransaction(transaction));
     if (action.payload) {
       yield call(action.payload.callback);
@@ -89,9 +91,10 @@ function* deleteTransactionSaga(action: ReturnType<typeof actions.deleteTransact
       deleteTransaction(action.payload as number)
     );
     if (status === 200) {
+      alert("Transaction deleted successfully")
       yield put(actions.storeDeleteTransaction(action.payload));
       yield put(actions.setModalOpen(false));
-      yield put(   
+      yield put(
         globalActions.setSnackbar({
           severity: 'success',
           text: 'Transaction deleted successfully',

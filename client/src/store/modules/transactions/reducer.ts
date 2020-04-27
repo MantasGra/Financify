@@ -7,6 +7,7 @@ const initialState: TransactionState = {
   isModalOpen: false,
   editTransactionId: 0,
   moreTransactionId: 0,
+  errors: { name: '', type: '' },
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
