@@ -7,6 +7,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  Menu,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
