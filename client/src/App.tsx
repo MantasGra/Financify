@@ -6,6 +6,7 @@ import Routes from './utils/routes';
 import Transaction from 'containers/transactions';
 import TransactionCreate from 'containers/transactions/components/form';
 import TransactionMore from 'containers/transactions/components/more';
+import TransactionEdit from 'containers/transactions/components/edit';
 const App = () => {
   return (
     <Router>
@@ -22,6 +23,9 @@ const App = () => {
         </Route>
         <Route path={Routes.TransactionsMore}>
           <TransactionMore />
+        </Route>
+        <Route path={Routes.TransactionsEdit}>
+          <TransactionEdit />
         </Route>
         <Route path={Routes.Transactions}>
           <Transaction />

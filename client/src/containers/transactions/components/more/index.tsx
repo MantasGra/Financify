@@ -57,7 +57,7 @@ const TransactionMore: React.FC = () => {
                   <ListItemText primary="Description" secondary={transactions[i].description} />            
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="Account" secondary={transactions[i].account} />            
+                  <ListItemText primary="Account" secondary={transactions[i].account.name} />            
                 </ListItem>
               </List>
             </Paper>

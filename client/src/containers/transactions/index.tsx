@@ -10,11 +10,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { IconButton, Button, Paper, Divider } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Route } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import Routes from '../../utils/routes';
-import { getTransactions,setModalOpen  } from '../../store/modules/transactions/actions';
+import { getTransactions,setModalOpen, setEditTransactionsId  } from '../../store/modules/transactions/actions';
 import { State } from '../../store';
 import style from './style.module.scss';
 import Modal from '../transactions/components/modal'
@@ -36,6 +36,10 @@ const Trans: React.FC = () => {
   );
   const history = useHistory();
   const dispatch = useDispatch();
+  const openEdit = (id: number) =>{
+    dispatch(setEditTransactionsId(id));
+    changeRoute(Routes.TransactionsEdit);
+  }
   React.useEffect(() => {
     dispatch(getTransactions());
   }, []);
@@ -67,11 +71,11 @@ const Trans: React.FC = () => {
                     primary={TransactionCategories[row.category]}
                     secondary={row.amount}
                   />
-                  {row.account}
+                  {row.account.name}
                   <IconButton  onClick={() => changeRoute(Routes.TransactionsMore + "?id="+ [row.id])}>
                     <MoreIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={() => openEdit(row.id)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton onClick={openModal}>
