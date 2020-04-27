@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Models;
 
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200415102608_Models")]
+    partial class Models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,36 +41,6 @@ namespace server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Cash",
-                            Type = 0,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Main",
-                            Type = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Cash",
-                            Type = 0,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Default",
-                            Type = 0,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Budget", b =>
@@ -289,38 +261,9 @@ namespace server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
-
                     b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "admin@financify.net",
-                            Fullname = "Admin Financify",
-                            Password = "123456789",
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "StephanieTMacha@armyspy.com",
-                            Fullname = "Stephanie T. Macha",
-                            Password = "123456789",
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "DavidDReed@rhyta.com",
-                            Fullname = "David D. Reed",
-                            Password = "123456789",
-                            RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("server.Models.CustomerSupport", b =>
