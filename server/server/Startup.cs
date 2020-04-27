@@ -33,16 +33,16 @@ namespace server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
-           {
-               options.AddPolicy(name: MyAllowSpecificOrigins,
-                                 builder =>
-                                 {
-                                     builder
-                                     .WithOrigins("http://localhost:3000")
-                                     .AllowAnyHeader()
-                                     .AllowAnyMethod();
-                                 });
-           });
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder
+                                      .WithOrigins("http://localhost:3000")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod();
+                                  });
+            });
             services.AddDbContext<DatabaseContext>();
             services.AddControllers()
                 .AddNewtonsoftJson(options =>

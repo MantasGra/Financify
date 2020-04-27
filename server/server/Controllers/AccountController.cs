@@ -40,6 +40,7 @@ namespace server.Controllers
             {
                 accounts = _manager.GetAccounts(_accountIncludes);
             }
+
             return Ok(accounts);
         }
 

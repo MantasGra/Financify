@@ -5,6 +5,8 @@ enum Routes {
   TransactionsCreate = '/transactions/new',
   TransactionsMore = '/transactions/more',
   TransactionsEdit = '/transactions/edit',
+  Accounts = '/accounts',
+  AccountCreate = '/accounts/new',
 }
 
 export default Routes;
