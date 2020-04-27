@@ -31,7 +31,7 @@ const Accounts: React.FC = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getAccounts());
-  }, []);
+  }, [dispatch]);
 
   const openModal = () => {
     dispatch(setModalOpen(true));
