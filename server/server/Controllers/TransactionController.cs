@@ -14,29 +14,44 @@ namespace server.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionManager _transactionManager;
-		public TransactionController(ITransactionManager transactionManager)
+
+        private readonly string[] _transactionIncludes = new string[] { "Account" };
+
+        public TransactionController(ITransactionManager transactionManager)
         {
             _transactionManager = transactionManager;
         }
 
         [HttpGet]
-        public ActionResult<Transaction> GetTransactions()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Transaction> GetTransactions([FromQuery] int? userId)
         {
-            var transactions = _transactionManager.GetTransactions();
+            IQueryable<Transaction> transactions = null;
+            if (userId.HasValue)
+            {
+                transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
+            }
+            else
+            {
+                transactions = _transactionManager.GetTransactions();
+            }
             return Ok(transactions);
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
-            return CreatedAtAction(nameof(GetTransactions), new {Id =transaction.Id}, transaction);
+            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction(transaction.Id,new string[]{"Account"}));
         }
         
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> GetTransaction(int id)
         {
-            var transaction = _transactionManager.GetTransaction(id);
+            var transaction = _transactionManager.GetTransaction(id,new string[]{"Account"});
 
             if (transaction == null)
             {
@@ -46,18 +61,23 @@ namespace server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> DeleteTransaction([FromRoute]int id)
         {
             var transaction = _transactionManager.GetTransaction(id);
             if (transaction != null)
             {
-                _transactionManager.DeleteTransaction(transaction);
+                transaction.Disabled = true;
+                _transactionManager.SaveChanges();
                 return Ok();
             }
             return NotFound();
         }
 
         [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> UpdateTransaction([FromRoute]int id, [FromBody]Transaction transaction)
         {
             var old = _transactionManager.GetTransaction(id);
@@ -82,9 +102,6 @@ namespace server.Controllers
 		// 	{
 		// 		sum += transaction.Amount;
 		// 	}
-			
-			
-            
 
 		// 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
 		// 	_transactionManager.AddTransaction(tmp);
@@ -103,13 +120,5 @@ namespace server.Controllers
 		// 	}
 		// 	return Ok(csv);
 		// }
-
-
-
-
-
-
-
-
 	}
 }
