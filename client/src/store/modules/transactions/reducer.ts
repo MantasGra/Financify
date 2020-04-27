@@ -1,4 +1,4 @@
-import { TransactionState, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID } from './types';
+import { TransactionState, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
 import { TransactionAction } from './actions';
 
 const initialState: TransactionState = {
@@ -24,6 +24,7 @@ const initialState: TransactionState = {
   ],
   isModalOpen: false,
   editTransactionId: 0,
+  moreTransactionId: 0,
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
@@ -49,6 +50,11 @@ const reducer = (
       return {
         ...state,
         editTransactionId: action.payload
+      };
+      case SET_MORE_ID:
+      return {
+        ...state,
+        moreTransactionId: action.payload
       };
     default:
       return state;

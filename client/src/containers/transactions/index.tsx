@@ -14,7 +14,7 @@ import { useHistory, Route } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import Routes from '../../utils/routes';
-import { getTransactions,setModalOpen, setEditTransactionsId  } from '../../store/modules/transactions/actions';
+import { getTransactions,setModalOpen, setEditTransactionsId, setMoreTransactionsId  } from '../../store/modules/transactions/actions';
 import { State } from '../../store';
 import style from './style.module.scss';
 import Modal from '../transactions/components/modal'
@@ -36,10 +36,17 @@ const Trans: React.FC = () => {
   );
   const history = useHistory();
   const dispatch = useDispatch();
+
   const openEdit = (id: number) =>{
     dispatch(setEditTransactionsId(id));
     changeRoute(Routes.TransactionsEdit);
   }
+
+  const openMore = (id: number) =>{
+    dispatch(setMoreTransactionsId(id));
+    changeRoute(Routes.TransactionsMore);
+  }
+
   React.useEffect(() => {
     dispatch(getTransactions());
   }, []);
@@ -72,7 +79,7 @@ const Trans: React.FC = () => {
                     secondary={row.amount}
                   />
                   {row.account.name}
-                  <IconButton  onClick={() => changeRoute(Routes.TransactionsMore + "?id="+ [row.id])}>
+                  <IconButton  onClick={() =>openMore(row.id)}>
                     <MoreIcon />
                   </IconButton>
                   <IconButton onClick={() => openEdit(row.id)}>

@@ -29,6 +29,7 @@ export interface TransactionState {
   transactions: Transaction[];
   isModalOpen: boolean;
   editTransactionId : number;
+  moreTransactionId : number;
 }
 
 // Define action names
@@ -36,9 +37,11 @@ export const SET_TRANSACTIONS = 'transactions/SET_TRANSACTIONS';
 export const GET_TRANSACTIONS = 'transactions/GET_TRANSACTIONS';
 export const SET_MODAL = 'transactions/SET_MODAL';
 export const SET_EDIT_ID = 'transactions/SET_EDIT_ID'
+export const SET_MORE_ID = 'transactions/SET_MORE_ID'
 // Define action name types (multiple types should be nested through "|")
 export type TransactionActionType =
   | typeof SET_TRANSACTIONS
   | typeof SET_MODAL
   | typeof SET_EDIT_ID
+  | typeof SET_MORE_ID
   | typeof GET_TRANSACTIONS;
