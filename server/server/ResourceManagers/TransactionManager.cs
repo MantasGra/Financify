@@ -57,5 +57,9 @@ namespace server.ResourceManagers
         {
             return _transactionStorage.updateItem(oldTransaction,newTransaction);
         }
+        public void SaveChanges() 
+        {
+            _transactionStorage.SaveChanges();
+        }
     }
 }

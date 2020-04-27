@@ -63,7 +63,8 @@ namespace server.Controllers
             var transaction = _transactionManager.GetTransaction(id);
             if (transaction != null)
             {
-                _transactionManager.DeleteTransaction(transaction);
+                transaction.Disabled = true;
+                _transactionManager.SaveChanges();
                 return Ok();
             }
             return NotFound();

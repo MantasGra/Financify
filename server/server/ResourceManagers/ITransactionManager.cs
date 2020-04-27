@@ -15,5 +15,6 @@ namespace server.ResourceManagers
         void DeleteTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction old, Transaction newTransaction);
+        void SaveChanges();
     }
 }
