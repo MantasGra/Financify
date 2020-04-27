@@ -13,6 +13,6 @@ namespace server.ResourceManagers
         IQueryable<Account> GetAccounts(string[] includes = null);
         IQueryable<Account> GetUserAccounts(int userId, string[] includes = null);
         void DeleteAccount(Account account);
-        Account UpdateAccount(Account account);
+        Account UpdateAccount(Account account, string[] includes = null);
     }
 }
