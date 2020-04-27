@@ -14,7 +14,7 @@ namespace server.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionManager _transactionManager;
-		private readonly IAccountManager _accountManager;
+	//	private readonly IAccountManager _accountManager;
 		public TransactionController(ITransactionManager transactionManager)
         {
             _transactionManager = transactionManager;
@@ -31,9 +31,9 @@ namespace server.Controllers
         public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
-            return Created(nameof(GetTransactions), transaction);
+            return CreatedAtAction(nameof(GetTransactions), new {Id =transaction.Id}, transaction);
         }
-
+        
         [HttpGet("{id}")]
         public ActionResult<Transaction> GetTransaction(int id)
         {
@@ -62,34 +62,42 @@ namespace server.Controllers
         [HttpPatch("{id}")]
         public ActionResult<Transaction> UpdateTransaction([FromRoute]int id, [FromBody]Transaction transaction)
         {
-            //TODO: implement PATCH method, for ref check https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1
-            return Ok();
+             if (id != transaction.Id)
+            {
+                return BadRequest();    
+            }
+            var updatedTransaction = _transactionManager.UpdateTransaction(transaction);
+            return Ok(updatedTransaction);
         }
-		public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
-		{
-			sum = 0;
-			var transactions = _accountManager.GetAccount(accountId).Transactions;
-			foreach(Transaction transaction in transactions)
-			{
-				sum += transaction.Amount;
-			}
-			var tmp = new Transaction() { AccountId = accountId, Date = DateTime(), Description = "Elimination transaction", Amount = newValue - sum };
-			_transactionManager.AddTransaction(tmp);
-			return Ok(tmp);
-		}
-		public ActionResult<string> ConstructCsv(int accountId)
-		{
-			string csv = "";
-			var transactions = _accountManager.GetAccount(accountId).Transactions;
-			foreach (Transaction transaction in transactions)
-			{
-				if (!transaction.Disabled)
-				{
-					csv += $"{transaction.Amount};{transaction.Description};{transaction.Date};{transaction.Category}\n";
-				}
-			}
-			return Ok(csv);
-		}
+		// public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
+		// {
+		// 	double sum = 0;
+		// 	var transactions = _accountManager.GetAccount(accountId).Transactions;
+		// 	foreach(Transaction transaction in transactions)
+		// 	{
+		// 		sum += transaction.Amount;
+		// 	}
+			
+			
+            
+
+		// 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
+		// 	_transactionManager.AddTransaction(tmp);
+		// 	return Ok(tmp);
+		// }
+		// public ActionResult<string> ConstructCsv(int accountId)
+		// {
+		// 	string csv = "";
+		// 	var transactions = _accountManager.GetAccount(accountId).Transactions;
+		// 	foreach (Transaction transaction in transactions)
+		// 	{
+		// 		if (!transaction.Disabled)
+		// 		{
+		// 			csv += $"{transaction.Amount};{transaction.Description};{transaction.Date};{transaction.Category}\n";
+		// 		}
+		// 	}
+		// 	return Ok(csv);
+		// }
 
 
 

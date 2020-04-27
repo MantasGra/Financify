@@ -41,5 +41,9 @@ namespace server.ResourceManagers
                 throw e;
             }
         }
+        public Transaction UpdateTransaction(Transaction transaction)
+        {
+            return _transactionStorage.updateItem(transaction);
+        }
     }
 }
