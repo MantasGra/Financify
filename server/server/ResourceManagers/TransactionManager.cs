@@ -18,7 +18,7 @@ namespace server.ResourceManagers
 
         public Transaction GetTransaction(int id)
         {
-            return _transactionStorage.getItem(id);
+            return _transactionStorage.getItem(id,new string[]{"Account"});
         }
         public Transaction AddTransaction(Transaction transaction)
         {
@@ -27,7 +27,7 @@ namespace server.ResourceManagers
 
         public IQueryable<Transaction> GetTransactions()
         {
-            return _transactionStorage.getCollection();
+            return _transactionStorage.getCollection(new string[]{"Account"});
         }
 
         public void DeleteTransaction(Transaction transaction)
@@ -44,6 +44,10 @@ namespace server.ResourceManagers
         public Transaction UpdateTransaction(Transaction transaction)
         {
             return _transactionStorage.updateItem(transaction);
+        }
+        public Transaction UpdateTransaction(Transaction oldTransaction,Transaction newTransaction)
+        {
+            return _transactionStorage.updateItem(oldTransaction,newTransaction);
         }
     }
 }

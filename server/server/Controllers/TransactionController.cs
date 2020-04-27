@@ -14,7 +14,6 @@ namespace server.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionManager _transactionManager;
-	//	private readonly IAccountManager _accountManager;
 		public TransactionController(ITransactionManager transactionManager)
         {
             _transactionManager = transactionManager;
@@ -43,7 +42,6 @@ namespace server.Controllers
             {
                 return NotFound();
             }
-
             return Ok(transaction);
         }
 
@@ -62,11 +60,18 @@ namespace server.Controllers
         [HttpPatch("{id}")]
         public ActionResult<Transaction> UpdateTransaction([FromRoute]int id, [FromBody]Transaction transaction)
         {
-             if (id != transaction.Id)
+            var old = _transactionManager.GetTransaction(id);
+            transaction.AccountId = transaction.AccountId == 0 ? old.AccountId : transaction.AccountId;
+            transaction.Amount = transaction.Amount == 0 ? old.Amount : transaction.Amount;
+            transaction.Category = transaction.Category == 0 ? old.Category : transaction.Category;
+            transaction.Description = transaction.Description == "" ? old.Description : transaction.Description;
+            transaction.Date = transaction.Date.CompareTo(DateTime.Parse("0001-01-01 00:00:00"))==0 ? old.Date : transaction.Date;
+           
+            if (old == null)
             {
-                return BadRequest();    
+                return NotFound();    
             }
-            var updatedTransaction = _transactionManager.UpdateTransaction(transaction);
+            var updatedTransaction = _transactionManager.UpdateTransaction(old,transaction);
             return Ok(updatedTransaction);
         }
 		// public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
