@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Transaction } from 'store/modules/transactions';
 import { State } from 'store';
-import Alert from '@material-ui/lab/Alert';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import {
   TextField,
@@ -12,7 +11,6 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  Menu,
 } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {

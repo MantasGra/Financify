@@ -32,6 +32,15 @@ export interface TransactionState {
   moreTransactionId : number;
 }
 
+export interface TransactionFormType {
+  id: number;
+  amount: number;
+  date: Date;
+  category: TransactionCategories;
+  description: string;
+  disabled: boolean;
+}
+
 // Define action names
 export const SET_TRANSACTIONS = 'transactions/SET_TRANSACTIONS';
 export const GET_TRANSACTIONS = 'transactions/GET_TRANSACTIONS';
