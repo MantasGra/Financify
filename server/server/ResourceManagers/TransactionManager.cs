@@ -16,9 +16,9 @@ namespace server.ResourceManagers
             _transactionStorage = storage;
         }
 
-        public Transaction GetTransaction(int id)
+        public Transaction GetTransaction(int id,string[] includes = null)
         {
-            return _transactionStorage.getItem(id,new string[]{"Account"});
+            return _transactionStorage.getItem(id);
         }
         public Transaction AddTransaction(Transaction transaction)
         {

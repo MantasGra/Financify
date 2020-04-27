@@ -46,9 +46,11 @@ namespace server.Controllers
         }
         
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> GetTransaction(int id)
         {
-            var transaction = _transactionManager.GetTransaction(id);
+            var transaction = _transactionManager.GetTransaction(id,new string[]{"Account"});
 
             if (transaction == null)
             {
@@ -58,6 +60,8 @@ namespace server.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> DeleteTransaction([FromRoute]int id)
         {
             var transaction = _transactionManager.GetTransaction(id);
@@ -71,6 +75,8 @@ namespace server.Controllers
         }
 
         [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> UpdateTransaction([FromRoute]int id, [FromBody]Transaction transaction)
         {
             var old = _transactionManager.GetTransaction(id);
