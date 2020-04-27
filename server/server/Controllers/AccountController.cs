@@ -77,25 +77,44 @@ namespace server.Controllers
             return CreatedAtAction(nameof(GetAccount), new { Id = account.Id }, account);
         }
 
-        /*
-        [HttpPatch]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Account> UpdateAccount([FromBody] JsonPatchDocument<Account> patchDoc)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Account> UpdateAccount([FromRoute] int id, [FromBody] Account account)
         {
-            if (patchDoc != null)
+            if (account.Id == 0)
             {
-                var account = new Account();
-                patchDoc.ApplyTo(account, ModelState);
+                return BadRequest("Id must be provided");
+            }
+            if (id != account.Id)
+            {
+                return BadRequest("Resource Id and route id does not match");
+            }
 
-                return new ObjectResult(account);
-            }
-            else
+            var oldAccount = _manager.GetAccount(account.Id);
+            if (oldAccount == null)
             {
-                return BadRequest(ModelState);
+                return NotFound("Resource was not found");
             }
+
+            var user = _userManager.GetUser(account.UserId);
+            if (user == null)
+            {
+                return NotFound("User was not found");
+            }
+
+            Account updatedAccount = null;
+            try
+            {
+                updatedAccount = _manager.UpdateAccount(account, _accountIncludes);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return Ok(updatedAccount);
         }
-        */
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
