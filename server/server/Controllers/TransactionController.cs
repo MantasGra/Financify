@@ -14,15 +14,27 @@ namespace server.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionManager _transactionManager;
-		public TransactionController(ITransactionManager transactionManager)
+
+        private readonly string[] _transactionIncludes = new string[] { "Account" };
+
+        public TransactionController(ITransactionManager transactionManager)
         {
             _transactionManager = transactionManager;
         }
 
         [HttpGet]
-        public ActionResult<Transaction> GetTransactions()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Transaction> GetTransactions([FromQuery] int? userId)
         {
-            var transactions = _transactionManager.GetTransactions();
+            IQueryable<Transaction> transactions = null;
+            if (userId.HasValue)
+            {
+                transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
+            }
+            else
+            {
+                transactions = _transactionManager.GetTransactions();
+            }
             return Ok(transactions);
         }
 
@@ -30,7 +42,7 @@ namespace server.Controllers
         public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
-            return CreatedAtAction(nameof(GetTransactions), new {Id =transaction.Id}, transaction);
+            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, transaction);
         }
         
         [HttpGet("{id}")]
@@ -82,9 +94,6 @@ namespace server.Controllers
 		// 	{
 		// 		sum += transaction.Amount;
 		// 	}
-			
-			
-            
 
 		// 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
 		// 	_transactionManager.AddTransaction(tmp);
@@ -103,13 +112,5 @@ namespace server.Controllers
 		// 	}
 		// 	return Ok(csv);
 		// }
-
-
-
-
-
-
-
-
 	}
 }

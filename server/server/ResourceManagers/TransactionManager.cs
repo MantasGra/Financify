@@ -27,7 +27,15 @@ namespace server.ResourceManagers
 
         public IQueryable<Transaction> GetTransactions()
         {
-            return _transactionStorage.getCollection(new string[]{"Account"});
+            return _transactionStorage
+                .getCollection(new string[] { "Account" });
+        }
+
+        public IQueryable<Transaction> GetUserTransactions(int userId, string[] includes = null)
+        {
+            return _transactionStorage
+                .getCollection(includes)
+                .Where(t => t.Account.UserId == userId && !t.Disabled);
         }
 
         public void DeleteTransaction(Transaction transaction)

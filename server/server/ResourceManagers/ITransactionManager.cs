@@ -11,6 +11,7 @@ namespace server.ResourceManagers
         Transaction GetTransaction(int id);
         Transaction AddTransaction(Transaction transaction);
         IQueryable<Transaction> GetTransactions();
+        IQueryable<Transaction> GetUserTransactions(int userId, string[] includes = null);
         void DeleteTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction old, Transaction newTransaction);
