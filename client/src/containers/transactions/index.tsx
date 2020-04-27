@@ -14,9 +14,10 @@ import { useHistory } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import Routes from '../../utils/routes';
-import { getTransactions } from '../../store/modules/transactions/actions';
+import { getTransactions,setModalOpen  } from '../../store/modules/transactions/actions';
 import { State } from '../../store';
 import style from './style.module.scss';
+import Modal from '../transactions/components/modal'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +35,13 @@ const Trans: React.FC = () => {
     (state) => state.transactions.transactions
   );
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getTransactions());
+  }, []);
+  const openModal = () => {
+    dispatch(setModalOpen(true));
+  };
   const changeRoute = (route: string) => {
     history.push(route);
   };
@@ -61,13 +68,13 @@ const Trans: React.FC = () => {
                     secondary={row.amount}
                   />
                   {row.account}
-                  <IconButton>
+                  <IconButton  onClick={() => changeRoute(Routes.TransactionsMore + "?id="+ [row.id])}>
                     <MoreIcon />
                   </IconButton>
                   <IconButton>
                     <EditIcon />
                   </IconButton>
-                  <IconButton>
+                  <IconButton onClick={openModal}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItem>
@@ -86,6 +93,7 @@ const Trans: React.FC = () => {
       >
         <AddIcon />
       </Fab>
+      <Modal />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { TransactionState, SET_TRANSACTIONS, GET_TRANSACTIONS } from './types';
+import { TransactionState, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL } from './types';
 import { TransactionAction } from './actions';
 
 const initialState: TransactionState = {
@@ -22,6 +22,7 @@ const initialState: TransactionState = {
       account: 'Paypal',
     },
   ],
+  isModalOpen: false,
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
@@ -38,6 +39,11 @@ const reducer = (
       return {
         ...state,
       };
+      case SET_MODAL:
+        return {
+          ...state,
+          isModalOpen: action.payload
+        };
     default:
       return state;
   }

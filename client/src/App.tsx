@@ -5,7 +5,7 @@ import Navbar from './components/navbar';
 import Routes from './utils/routes';
 import Transaction from 'containers/transactions';
 import TransactionCreate from 'containers/transactions/components/form';
-
+import TransactionMore from 'containers/transactions/components/more';
 const App = () => {
   return (
     <Router>
@@ -19,6 +19,9 @@ const App = () => {
         </Route>
         <Route path={Routes.TransactionsCreate}>
           <TransactionCreate />
+        </Route>
+        <Route path={Routes.TransactionsMore}>
+          <TransactionMore />
         </Route>
         <Route path={Routes.Transactions}>
           <Transaction />
