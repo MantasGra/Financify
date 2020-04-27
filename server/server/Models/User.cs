@@ -6,10 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace server.Models
 {
-    public class User
+    public class User : Model
     {
-        public int Id { get; set; }
-
         [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(255)]
@@ -31,7 +29,6 @@ namespace server.Models
 
         public virtual ICollection<BugReport> BugReports { get; set; }
 
-        [Required]
         public virtual ICollection<Account> Accounts { get; set; }
 
         public virtual ICollection<Budget> Budgets { get; set; }
