@@ -80,46 +80,41 @@ namespace server.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Account> UpdateAccount([FromRoute] int id, [FromBody] Account account)
         {
             if (account.Id == 0)
             {
-                return BadRequest("Id must be provided.");
+                return BadRequest("Id must be provided");
             }
             if (id != account.Id)
             {
-                return BadRequest("Resource Id and route id does not match.");
+                return BadRequest("Resource Id and route id does not match");
             }
+
+            var oldAccount = _manager.GetAccount(account.Id);
+            if (oldAccount == null)
+            {
+                return NotFound("Resource was not found");
+            }
+
+            var user = _userManager.GetUser(account.UserId);
+            if (user == null)
+            {
+                return NotFound("User was not found");
+            }
+
+            Account updatedAccount = null;
             try
             {
-                var updated = _manager.UpdateAccount(account);
+                updatedAccount = _manager.UpdateAccount(account, _accountIncludes);
             }
-            catch (Exception)
+            catch
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(updatedAccount);
         }
-
-        /*
-        [HttpPatch]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<Account> UpdateAccount([FromBody] JsonPatchDocument<Account> patchDoc)
-        {
-            if (patchDoc != null)
-            {
-                var account = new Account();
-                patchDoc.ApplyTo(account, ModelState);
-
-                return new ObjectResult(account);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
-        }
-        */
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
