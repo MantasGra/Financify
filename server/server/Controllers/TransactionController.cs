@@ -39,10 +39,11 @@ namespace server.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
-            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, transaction);
+            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction(transaction.Id,new string[]{"Account"}));
         }
         
         [HttpGet("{id}")]
