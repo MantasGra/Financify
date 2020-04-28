@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Transaction } from 'store/modules/transactions';
+import { Transaction, editTransaction } from 'store/modules/transactions';
 import { State } from 'store';
 import Alert from '@material-ui/lab/Alert';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
@@ -19,11 +19,11 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import style from './style.module.scss';
 import { AccountTypes } from 'store/modules/accounts/types';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import { useHistory } from 'react-router-dom';
-import { editTransaction } from 'store/modules/transactions';
+import style from './style.module.scss';
+
 import Routes from '../../../../utils/routes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,12 +47,11 @@ interface IState {
 
 const TransactionEdit: React.FC = () => {
 
-  const [state, setState] = React.useState<IState>({ date: new Date(), description: '',category: 0, accountId: 0 });
+  const [state, setState] = React.useState<IState>({ date: new Date(), description: '', category: 0, accountId: 0 });
 
 
   const transaction = useSelector<State, Transaction | undefined>(
-    (state) => state.transactions.transactions.find(transaction => transaction.id === state.transactions.editTransactionId)
-
+    (states) => states.transactions.transactions.find(transactio => transactio.id === states.transactions.editTransactionId)
   );
   const classes = useStyles();
 
@@ -89,9 +88,9 @@ const TransactionEdit: React.FC = () => {
 
   React.useEffect(() => {
     if (transaction) {
-      setState({ amount: transaction.amount, date: transaction.date, category: transaction.category, description: transaction.description, accountId: transaction.account.id })
+      setState({ amount: transaction.amount, date: transaction.date, category: transaction.category, description: transaction.description, accountId: transaction.account.id });
     }
-  }, [transaction])
+  }, [transaction]);
 
   const dispatch = useDispatch();
 
@@ -102,7 +101,7 @@ const TransactionEdit: React.FC = () => {
   };
 
   const handleSave = () => {
-   /*  dispatch(
+    /*  dispatch(
       editTransaction({
         transactionForm: {
           amount: state.amount,
@@ -127,7 +126,7 @@ const TransactionEdit: React.FC = () => {
           </div>
           <div className={style.formArea}>
             <div className={style.formField}>
-              <TextField id="amount" label="Amount" value={state.amount}  onChange={(e) => handleAmountChange(parseFloat(e.target.value))} fullWidth />
+              <TextField id="amount" label="Amount" value={state.amount} onChange={(e) => handleAmountChange(parseFloat(e.target.value))} fullWidth />
             </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -138,7 +137,7 @@ const TransactionEdit: React.FC = () => {
                 id="date-picker-inline"
                 label="Date"
                 value={state.date}
-                onChange={(date) => { if (date) { handleDateChange(date) } }}
+                onChange={(date) => { if (date) { handleDateChange(date); } }}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -157,6 +156,7 @@ const TransactionEdit: React.FC = () => {
                       </MenuItem>
                     );
                   }
+                  return null;
                 })}
               </Select>
             </FormControl>
@@ -166,7 +166,7 @@ const TransactionEdit: React.FC = () => {
               <InputLabel id="categoryLabel">Account</InputLabel>
 
               <Select id="category" labelId="categoryLabel" value={state.accountId} onChange={(e) => handleAccountIdChange(e.target.value as number)} fullWidth>
-              {Object.keys(AccountTypes).map((account,index) => {
+                {Object.keys(AccountTypes).map((account, index) => {
                   if (isNaN(parseFloat(account)))
                     return (
                       <MenuItem key={index-3} value={index-3}>
@@ -193,7 +193,7 @@ const TransactionEdit: React.FC = () => {
       </div>
     </Container>
   );
-}
+};
 
 
 

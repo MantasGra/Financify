@@ -19,14 +19,14 @@ import {
 } from '@material-ui/pickers';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import { AccountTypes } from 'store/modules/accounts/types';
-import style from './style.module.scss';
-import Routes from '../../../../utils/routes';
 import {
   createTransaction,
   TransactionFormErrors,
   setTransactionFormErrors,
   clearTransactionFormErrors,
 } from 'store/modules/transactions';
+import style from './style.module.scss';
+import Routes from '../../../../utils/routes';
 
 
 interface IState {
@@ -85,7 +85,7 @@ const TransactionCreate: React.FC = () => {
     dispatch(clearTransactionFormErrors());
     const failedValidation = validate(state);
 
-    console.log(state)
+    console.log(state);
     if (!failedValidation) {
       dispatch(
         createTransaction({
@@ -99,8 +99,7 @@ const TransactionCreate: React.FC = () => {
           callback: () => changeRoute(Routes.Transactions),
         })
       );
-    }
-    else   alert('Where are incorrect fields!')
+    } else   alert('Where are incorrect fields!');
   };
 
   const errors: TransactionFormErrors = useSelector<State, TransactionFormErrors>(
@@ -174,7 +173,8 @@ const TransactionCreate: React.FC = () => {
                 onChange={(e) => handleAmountChange(parseFloat(e.target.value))}
                 fullWidth
                 error={!!errors.name}
-                helperText={errors.name ? errors.name : undefined} />
+                helperText={errors.name ? errors.name : undefined}
+              />
             </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
@@ -186,7 +186,7 @@ const TransactionCreate: React.FC = () => {
                 label="Date"
                 value={selectedDate}
                 error={!!errors.name}
-                onChange={(date) => { if (date) { handleDateChange(date) } }}
+                onChange={(date) => { if (date) { handleDateChange(date); } }}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -201,7 +201,8 @@ const TransactionCreate: React.FC = () => {
                 id="category"
                 labelId="categoryLabel"
                 fullWidth
-                error={!!errors.name}>
+                error={!!errors.name}
+              >
                 {Object.keys(TransactionCategories).map((category) => {
                   if (isNaN(parseFloat(category)))
                     return (
@@ -230,9 +231,10 @@ const TransactionCreate: React.FC = () => {
                 id="account"
                 labelId="accountLabel"
                 fullWidth
-                error={!!errors.name}>
+                error={!!errors.name}
+              >
            
-                {Object.keys(AccountTypes).map((account,index) => {
+                {Object.keys(AccountTypes).map((account, index) => {
                   if (isNaN(parseFloat(account)))
                     return (
                       <MenuItem key={index-3} value={index-3}>

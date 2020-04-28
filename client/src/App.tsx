@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from '@material-ui/core';
+import Transaction from 'containers/transactions';
+import TransactionCreate from 'containers/transactions/components/form';
+import TransactionMore from 'containers/transactions/components/more';
+import TransactionEdit from 'containers/transactions/components/edit';
 import Example from './containers/example';
 import Accounts from './containers/accounts/list';
 import AccountCreate from './containers/accounts/form';
 import Navbar from './components/navbar';
 import Routes from './utils/routes';
-import Transaction from 'containers/transactions';
-import TransactionCreate from 'containers/transactions/components/form';
-import TransactionMore from 'containers/transactions/components/more';
-import TransactionEdit from 'containers/transactions/components/edit';
+import Snackbar from './components/snackbar';
+
 const App = () => {
   return (
     <Router>
@@ -34,6 +36,7 @@ const App = () => {
           <Transaction />
         </Route>
       </Switch>
+      <Snackbar />
     </Router>
   );
 };

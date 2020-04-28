@@ -1,4 +1,4 @@
-import {AccountType} from '../accounts/types'
+import { AccountType } from '../accounts/types';
 
 // Define types for different objects
 export interface Transaction {
@@ -8,7 +8,7 @@ export interface Transaction {
   category: TransactionCategories;
   description: string;
   disabled: boolean;
-  account: AccountType;
+  account: any;
 }
 
 
@@ -53,8 +53,8 @@ export interface TransactionFormErrors {
 export const SET_TRANSACTIONS = 'transactions/SET_TRANSACTIONS';
 export const GET_TRANSACTIONS = 'transactions/GET_TRANSACTIONS';
 export const SET_MODAL = 'transactions/SET_MODAL';
-export const SET_EDIT_ID = 'transactions/SET_EDIT_ID'
-export const SET_MORE_ID = 'transactions/SET_MORE_ID'
+export const SET_EDIT_ID = 'transactions/SET_EDIT_ID';
+export const SET_MORE_ID = 'transactions/SET_MORE_ID';
 
 export const SET_TRANSACTION_FORM_ERRORS = 'accounts/SET_TRANSACTION_FORM_ERRORS';
 export const CLEAR_TRANSACTION_FORM_ERRORS = 'accounts/CLEAR_TRANSACTION_FORM_ERRORS';

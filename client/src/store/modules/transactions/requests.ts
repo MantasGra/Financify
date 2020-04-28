@@ -7,10 +7,10 @@ interface GetTransactionsResponse extends AxiosResponse {
 
 export const getTransactions = () => 
   axios
-  .get('https://localhost:5001/api/transactions')
-  .then((res: GetTransactionsResponse) => res.data);
+    .get('https://localhost:5001/api/transactions', { params: { userId: 1 } })
+    .then((res: GetTransactionsResponse) => res.data);
 
-  export const deleteTransaction = (id: number) =>
+export const deleteTransaction = (id: number) =>
   axios
     .delete(`https://localhost:5001/api/transactions/${id}`)
     .then((res: AxiosResponse) => res.status);
@@ -21,7 +21,7 @@ export const createTransaction = (transaction: TransactionFormType) =>
     .then((res: AxiosResponse) => res.data);
 
     
-    export const editTransaction = (transaction: Transaction) =>
+export const editTransaction = (transaction: Transaction) =>
   axios
     .put(`https://localhost:5001/api/transactions/${transaction.id}`, { ...transaction, userId: 1 })
     .then((res: AxiosResponse) => res.data);

@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import * as actions from './actions';
-import { getTransactions, createTransaction,editTransaction, deleteTransaction } from './requests';
-import {DELETE_TRANSACTION, GET_TRANSACTIONS,EDIT_TRANSACTION, Transaction, TransactionFormType, CREATE_TRANSACTION } from './types';
+import { getTransactions, createTransaction, editTransaction, deleteTransaction } from './requests';
+import { DELETE_TRANSACTION, GET_TRANSACTIONS, EDIT_TRANSACTION, Transaction, TransactionFormType, CREATE_TRANSACTION } from './types';
 import * as globalActions from '../global/actions';
 // The function* syntax is required here, because sagas are based on generator functions.
 
@@ -29,7 +29,6 @@ function* createTransactionSaga(action: ReturnType<typeof actions.createTransact
     return null;
   });
   if (transaction) {
-    alert("Transaction succesfully created")
     yield put(actions.storeAddTransaction(transaction));
     if (action.payload) {
       yield call(action.payload.callback);
@@ -52,7 +51,7 @@ function* createTransactionsWatcher() {
 function* editTransactionSaga(action: ReturnType<typeof actions.editTransaction>) {
   const transaction: Transaction = yield call(() => {
     if (action.payload) {
-     // return actions.editTransaction(action.payload.transactionForm);
+      // return actions.editTransaction(action.payload.transactionForm);
     }
     return null;
   });
@@ -91,7 +90,6 @@ function* deleteTransactionSaga(action: ReturnType<typeof actions.deleteTransact
       deleteTransaction(action.payload as number)
     );
     if (status === 200) {
-      alert("Transaction deleted successfully")
       yield put(actions.storeDeleteTransaction(action.payload));
       yield put(actions.setModalOpen(false));
       yield put(
