@@ -16,9 +16,9 @@ namespace server.ResourceManagers
             _transactionStorage = storage;
         }
 
-        public Transaction GetTransaction(int id)
+        public Transaction GetTransaction(int id,string[] includes = null)
         {
-            return _transactionStorage.getItem(id);
+            return _transactionStorage.getItem(id,includes);
         }
         public Transaction AddTransaction(Transaction transaction)
         {
@@ -27,7 +27,15 @@ namespace server.ResourceManagers
 
         public IQueryable<Transaction> GetTransactions()
         {
-            return _transactionStorage.getCollection();
+            return _transactionStorage
+                .getCollection(new string[] { "Account" });
+        }
+
+        public IQueryable<Transaction> GetUserTransactions(int userId, string[] includes = null)
+        {
+            return _transactionStorage
+                .getCollection(includes)
+                .Where(t => t.Account.UserId == userId && !t.Disabled);
         }
 
         public void DeleteTransaction(Transaction transaction)
@@ -40,6 +48,18 @@ namespace server.ResourceManagers
             {
                 throw e;
             }
+        }
+        public Transaction UpdateTransaction(Transaction transaction)
+        {
+            return _transactionStorage.updateItem(transaction);
+        }
+        public Transaction UpdateTransaction(Transaction oldTransaction,Transaction newTransaction)
+        {
+            return _transactionStorage.updateItem(oldTransaction,newTransaction);
+        }
+        public void SaveChanges() 
+        {
+            _transactionStorage.SaveChanges();
         }
     }
 }

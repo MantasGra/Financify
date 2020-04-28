@@ -7,7 +7,7 @@ interface GetAccountsResponse extends AxiosResponse {
 
 export const getAccounts = () =>
   axios
-    .get('https://localhost:5001/api/accounts')
+    .get('https://localhost:5001/api/accounts', { params: { userId: 1 } })
     .then((res: GetAccountsResponse) => res.data);
 
 export const deleteAccount = (id: number) =>

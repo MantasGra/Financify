@@ -53,8 +53,8 @@ namespace server.Services
             {
                 dbSet.Add(item);
                 SaveChanges();
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -86,6 +86,27 @@ namespace server.Services
                 throw e;
             }
             return getItem(item.Id, includes);
+        }
+        public T updateItem(T old, T newItem)
+        {
+            foreach (var property in typeof(T).GetProperties())
+            {
+                if (property.Name == "Id")
+                {
+                    continue;
+                }
+                if (property.GetValue(newItem) != null)
+                    property.SetValue(old, property.GetValue(newItem));
+            }
+            try
+            {
+                SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return old;
         }
         public void SaveChanges()
         {
