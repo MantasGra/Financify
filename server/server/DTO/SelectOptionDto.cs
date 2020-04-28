@@ -8,6 +8,6 @@ namespace server.DTO
     public class SelectOptionDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Label { get; set; }
     }
 }

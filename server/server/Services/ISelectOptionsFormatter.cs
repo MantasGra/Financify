@@ -6,6 +6,6 @@ namespace server.Services
 {
     public interface ISelectOptionsFormatter
     {
-        IQueryable<SelectOptionDto> GetAccountSelectOptions(IQueryable<Account> items, string pattern);
+        IQueryable<SelectOptionDto> GetSelectOptions<T>(IQueryable<T> items, string property, string pattern) where T : Model;
     }
 }

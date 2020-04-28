@@ -1,20 +1,20 @@
 ﻿using System.Linq;
-using server.Models;
 using server.DTO;
 using Microsoft.EntityFrameworkCore;
+using server.Models;
 
 namespace server.Services
 {
     public class SelectOptionsFormatter : ISelectOptionsFormatter
     {
-        public IQueryable<SelectOptionDto> GetAccountSelectOptions(IQueryable<Account> items, string pattern)
+        public IQueryable<SelectOptionDto> GetSelectOptions<T>(IQueryable<T> items, string property, string pattern) where T : Model
         {
             return items
-                .Where(i => EF.Functions.Like(i.Name, $"%{pattern}%"))
-                .Select(i => new SelectOptionDto
+                .Where(item => EF.Functions.Like(EF.Property<string>(item, property), $"%{pattern}%"))
+                .Select(item => new SelectOptionDto
                 {
-                    Id = i.Id,
-                    Name = i.Name
+                    Id = item.Id,
+                    Label = EF.Property<string>(item, property)
                 });
         }
     }

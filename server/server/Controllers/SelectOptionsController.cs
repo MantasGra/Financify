@@ -4,6 +4,7 @@ using server.DTO;
 using Microsoft.AspNetCore.Http;
 using server.ResourceManagers;
 using server.Services;
+using server.Models;
 
 namespace server.Controllers
 {
@@ -42,7 +43,7 @@ namespace server.Controllers
             }
 
             var accounts = _accountManager.GetUserAccounts(userId);
-            IQueryable<SelectOptionDto> options = _formatter.GetAccountSelectOptions(accounts, name);
+            IQueryable<SelectOptionDto> options = _formatter.GetSelectOptions(accounts, "Name", name);
 
             return Ok(options);
         }
