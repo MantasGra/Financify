@@ -1,6 +1,6 @@
-import { Transaction, TransactionState,STORE_ADD_TRANSACTION, SET_DELETE_ID, STORE_DELETE_TRANSACTION, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
-import { TransactionAction } from './actions';
 import { toDictionary } from 'utils/parsers';
+import { Transaction, TransactionState, STORE_ADD_TRANSACTION, SET_DELETE_ID, STORE_DELETE_TRANSACTION, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
+import { TransactionAction } from './actions';
 
 const initialState: TransactionState = {
   transactions: [],
@@ -48,12 +48,12 @@ const reducer = (
     case STORE_DELETE_TRANSACTION:
       return {
         ...state,
-       
+        transactions: [...state.transactions.filter(transaction => transaction.id !== action.payload)]
       };
     case STORE_ADD_TRANSACTION:
       return {
         ...state,
-        transactions: [ ...state.transactions,action.payload],
+        transactions: [ ...state.transactions, action.payload],
       };
     default:
       return state;
