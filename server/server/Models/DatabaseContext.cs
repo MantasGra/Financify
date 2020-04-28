@@ -43,6 +43,13 @@ namespace server.Models
                 new { Id = 3, Name = "Cash", Type = AccountType.Cash, UserId = 2 },
                 new { Id = 4, Name = "Default", Type = AccountType.Cash, UserId = 3 }
             );
+
+            modelBuilder.Entity<Transaction>().HasData(
+                new { Id = 1, Amount = 125.31, Date = new DateTime(), Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 2, Amount = 13.99, Date = new DateTime(), Category = TransactionCategory.Gifts, Disabled = false, AccountId = 1 },
+                new { Id = 3, Amount = 4.65, Date = new DateTime(), Category = TransactionCategory.Food, Description = "McDonalds", Disabled = true, AccountId = 1 },
+                new { Id = 4, Amount = 87.44, Date = new DateTime(), Category = TransactionCategory.Fuel, Disabled = false, AccountId = 3 }
+            );
         }
     }
 }
