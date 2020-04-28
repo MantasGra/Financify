@@ -7,7 +7,7 @@ interface GetAccountsResponse extends AxiosResponse {
 
 export const getAccounts = () =>
   axios
-    .get('https://localhost:5001/api/accounts')
+    .get('https://localhost:5001/api/accounts', { params: { userId: 1 } })
     .then((res: GetAccountsResponse) => res.data);
 
 export const deleteAccount = (id: number) =>
@@ -20,15 +20,8 @@ export const createAccount = (account: AccountFormType) =>
     .post('https://localhost:5001/api/accounts', { ...account, userId: 1 })
     .then((res: AxiosResponse) => res.data);
 
-// export const getAccounts = () => [
-//   {
-//     id: 1,
-//     title: 'Personal Savings',
-//     type: 'Cash',
-//   },
-//   {
-//     id: 2,
-//     title: 'Salary',
-//     type: 'Debit Card',
-//   },
-// ];
+export const editAccount = (account: AccountType) =>
+  axios
+    .put(`https://localhost:5001/api/accounts/${account.id}`, { ...account, userId: 1 })
+    .then((res: AxiosResponse) => res.data);
+

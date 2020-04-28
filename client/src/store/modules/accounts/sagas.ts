@@ -2,12 +2,18 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { toDictionary } from 'utils/parsers';
 import * as actions from './actions';
 import * as globalActions from '../global/actions';
-import { getAccounts, deleteAccount, createAccount } from './requests';
+import {
+  getAccounts,
+  deleteAccount,
+  createAccount,
+  editAccount,
+} from './requests';
 import {
   GET_ACCOUNTS,
   AccountType,
   DELETE_ACCOUNT,
   CREATE_ACCOUNT,
+  EDIT_ACCOUNT,
 } from './types';
 
 // The function* syntax is required here, because sagas are based on generator functions.
@@ -81,12 +87,48 @@ function* deleteAccountWatcher() {
   yield takeEvery(DELETE_ACCOUNT, deleteAccountSaga);
 }
 
+function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
+  const account: AccountType = yield call(() => {
+    if (action.payload) {
+      return editAccount(action.payload.accountForm);
+    }
+    return null;
+  });
+
+  if (account) {
+    yield put(actions.storeAddAccount(account));
+    if (action.payload) {
+      yield call(action.payload.callback);
+    }
+    yield put(
+      globalActions.setSnackbar({
+        severity: 'success',
+        text: 'Account succesfully updated',
+        isOpen: true,
+      })
+    );
+  } else {
+    yield put(
+      globalActions.setSnackbar({
+        severity: 'error',
+        text: 'Something went wrong',
+        isOpen: true,
+      })
+    );
+  }
+}
+
+function* editAccountWatcher() {
+  yield takeEvery(EDIT_ACCOUNT, editAccountSaga);
+}
+
 // Combine all watchers to work on parallel with fork for exporting.
 function* rootSaga() {
   yield all([
     fork(getAccountsWatcher),
     fork(deleteAccountWatcher),
     fork(createAccountWatcher),
+    fork(editAccountWatcher),
   ]);
 }
 

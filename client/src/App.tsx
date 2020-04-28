@@ -20,9 +20,6 @@ const App = () => {
         <Route exact path={Routes.Home}>
           TODO: Implement home page
         </Route>
-        <Route path={Routes.Example}>
-          <Example />
-        </Route>
         <Route path={Routes.TransactionsCreate}>
           <TransactionCreate />
         </Route>
@@ -34,6 +31,15 @@ const App = () => {
         </Route>
         <Route path={Routes.Transactions}>
           <Transaction />
+        </Route>
+        <Route path={Routes.AccountEdit}>
+          <AccountCreate />
+        </Route>
+        <Route path={Routes.AccountCreate}>
+          <AccountCreate />
+        </Route>
+        <Route path={Routes.Accounts}>
+          <Accounts />
         </Route>
       </Switch>
       <Snackbar />
