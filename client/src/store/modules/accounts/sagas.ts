@@ -88,26 +88,28 @@ function* deleteAccountWatcher() {
 }
 
 function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
-  const account: AccountType = yield call(() => {
-    if (action.payload) {
-      return editAccount(action.payload.accountForm);
+  try {
+    const account: AccountType = yield call(() => {
+      if (action.payload) {
+        return editAccount(action.payload.accountForm);
+      }
+      return null;
+    });
+    if (account) {
+      yield put(actions.storeAddAccount(account));
+      if (action.payload) {
+        yield call(action.payload.callback);
+      }
+      yield put(actions.unsetAccountEditId());
+      yield put(
+        globalActions.setSnackbar({
+          severity: 'success',
+          text: 'Account succesfully updated',
+          isOpen: true,
+        })
+      );
     }
-    return null;
-  });
-
-  if (account) {
-    yield put(actions.storeAddAccount(account));
-    if (action.payload) {
-      yield call(action.payload.callback);
-    }
-    yield put(
-      globalActions.setSnackbar({
-        severity: 'success',
-        text: 'Account succesfully updated',
-        isOpen: true,
-      })
-    );
-  } else {
+  } catch (e) {
     yield put(
       globalActions.setSnackbar({
         severity: 'error',
@@ -115,6 +117,10 @@ function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
         isOpen: true,
       })
     );
+    if (action.payload) {
+      yield call(action.payload.callback);
+    }
+    yield put(actions.unsetAccountEditId());
   }
 }
 

@@ -14,7 +14,7 @@ import {
   SET_ACCOUNT_FORM_ERRORS,
   CLEAR_ACCOUNT_FORM_ERRORS,
   SET_ACCOUNT_EDIT_ID,
-  AccountTypes,
+  UNSET_ACCOUNT_EDIT_ID,
   EDIT_ACCOUNT,
 } from './types';
 
@@ -36,6 +36,7 @@ export const setAccountFormErrors = createAction<{
   error: string;
 }>(SET_ACCOUNT_FORM_ERRORS);
 export const setAccountEditId = createAction<number>(SET_ACCOUNT_EDIT_ID);
+export const unsetAccountEditId = createAction(UNSET_ACCOUNT_EDIT_ID);
 export const editAccount = createAction<{
   accountForm: AccountType;
   callback: () => void;

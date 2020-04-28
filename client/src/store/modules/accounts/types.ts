@@ -45,6 +45,7 @@ export const SET_ACCOUNT_FORM_ERRORS = 'accounts/SET_ACCOUNT_FORM_ERRORS';
 export const CLEAR_ACCOUNT_FORM_ERRORS = 'accounts/CLEAR_ACCOUNT_FORM_ERRORS';
 export const EDIT_ACCOUNT = 'accounts/EDIT_ACCOUNT';
 export const SET_ACCOUNT_EDIT_ID = 'accounts/SET_ACCOUNT_EDIT_ID';
+export const UNSET_ACCOUNT_EDIT_ID = 'accounts/UNSET_ACCOUNT_EDIT_ID';
 // Define action name types (multiple types should be nested through "|")
 export type AccountActionNameType =
   | typeof GET_ACCOUNTS
@@ -57,5 +58,6 @@ export type AccountActionNameType =
   | typeof SET_ACCOUNT_FORM_ERRORS
   | typeof CLEAR_ACCOUNT_FORM_ERRORS
   | typeof SET_ACCOUNT_EDIT_ID
+  | typeof UNSET_ACCOUNT_EDIT_ID
   | typeof EDIT_ACCOUNT
   | typeof CREATE_ACCOUNT;
