@@ -9,7 +9,7 @@ namespace server.Models
 {
     public enum AccountType
     {
-        Cash,
+        Cash = 1,
         CreditCard,
         EWallet
     }

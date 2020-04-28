@@ -114,6 +114,10 @@ const AccountForm: React.FC = () => {
       }
     }
   };
+  function buildAccountTypesArray() {
+    return Object.keys(AccountTypes).filter(key => typeof AccountTypes[key as unknown as number] === 'number')
+      .map(key => ({ id: AccountTypes[key as unknown as number].toString(), name: key }));
+  }
 
   return (
     <Container>
@@ -148,18 +152,17 @@ const AccountForm: React.FC = () => {
                   fullWidth
                   error={!!errors.type}
                 >
-                  {Object.keys(AccountTypes).map((accountType) => {
-                    if (!isNaN(parseFloat(accountType)))
-                      return (
-                        <MenuItem
-                          key={accountType}
-                          value={parseFloat(accountType)}
-                        >
-                          {AccountTypes[parseFloat(accountType)]}
-                        </MenuItem>
-                      );
-                    return null;
+                  {buildAccountTypesArray().map((key, val) => {
+                    return (
+                      <MenuItem
+                        key={key.id}
+                        value={key.id}
+                      >
+                        {key.name}
+                      </MenuItem>
+                    );
                   })}
+                  
                 </Select>
                 {errors.type ? (
                   <FormHelperText error>{errors.type}</FormHelperText>
