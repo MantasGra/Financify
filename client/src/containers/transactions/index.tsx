@@ -9,7 +9,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { IconButton, Button, Paper, Divider,Snackbar } from '@material-ui/core';
+import { IconButton, Button, Paper, Divider, Snackbar } from '@material-ui/core';
 import { useHistory, Route } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import { TransactionCategories } from 'store/modules/transactions/types';
@@ -39,6 +39,7 @@ const Trans: React.FC = () => {
   const transactions = useSelector<State, Transaction[]>(
     (state) => state.transactions.transactions
   );
+  console.log(transactions)
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -84,7 +85,7 @@ const Trans: React.FC = () => {
                     primary={TransactionCategories[row.category]}
                     secondary={row.amount}
                   />
-
+                  {row.account.name}
                   <IconButton onClick={() => openMore(row.id)}>
                     <MoreIcon />
                   </IconButton>

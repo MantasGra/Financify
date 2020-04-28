@@ -20,6 +20,7 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import style from './style.module.scss';
+import { AccountTypes } from 'store/modules/accounts/types';
 import { TransactionCategories } from 'store/modules/transactions/types';
 import { useHistory } from 'react-router-dom';
 import { editTransaction } from 'store/modules/transactions';
@@ -165,7 +166,15 @@ const TransactionEdit: React.FC = () => {
               <InputLabel id="categoryLabel">Account</InputLabel>
 
               <Select id="category" labelId="categoryLabel" value={state.accountId} onChange={(e) => handleAccountIdChange(e.target.value as number)} fullWidth>
-                <MenuItem value={1}>Cash</MenuItem>
+              {Object.keys(AccountTypes).map((account,index) => {
+                  if (isNaN(parseFloat(account)))
+                    return (
+                      <MenuItem key={index-3} value={index-3}>
+                        {account}
+                      </MenuItem>
+                    );
+                  return null;
+                })}
               </Select>
             </FormControl>
 

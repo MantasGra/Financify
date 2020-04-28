@@ -18,6 +18,7 @@ import {
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import { TransactionCategories } from 'store/modules/transactions/types';
+import { AccountTypes } from 'store/modules/accounts/types';
 import style from './style.module.scss';
 import Routes from '../../../../utils/routes';
 import {
@@ -230,7 +231,16 @@ const TransactionCreate: React.FC = () => {
                 labelId="accountLabel"
                 fullWidth
                 error={!!errors.name}>
-                <MenuItem value={1}>Cash</MenuItem>
+           
+                {Object.keys(AccountTypes).map((account,index) => {
+                  if (isNaN(parseFloat(account)))
+                    return (
+                      <MenuItem key={index-3} value={index-3}>
+                        {account}
+                      </MenuItem>
+                    );
+                  return null;
+                })}
               </Select>
  
               {errors.type ? (
