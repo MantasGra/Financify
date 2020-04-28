@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using server.DTO;
 using Microsoft.AspNetCore.Http;
 using server.ResourceManagers;
-using server.Models;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore;
+using server.Services;
 
-namespace server.Conntrollers
+namespace server.Controllers
 {
     [Route("api/select-options")]
     [ApiController]
@@ -20,15 +15,19 @@ namespace server.Conntrollers
 
         public readonly IAccountManager _accountManager;
 
-        public SelectOptionsController(IUserManager userManager, IAccountManager accountManager)
+        public readonly ISelectOptionsFormatter _formatter;
+
+        public SelectOptionsController(IUserManager userManager, IAccountManager accountManager, ISelectOptionsFormatter formatter)
         {
             _userManager = userManager;
             _accountManager = accountManager;
+            _formatter = formatter;
         }
 
         [HttpGet("accounts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<IQueryable<SelectOptionDto>> GetAccountsOptions([FromQuery] int userId, [FromQuery] string name)
         {
             if (userId == 0)
@@ -43,13 +42,7 @@ namespace server.Conntrollers
             }
 
             var accounts = _accountManager.GetUserAccounts(userId);
-            IQueryable<SelectOptionDto> options = accounts
-                .Where(a => EF.Functions.Like(a.Name, $"%{name}%"))
-                .Select(a => new SelectOptionDto
-                {
-                    Id = a.Id,
-                    Name = a.Name
-                });
+            IQueryable<SelectOptionDto> options = _formatter.GetAccountSelectOptions(accounts, name);
 
             return Ok(options);
         }

@@ -51,10 +51,16 @@ namespace server
             {
                 options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
             });
+
+            // Resource managers
             services.AddSingleton<IAccountManager, AccountManager>();
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
+            
+            // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
+            services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
+            
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
         }
