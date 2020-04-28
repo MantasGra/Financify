@@ -104,6 +104,7 @@ namespace server.Controllers
             {
                 return NotFound("User was not found");
             }
+            account.Transactions = oldAccount.Transactions;
 
             Account updatedAccount = null;
             try
