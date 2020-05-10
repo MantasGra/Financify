@@ -26,7 +26,7 @@ import Routes from '../../../utils/routes';
 
 export interface IState {
   name: string;
-  type: AccountTypes;
+  type: AccountTypes | '';
 }
 
 const AccountForm: React.FC = () => {
@@ -36,7 +36,7 @@ const AccountForm: React.FC = () => {
 
   const [state, setState] = React.useState<IState>({
     name: '',
-    type: 0,
+    type: ''
   });
 
   React.useEffect(() => {
@@ -77,7 +77,7 @@ const AccountForm: React.FC = () => {
         })
       );
     }
-    if (!formState.type) {
+    if (formState.type === '') {
       error = true;
       dispatch(
         setAccountFormErrors({
@@ -122,6 +122,7 @@ const AccountForm: React.FC = () => {
           <div className={style.title}>
             <h1>{account ? 'Edit' : 'Create'} Account</h1>
           </div>
+          {typeof state.type}
           <div className={style.formArea}>
             <div className={style.formField}>
               <TextField
@@ -151,7 +152,7 @@ const AccountForm: React.FC = () => {
                   {Object.keys(AccountTypes).map((type) => {
                     if (!isNaN(parseFloat(type))){
                       return (
-                        <MenuItem key={type} value={type}>
+                        <MenuItem key={type} value={parseFloat(type)}>
                           {AccountTypes[parseFloat(type)]}
                         </MenuItem>
                       );
