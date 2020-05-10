@@ -81,7 +81,7 @@ namespace server.Services
             _context.Entry(item).State = EntityState.Modified;
             try
             {
-                _context.SaveChanges();
+                SaveChanges();
             }
             catch (Exception e)
             {
