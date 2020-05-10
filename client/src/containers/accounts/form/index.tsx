@@ -26,7 +26,7 @@ import Routes from '../../../utils/routes';
 
 export interface IState {
   name: string;
-  type?: number;
+  type: AccountTypes;
 }
 
 const AccountForm: React.FC = () => {
@@ -36,7 +36,7 @@ const AccountForm: React.FC = () => {
 
   const [state, setState] = React.useState<IState>({
     name: '',
-    type: undefined,
+    type: 0,
   });
 
   React.useEffect(() => {
@@ -57,7 +57,7 @@ const AccountForm: React.FC = () => {
   const handleTitleChange = (value: string) => {
     setState((prevState) => ({ ...prevState, name: value }));
   };
-  const handleTypeChange = (value: number) => {
+  const handleTypeChange = (value: AccountTypes) => {
     setState((prevState) => ({
       ...prevState,
       type: value,
@@ -114,10 +114,6 @@ const AccountForm: React.FC = () => {
       }
     }
   };
-  function buildAccountTypesArray() {
-    return Object.keys(AccountTypes).filter(key => typeof AccountTypes[key as unknown as number] === 'number')
-      .map(key => ({ id: AccountTypes[key as unknown as number].toString(), name: key }));
-  }
 
   return (
     <Container>
@@ -147,22 +143,21 @@ const AccountForm: React.FC = () => {
                 <Select
                   id="type"
                   labelId="typeLabel"
-                  value={state.type ? state.type : ''}
-                  onChange={(e) => handleTypeChange(e.target.value as number)}
+                  value={state.type}
+                  onChange={(e) => handleTypeChange(e.target.value as AccountTypes)}
                   fullWidth
                   error={!!errors.type}
                 >
-                  {buildAccountTypesArray().map((key, val) => {
-                    return (
-                      <MenuItem
-                        key={key.id}
-                        value={key.id}
-                      >
-                        {key.name}
-                      </MenuItem>
-                    );
+                  {Object.keys(AccountTypes).map((type) => {
+                    if (!isNaN(parseFloat(type))){
+                      return (
+                        <MenuItem key={type} value={type}>
+                          {AccountTypes[parseFloat(type)]}
+                        </MenuItem>
+                      );
+                    }
+                    return null;
                   })}
-                  
                 </Select>
                 {errors.type ? (
                   <FormHelperText error>{errors.type}</FormHelperText>
