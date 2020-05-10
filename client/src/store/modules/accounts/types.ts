@@ -27,9 +27,9 @@ export interface AccountFormErrors {
 }
 
 export enum AccountTypes {
-  'Cash' = 0,
-  'Debit Card' = 1,
-  'EWallet' = 2,
+  'Cash',
+  'Debit Card',
+  'EWallet',
 }
 
 // Define action names
