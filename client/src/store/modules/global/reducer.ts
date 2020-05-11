@@ -1,4 +1,4 @@
-import { GlobalState, SET_SNACKBAR, SnackbarType } from './types';
+import { GlobalState, SET_SNACKBAR } from './types';
 import { GlobalActionType } from './actions';
 
 const initialState: GlobalState = {
@@ -18,7 +18,7 @@ const reducer = (
     case SET_SNACKBAR:
       return {
         ...state,
-        snackbar: action.payload as SnackbarType,
+        snackbar: action.payload,
       };
     default:
       return state;

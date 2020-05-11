@@ -10,6 +10,7 @@ import {
   SET_ACCOUNT_FORM_ERRORS,
   CLEAR_ACCOUNT_FORM_ERRORS,
   SET_ACCOUNT_EDIT_ID,
+  UNSET_ACCOUNT_EDIT_ID,
 } from './types';
 import { AccountsActionType } from './actions';
 
@@ -72,6 +73,11 @@ const reducer = (
       return {
         ...state,
         editId: action.payload,
+      };
+    case UNSET_ACCOUNT_EDIT_ID:
+      return {
+        ...state,
+        editId: undefined,
       };
     default:
       return state;

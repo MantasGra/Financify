@@ -11,12 +11,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { State } from 'store';
 import { setModalOpen, deleteAccount } from 'store/modules/accounts';
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children?: React.ReactElement },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+const Transition = React.forwardRef(
+  (
+    props: TransitionProps & { children?: React.ReactElement },
+    ref: React.Ref<unknown>
+  ) => <Slide direction="up" ref={ref} {...props} />
+);
 
 const AccountDeleteModal: React.FC = () => {
   const isOpen = useSelector<State, boolean>(

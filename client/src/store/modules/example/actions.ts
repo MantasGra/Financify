@@ -7,9 +7,13 @@ import {
 } from './types';
 
 // Define action creators
-export const setText = createAction<ExampleType>(SET_TEXT);
-export const getRandomFact = createAction(GET_RANDOM_FACT);
-export const setRandomFact = createAction<string>(SET_RANDOM_FACT);
+export const setText = createAction<ExampleType, typeof SET_TEXT>(SET_TEXT);
+export const getRandomFact = createAction<void, typeof GET_RANDOM_FACT>(
+  GET_RANDOM_FACT
+);
+export const setRandomFact = createAction<string, typeof SET_RANDOM_FACT>(
+  SET_RANDOM_FACT
+);
 
 // Define action types (nest through "|")
 export type ExampleActionType =

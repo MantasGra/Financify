@@ -49,29 +49,31 @@ namespace server.Services
 
         public T createItem(T item)
         {
+            _context.Entry(item).State = EntityState.Added;
             try
             {
-                dbSet.Add(item);
                 SaveChanges();
             }
             catch (Exception e)
             {
                 throw e;
             }
+            _context.Entry(item).State = EntityState.Detached;
             return item;
         }
 
         public void removeItem(T item)
         {
+            _context.Entry(item).State = EntityState.Deleted;
             try
             {
-                dbSet.Remove(item);
                 SaveChanges();
             }
             catch (Exception e)
             {
                 throw e;
             }
+            _context.Entry(item).State = EntityState.Detached;
         }
 
         public T updateItem(T item, string[] includes = null)
@@ -85,6 +87,7 @@ namespace server.Services
             {
                 throw e;
             }
+            _context.Entry(item).State = EntityState.Detached;
             return getItem(item.Id, includes);
         }
         public T updateItem(T old, T newItem)
@@ -98,6 +101,7 @@ namespace server.Services
                 if (property.GetValue(newItem) != null)
                     property.SetValue(old, property.GetValue(newItem));
             }
+            _context.Entry(old).State = EntityState.Modified;
             try
             {
                 SaveChanges();
@@ -106,6 +110,7 @@ namespace server.Services
             {
                 throw e;
             }
+            _context.Entry(old).State = EntityState.Detached;
             return old;
         }
         public void SaveChanges()

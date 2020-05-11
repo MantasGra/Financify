@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { State } from 'store';
+import Routes from 'utils/routes';
 import {
   AccountTypes,
   createAccount,
@@ -20,23 +21,22 @@ import {
   clearAccountFormErrors,
   AccountType,
   editAccount,
-} from '../../../store/modules/accounts';
+} from 'store/modules/accounts';
 import style from './style.module.scss';
-import Routes from '../../../utils/routes';
 
 export interface IState {
   name: string;
-  type?: number;
+  type: AccountTypes | '';
 }
 
 const AccountForm: React.FC = () => {
-  const account = useSelector<State, AccountType | undefined>((s) => {
-    return s.account.editId ? s.account.accounts[s.account.editId] : undefined;
-  });
+  const account = useSelector<State, AccountType | undefined>((s) =>
+    s.account.editId ? s.account.accounts[s.account.editId] : undefined
+  );
 
   const [state, setState] = React.useState<IState>({
     name: '',
-    type: undefined,
+    type: '',
   });
 
   React.useEffect(() => {
@@ -57,7 +57,7 @@ const AccountForm: React.FC = () => {
   const handleTitleChange = (value: string) => {
     setState((prevState) => ({ ...prevState, name: value }));
   };
-  const handleTypeChange = (value: number) => {
+  const handleTypeChange = (value: AccountTypes) => {
     setState((prevState) => ({
       ...prevState,
       type: value,
@@ -66,9 +66,9 @@ const AccountForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const validate = (formState: IState) => {
+  const validate = () => {
     let error = false;
-    if (!formState.name) {
+    if (!state.name) {
       error = true;
       dispatch(
         setAccountFormErrors({
@@ -77,7 +77,7 @@ const AccountForm: React.FC = () => {
         })
       );
     }
-    if (!formState.type) {
+    if (state.type === '') {
       error = true;
       dispatch(
         setAccountFormErrors({
@@ -91,15 +91,14 @@ const AccountForm: React.FC = () => {
 
   const handleSave = () => {
     dispatch(clearAccountFormErrors());
-    const failedValidation = validate(state);
-    if (!failedValidation && state.type) {
+    const failedValidation = validate();
+    if (!failedValidation && state.type !== '') {
       if (account) {
         dispatch(
           editAccount({
             accountForm: {
               id: account.id,
-              name: state.name,
-              type: state.type,
+              ...(state as AccountType),
             },
             callback: () => changeRoute(Routes.Accounts),
           })
@@ -107,7 +106,7 @@ const AccountForm: React.FC = () => {
       } else {
         dispatch(
           createAccount({
-            accountForm: { name: state.name, type: state.type },
+            accountForm: state as AccountType,
             callback: () => changeRoute(Routes.Accounts),
           })
         );
@@ -117,65 +116,59 @@ const AccountForm: React.FC = () => {
 
   return (
     <Container>
-      <div className={style.row}>
-        <div className={style.column}>
-          <div className={style.title}>
-            <h1>{account ? 'Edit' : 'Create'} Account</h1>
-          </div>
-          <div className={style.formArea}>
-            <div className={style.formField}>
-              <TextField
-                id="title"
-                label="Title"
-                fullWidth
-                value={state.name}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                error={!!errors.name}
-                helperText={errors.name ? errors.name : undefined}
-              />
-            </div>
-            <div className={style.formField}>
-              <FormControl fullWidth>
-                <InputLabel id="typeLabel" error={!!errors.type}>
-                  Type
-                </InputLabel>
-
-                <Select
-                  id="type"
-                  labelId="typeLabel"
-                  value={state.type ? state.type : ''}
-                  onChange={(e) => handleTypeChange(e.target.value as number)}
-                  fullWidth
-                  error={!!errors.type}
-                >
-                  {Object.keys(AccountTypes).map((accountType) => {
-                    if (!isNaN(parseFloat(accountType)))
-                      return (
-                        <MenuItem
-                          key={accountType}
-                          value={parseFloat(accountType)}
-                        >
-                          {AccountTypes[parseFloat(accountType)]}
-                        </MenuItem>
-                      );
-                    return null;
-                  })}
-                </Select>
-                {errors.type ? (
-                  <FormHelperText error>{errors.type}</FormHelperText>
-                ) : null}
-              </FormControl>
-            </div>
-            <Button
-              variant="contained"
-              color="primary"
-              className={style.button}
-              onClick={handleSave}
-            >
-              Submit
-            </Button>
-          </div>
+      <div className={style.title}>
+        <h1>{account ? 'Edit' : 'Create'} Account</h1>
+      </div>
+      <div className={style.formArea}>
+        <div className={style.formField}>
+          <TextField
+            id="title"
+            label="Title"
+            fullWidth
+            value={state.name}
+            onChange={(e) => handleTitleChange(e.target.value)}
+            error={!!errors.name}
+            helperText={errors.name ? errors.name : undefined}
+          />
         </div>
+        <div className={style.formField}>
+          <FormControl fullWidth>
+            <InputLabel id="typeLabel" error={!!errors.type}>
+              Type
+            </InputLabel>
+
+            <Select
+              id="type"
+              labelId="typeLabel"
+              value={state.type}
+              onChange={(e) => handleTypeChange(e.target.value as AccountTypes)}
+              fullWidth
+              error={!!errors.type}
+            >
+              {Object.keys(AccountTypes).map((type) => {
+                if (!isNaN(parseFloat(type))) {
+                  return (
+                    <MenuItem key={type} value={parseFloat(type)}>
+                      {AccountTypes[parseFloat(type)]}
+                    </MenuItem>
+                  );
+                }
+                return null;
+              })}
+            </Select>
+            {errors.type ? (
+              <FormHelperText error>{errors.type}</FormHelperText>
+            ) : null}
+          </FormControl>
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          className={style.button}
+          onClick={handleSave}
+        >
+          Submit
+        </Button>
       </div>
     </Container>
   );
