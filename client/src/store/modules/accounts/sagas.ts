@@ -30,12 +30,10 @@ function* getAccountsWatcher() {
 }
 
 function* createAccountSaga(action: ReturnType<typeof actions.createAccount>) {
-  const account: AccountType = yield call(() => {
-    if (action.payload) {
-      return createAccount(action.payload.accountForm);
-    }
-    return null;
-  });
+  const account: AccountType = yield call(
+    createAccount,
+    action.payload.accountForm
+  );
   if (account) {
     yield put(actions.storeAddAccount(account));
     if (action.payload) {
@@ -57,9 +55,7 @@ function* createAccountWatcher() {
 
 function* deleteAccountSaga(action: ReturnType<typeof actions.deleteAccount>) {
   try {
-    const status: number = yield call(() =>
-      deleteAccount(action.payload as number)
-    );
+    const status: number = yield call(deleteAccount, action.payload);
     if (status === 200) {
       yield put(actions.storeDeleteAccount(action.payload));
       yield put(actions.setModalOpen(false));
@@ -89,17 +85,13 @@ function* deleteAccountWatcher() {
 
 function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
   try {
-    const account: AccountType = yield call(() => {
-      if (action.payload) {
-        return editAccount(action.payload.accountForm);
-      }
-      return null;
-    });
+    const account: AccountType = yield call(
+      editAccount,
+      action.payload.accountForm
+    );
     if (account) {
       yield put(actions.storeAddAccount(account));
-      if (action.payload) {
-        yield call(action.payload.callback);
-      }
+      yield call(action.payload.callback);
       yield put(actions.unsetAccountEditId());
       yield put(
         globalActions.setSnackbar({
@@ -117,9 +109,7 @@ function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
         isOpen: true,
       })
     );
-    if (action.payload) {
-      yield call(action.payload.callback);
-    }
+    yield call(action.payload.callback);
     yield put(actions.unsetAccountEditId());
   }
 }

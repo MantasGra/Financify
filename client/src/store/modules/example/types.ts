@@ -14,8 +14,3 @@ export interface ExampleState {
 export const SET_TEXT = 'example/SET_TEXT';
 export const GET_RANDOM_FACT = 'example/GET_RANDOM_FACT';
 export const SET_RANDOM_FACT = 'example/SET_RANDOM_FACT';
-// Define action name types (multiple types should be nested through "|")
-export type ExampleActionNameType =
-  | typeof SET_TEXT
-  | typeof GET_RANDOM_FACT
-  | typeof SET_RANDOM_FACT;

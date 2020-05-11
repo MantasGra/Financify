@@ -22,6 +22,8 @@ export const createAccount = (account: AccountFormType) =>
 
 export const editAccount = (account: AccountType) =>
   axios
-    .put(`https://localhost:5001/api/accounts/${account.id}`, { ...account, userId: 1 })
+    .put(`https://localhost:5001/api/accounts/${account.id}`, {
+      ...account,
+      userId: 1,
+    })
     .then((res: AxiosResponse) => res.data);
-

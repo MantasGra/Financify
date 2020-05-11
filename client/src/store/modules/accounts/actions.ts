@@ -19,28 +19,64 @@ import {
 } from './types';
 
 // Define action creators
-export const setModalOpen = createAction<boolean>(SET_MODAL);
-export const getAccounts = createAction(GET_ACCOUNTS);
-export const setAccounts = createAction<Dictionary<AccountType>>(SET_ACCOUNTS);
-export const deleteAccount = createAction<number>(DELETE_ACCOUNT);
-export const storeDeleteAccount = createAction<number>(STORE_DELETE_ACCOUNT);
-export const setDeleteId = createAction(SET_DELETE_ID);
-export const createAccount = createAction<{
+
+// Disabling because of conflict with prettier, formatting code takes care of indenting
+// eslint:disable:indent
+export const setModalOpen = createAction<boolean, typeof SET_MODAL>(SET_MODAL);
+export const getAccounts = createAction<void, typeof GET_ACCOUNTS>(
+  GET_ACCOUNTS
+);
+export const setAccounts = createAction<
+Dictionary<AccountType>,
+  typeof SET_ACCOUNTS
+>(SET_ACCOUNTS);
+export const deleteAccount = createAction<number, typeof DELETE_ACCOUNT>(
+  DELETE_ACCOUNT
+);
+export const storeDeleteAccount = createAction<
+number,
+  typeof STORE_DELETE_ACCOUNT
+>(STORE_DELETE_ACCOUNT);
+export const setDeleteId = createAction<number, typeof SET_DELETE_ID>(
+  SET_DELETE_ID
+);
+export const createAccount = createAction<
+{
   accountForm: AccountFormType;
   callback: () => void;
-}>(CREATE_ACCOUNT);
-export const storeAddAccount = createAction<AccountType>(STORE_ADD_ACCOUNT);
-export const clearAccountFormErrors = createAction(CLEAR_ACCOUNT_FORM_ERRORS);
-export const setAccountFormErrors = createAction<{
+},
+  typeof CREATE_ACCOUNT
+>(CREATE_ACCOUNT);
+export const storeAddAccount = createAction<
+AccountType,
+  typeof STORE_ADD_ACCOUNT
+>(STORE_ADD_ACCOUNT);
+export const clearAccountFormErrors = createAction<
+void,
+  typeof CLEAR_ACCOUNT_FORM_ERRORS
+>(CLEAR_ACCOUNT_FORM_ERRORS);
+export const setAccountFormErrors = createAction<
+{
   prop: string;
   error: string;
-}>(SET_ACCOUNT_FORM_ERRORS);
-export const setAccountEditId = createAction<number>(SET_ACCOUNT_EDIT_ID);
-export const unsetAccountEditId = createAction(UNSET_ACCOUNT_EDIT_ID);
-export const editAccount = createAction<{
+},
+  typeof SET_ACCOUNT_FORM_ERRORS
+>(SET_ACCOUNT_FORM_ERRORS);
+export const setAccountEditId = createAction<
+number,
+  typeof SET_ACCOUNT_EDIT_ID
+>(SET_ACCOUNT_EDIT_ID);
+export const unsetAccountEditId = createAction<
+void,
+  typeof UNSET_ACCOUNT_EDIT_ID
+>(UNSET_ACCOUNT_EDIT_ID);
+export const editAccount = createAction<
+{
   accountForm: AccountType;
   callback: () => void;
-}>(EDIT_ACCOUNT);
+},
+  typeof EDIT_ACCOUNT
+>(EDIT_ACCOUNT);
 
 // Define action types (nest through "|")
 export type AccountsActionType =
@@ -54,4 +90,6 @@ export type AccountsActionType =
   | ReturnType<typeof setAccountFormErrors>
   | ReturnType<typeof setAccountEditId>
   | ReturnType<typeof editAccount>
-  | ReturnType<typeof storeAddAccount>;
+  | ReturnType<typeof storeAddAccount>
+  | ReturnType<typeof clearAccountFormErrors>
+  | ReturnType<typeof unsetAccountEditId>;
