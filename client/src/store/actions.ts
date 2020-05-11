@@ -1,9 +1,4 @@
-import { ActionNameType } from './types';
-
-// eslint-disable-next-line
-export const createAction = <T extends any>(type: ActionNameType) => (
-  payload?: T
-) => ({
+export const createAction = <T, N>(type: N) => (payload: T) => ({
   type,
   payload,
 });

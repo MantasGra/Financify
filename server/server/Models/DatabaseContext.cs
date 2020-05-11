@@ -22,7 +22,7 @@ namespace server.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;Password=root");
+            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,10 +38,10 @@ namespace server.Models
             );
 
             modelBuilder.Entity<Account>().HasData(
-                new { Id = 1, Name = "Cash", Type = AccountType.Cash, UserId = 1 },
-                new { Id = 2, Name = "Main", Type = AccountType.CreditCard, UserId = 1 },
-                new { Id = 3, Name = "Cash", Type = AccountType.Cash, UserId = 2 },
-                new { Id = 4, Name = "Default", Type = AccountType.Cash, UserId = 3 }
+                new { Id = 1, Name = "Cash", Type = AccountType.Cash + 1, UserId = 1 },
+                new { Id = 2, Name = "Main", Type = AccountType.CreditCard + 1, UserId = 1 },
+                new { Id = 3, Name = "Cash", Type = AccountType.Cash + 1, UserId = 2 },
+                new { Id = 4, Name = "Default", Type = AccountType.Cash + 1, UserId = 3 }
             );
 
             modelBuilder.Entity<Transaction>().HasData(

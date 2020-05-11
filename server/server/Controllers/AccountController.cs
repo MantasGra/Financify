@@ -40,6 +40,7 @@ namespace server.Controllers
             {
                 accounts = _manager.GetAccounts(_accountIncludes);
             }
+
             return Ok(accounts);
         }
 
@@ -103,6 +104,8 @@ namespace server.Controllers
             {
                 return NotFound("User was not found");
             }
+            account.Transactions = oldAccount.Transactions;
+            account.Subscriptions = oldAccount.Subscriptions;
 
             Account updatedAccount = null;
             try
