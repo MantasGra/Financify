@@ -22,7 +22,7 @@ namespace server.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;");
+            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;Password=root");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

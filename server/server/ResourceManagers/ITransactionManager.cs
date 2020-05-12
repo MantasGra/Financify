@@ -13,8 +13,7 @@ namespace server.ResourceManagers
         IQueryable<Transaction> GetTransactions();
         IQueryable<Transaction> GetUserTransactions(int userId, string[] includes = null);
         void DeleteTransaction(Transaction transaction);
-        Transaction UpdateTransaction(Transaction transaction);
-        Transaction UpdateTransaction(Transaction old, Transaction newTransaction);
+        Transaction UpdateTransaction(Transaction transaction, string[] includes = null);
         void SaveChanges();
     }
 }
