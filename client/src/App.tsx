@@ -1,13 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Container } from '@material-ui/core';
 import Transaction from 'containers/transactions';
-import TransactionCreate from 'containers/transactions/components/form';
-import TransactionMore from 'containers/transactions/components/more';
-import TransactionEdit from 'containers/transactions/components/edit';
-import Example from './containers/example';
+import TransactionForm from 'containers/transactions/components/form';
 import Accounts from './containers/accounts/list';
-import AccountCreate from './containers/accounts/form';
+import AccountForm from './containers/accounts/form';
 import Navbar from './components/navbar';
 import Routes from './utils/routes';
 import Snackbar from './components/snackbar';
@@ -21,22 +17,19 @@ const App = () => {
           TODO: Implement home page
         </Route>
         <Route path={Routes.TransactionsCreate}>
-          <TransactionCreate />
-        </Route>
-        <Route path={Routes.TransactionsMore}>
-          <TransactionMore />
+          <TransactionForm />
         </Route>
         <Route path={Routes.TransactionsEdit}>
-          <TransactionEdit />
+          <TransactionForm />
         </Route>
         <Route path={Routes.Transactions}>
           <Transaction />
         </Route>
         <Route path={Routes.AccountEdit}>
-          <AccountCreate />
+          <AccountForm />
         </Route>
         <Route path={Routes.AccountCreate}>
-          <AccountCreate />
+          <AccountForm />
         </Route>
         <Route path={Routes.Accounts}>
           <Accounts />

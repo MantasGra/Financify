@@ -2,27 +2,25 @@ import React from 'react';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import MoreIcon from '@material-ui/icons/More';
 import { useSelector, useDispatch } from 'react-redux';
 import { Transaction, setDeleteId } from 'store/modules/transactions';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { IconButton, Button, Paper, Divider, Snackbar } from '@material-ui/core';
-import { useHistory, Route } from 'react-router-dom';
+import { IconButton, Divider, Paper } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import { TransactionCategories } from 'store/modules/transactions/types';
-import Routes from '../../utils/routes';
+import { State } from 'store';
+import Routes from 'utils/routes';
 import {
   getTransactions,
   setModalOpen,
-  setEditTransactionsId,
-  setMoreTransactionsId
-} from '../../store/modules/transactions/actions';
-import { State } from '../../store';
+  setEditTransactionId,
+} from 'store/modules/transactions/actions';
 import style from './style.module.scss';
-import Modal from '../transactions/components/modal'
+import Modal from './components/modal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,26 +34,22 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Trans: React.FC = () => {
-  const transactions = useSelector<State, Transaction[]>(
-    (state) => state.transactions.transactions
+  const transactions = useSelector<State, Transaction[]>((state) =>
+    Object.keys(state.transactions.transactions).map(
+      (key) => state.transactions.transactions[key]
+    )
   );
-  console.log(transactions)
   const history = useHistory();
   const dispatch = useDispatch();
 
   const openEdit = (id: number) => {
-    dispatch(setEditTransactionsId(id));
+    dispatch(setEditTransactionId(id));
     changeRoute(Routes.TransactionsEdit);
-  }
-
-  const openMore = (id: number) => {
-    dispatch(setMoreTransactionsId(id));
-    changeRoute(Routes.TransactionsMore);
-  }
+  };
 
   React.useEffect(() => {
     dispatch(getTransactions());
-  }, []);
+  }, [dispatch]);
   const openModal = (id: number) => {
     dispatch(setModalOpen(true));
     dispatch(setDeleteId(id));
@@ -79,16 +73,13 @@ const Trans: React.FC = () => {
         >
           <List className={classes.root}>
             {transactions.map((row) => (
-              <>
-                <ListItem key={row.id}>
+              <React.Fragment key={row.id}>
+                <ListItem>
                   <ListItemText
                     primary={TransactionCategories[row.category]}
                     secondary={row.amount}
                   />
                   {row.account.name}
-                  <IconButton onClick={() => openMore(row.id)}>
-                    <MoreIcon />
-                  </IconButton>
                   <IconButton onClick={() => openEdit(row.id)}>
                     <EditIcon />
                   </IconButton>
@@ -97,7 +88,7 @@ const Trans: React.FC = () => {
                   </IconButton>
                 </ListItem>
                 <Divider />
-              </>
+              </React.Fragment>
             ))}
           </List>
         </Paper>
@@ -112,7 +103,6 @@ const Trans: React.FC = () => {
         <AddIcon />
       </Fab>
       <Modal />
-      <Snackbar />
     </div>
   );
 };

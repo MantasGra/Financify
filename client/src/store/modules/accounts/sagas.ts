@@ -1,4 +1,11 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import {
+  all,
+  call,
+  fork,
+  put,
+  takeEvery,
+  takeLatest,
+} from 'redux-saga/effects';
 import { toDictionary } from 'utils/parsers';
 import * as actions from './actions';
 import * as globalActions from '../global/actions';
@@ -7,20 +14,23 @@ import {
   deleteAccount,
   createAccount,
   editAccount,
+  getSelectOptions,
 } from './requests';
 import {
   GET_ACCOUNTS,
-  AccountType,
+  Account,
   DELETE_ACCOUNT,
   CREATE_ACCOUNT,
   EDIT_ACCOUNT,
+  AccountSelectOption,
+  GET_ACCOUNT_SELECT_OPTIONS,
 } from './types';
 
 // The function* syntax is required here, because sagas are based on generator functions.
 
 // Actual worker saga which does something, when an action is dispatched.
 function* getAccountsSaga() {
-  const accounts: AccountType[] = yield call(getAccounts);
+  const accounts: Account[] = yield call(getAccounts);
   yield put(actions.setAccounts(toDictionary(accounts, 'id')));
 }
 
@@ -30,7 +40,7 @@ function* getAccountsWatcher() {
 }
 
 function* createAccountSaga(action: ReturnType<typeof actions.createAccount>) {
-  const account: AccountType = yield call(
+  const account: Account = yield call(
     createAccount,
     action.payload.accountForm
   );
@@ -85,7 +95,7 @@ function* deleteAccountWatcher() {
 
 function* editAccountSaga(action: ReturnType<typeof actions.editAccount>) {
   try {
-    const account: AccountType = yield call(
+    const account: Account = yield call(
       editAccount,
       action.payload.accountForm
     );
@@ -118,6 +128,20 @@ function* editAccountWatcher() {
   yield takeEvery(EDIT_ACCOUNT, editAccountSaga);
 }
 
+function* getSelectOptionsSaga(
+  action: ReturnType<typeof actions.getAccountSelectOptions>
+) {
+  const selectOptions: AccountSelectOption[] = yield call(
+    getSelectOptions,
+    action.payload
+  );
+  yield put(actions.setAccountSelectOptions(selectOptions));
+}
+
+function* getSelectOptionsWatcher() {
+  yield takeLatest(GET_ACCOUNT_SELECT_OPTIONS, getSelectOptionsSaga);
+}
+
 // Combine all watchers to work on parallel with fork for exporting.
 function* rootSaga() {
   yield all([
@@ -125,6 +149,7 @@ function* rootSaga() {
     fork(deleteAccountWatcher),
     fork(createAccountWatcher),
     fork(editAccountWatcher),
+    fork(getSelectOptionsWatcher),
   ]);
 }
 

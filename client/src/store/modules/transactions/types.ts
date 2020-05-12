@@ -1,4 +1,5 @@
-import { AccountType } from '../accounts/types';
+import { Dictionary } from 'utils/types';
+import { Account } from '../accounts/types';
 
 // Define types for different objects
 export interface Transaction {
@@ -8,9 +9,8 @@ export interface Transaction {
   category: TransactionCategories;
   description: string;
   disabled: boolean;
-  account: any;
+  account: Account;
 }
-
 
 export enum TransactionCategories {
   Food,
@@ -26,8 +26,9 @@ export enum TransactionCategories {
   Other,
 }
 
-export interface TransactionFormType {
-  amount?: number;
+export interface TransactionForm {
+  id?: number;
+  amount: number;
   date: Date;
   category: TransactionCategories;
   description: string;
@@ -36,10 +37,9 @@ export interface TransactionFormType {
 
 // Define type for state of a given module
 export interface TransactionState {
-  transactions: Transaction[];
+  transactions: Dictionary<Transaction>;
   isModalOpen: boolean;
-  editTransactionId : number;
-  moreTransactionId : number;
+  editTransactionId: number;
   deleteId?: number;
   errors: TransactionFormErrors;
 }
@@ -54,10 +54,11 @@ export const SET_TRANSACTIONS = 'transactions/SET_TRANSACTIONS';
 export const GET_TRANSACTIONS = 'transactions/GET_TRANSACTIONS';
 export const SET_MODAL = 'transactions/SET_MODAL';
 export const SET_EDIT_ID = 'transactions/SET_EDIT_ID';
-export const SET_MORE_ID = 'transactions/SET_MORE_ID';
 
-export const SET_TRANSACTION_FORM_ERRORS = 'accounts/SET_TRANSACTION_FORM_ERRORS';
-export const CLEAR_TRANSACTION_FORM_ERRORS = 'accounts/CLEAR_TRANSACTION_FORM_ERRORS';
+export const SET_TRANSACTION_FORM_ERRORS =
+  'accounts/SET_TRANSACTION_FORM_ERRORS';
+export const CLEAR_TRANSACTION_FORM_ERRORS =
+  'accounts/CLEAR_TRANSACTION_FORM_ERRORS';
 
 export const DELETE_TRANSACTION = 'transactions/DELETE_TRANSACTION';
 export const STORE_DELETE_TRANSACTION = 'transactions/STORE_DELETE_TRANSACTION';
@@ -65,18 +66,3 @@ export const SET_DELETE_ID = 'transactions/STORE_SET_DELETE_ID';
 export const CREATE_TRANSACTION = 'transactions/CREATE_TRANSACTION';
 export const STORE_ADD_TRANSACTION = 'transactions/STORE_ADD_TRANSACTION';
 export const EDIT_TRANSACTION = 'transactions/EDIT_TRANSACTION';
-// Define action name types (multiple types should be nested through "|")
-export type TransactionActionType =
-  | typeof SET_TRANSACTIONS
-  | typeof SET_MODAL
-  | typeof SET_EDIT_ID
-  | typeof SET_MORE_ID
-  | typeof GET_TRANSACTIONS
-  | typeof DELETE_TRANSACTION
-  | typeof STORE_DELETE_TRANSACTION
-  | typeof SET_DELETE_ID
-  | typeof CREATE_TRANSACTION
-  | typeof STORE_ADD_TRANSACTION
-  | typeof SET_TRANSACTION_FORM_ERRORS
-  | typeof CLEAR_TRANSACTION_FORM_ERRORS
-  | typeof EDIT_TRANSACTION;

@@ -17,7 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {
   getAccounts,
-  AccountType,
+  Account,
   setModalOpen,
   AccountTypes,
   setDeleteId,
@@ -30,7 +30,7 @@ import style from './style.module.scss';
 import Modal from '../modal';
 
 const Accounts: React.FC = () => {
-  const accounts: AccountType[] = useSelector<State, AccountType[]>((state) => {
+  const accounts: Account[] = useSelector<State, Account[]>((state) => {
     return Object.keys(state.account.accounts).map(
       (key) => state.account.accounts[key]
     );

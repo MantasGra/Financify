@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/indent: 0,
+   react/jsx-curly-newline: 0 */ // Linter and prettier conflicts, should be fixed.
 import React from 'react';
 import {
   TextField,
@@ -7,8 +9,8 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
-  FormHelperText,
 } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
@@ -17,76 +19,123 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
-import { TransactionCategories } from 'store/modules/transactions/types';
-import { AccountTypes } from 'store/modules/accounts/types';
 import {
+  TransactionCategories,
+  Transaction,
   createTransaction,
   TransactionFormErrors,
   setTransactionFormErrors,
   clearTransactionFormErrors,
 } from 'store/modules/transactions';
+import Routes from 'utils/routes';
+import {
+  AccountSelectOption,
+  getAccountSelectOptions,
+} from 'store/modules/accounts';
 import style from './style.module.scss';
-import Routes from '../../../../utils/routes';
-
 
 interface IState {
-  amount?: number;
+  amount: number;
   date: Date;
-  category: TransactionCategories;
+  category: TransactionCategories | '';
   description: string;
-  accountId: number;
+  accountOption: AccountSelectOption | null;
+  accountSelectInput: string;
 }
 
-const TransactionCreate: React.FC = () => {
-  const [state, setState] = React.useState<IState>({ date: new Date(), description: '', category: 0, accountId: 0 });
+const TransactionForm: React.FC = () => {
+  const [state, setState] = React.useState<IState>({
+    amount: 0,
+    date: new Date(),
+    description: '',
+    category: '',
+    accountOption: null,
+    accountSelectInput: '',
+  });
 
   const history = useHistory();
-  const changeRoute = (route: string) => {
+  const changeRoute = (route: Routes) => {
     history.push(route);
   };
 
+  // handlers are all the same, should be generalized perhaps
   const handleDateChange = (date: Date) => {
-    setState(prevState => ({
-      ...prevState, date
+    setState((prevState) => ({
+      ...prevState,
+      date,
     }));
   };
 
   const handleAmountChange = (amount: number) => {
-    setState(prevState => ({
-      ...prevState, amount
+    setState((prevState) => ({
+      ...prevState,
+      amount,
     }));
   };
 
   const handleCategoryChange = (category: TransactionCategories) => {
-    setState(prevState => ({
-      ...prevState, category
+    setState((prevState) => ({
+      ...prevState,
+      category,
     }));
   };
 
   const handleDescriptionChange = (description: string) => {
-    setState(prevState => ({
-      ...prevState, description
+    setState((prevState) => ({
+      ...prevState,
+      description,
     }));
   };
 
-  const handleAccountIdChange = (accountId: number) => {
-    setState(prevState => ({
-      ...prevState, accountId
+  const handleAccountOptionChange = (
+    accountOption: AccountSelectOption | null
+  ) => {
+    setState((prevState) => ({
+      ...prevState,
+      accountOption,
     }));
   };
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
+  const handleAccountInputChange = (input: string) => {
+    dispatch(getAccountSelectOptions(input));
+    setState((prevState) => ({ ...prevState, accountSelectInput: input }));
+  };
+
+  const accountSelectOptions = useSelector<State, AccountSelectOption[]>(
+    (store) => store.account.selectOptions
+  );
+
+  const transaction = useSelector<State, Transaction | undefined>(
+    (store) =>
+      store.transactions.transactions[store.transactions.editTransactionId]
   );
 
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch(getAccountSelectOptions(''));
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (transaction) {
+      setState({
+        amount: transaction.amount,
+        date: transaction.date,
+        description: transaction.description,
+        category: transaction.category,
+        accountOption: {
+          label: transaction.account.name,
+          id: transaction.account.id,
+        },
+        accountSelectInput: '',
+      });
+    }
+  }, [transaction]);
+
   const handleSave = () => {
     dispatch(clearTransactionFormErrors());
-    const failedValidation = validate(state);
-
-    console.log(state);
-    if (!failedValidation) {
+    const failedValidation = validate();
+    if (!failedValidation && state.accountOption && state.category !== '') {
       dispatch(
         createTransaction({
           transactionForm: {
@@ -94,21 +143,23 @@ const TransactionCreate: React.FC = () => {
             date: state.date,
             category: state.category,
             description: state.description,
-            accountId: state.accountId
+            accountId: state.accountOption.id,
           },
           callback: () => changeRoute(Routes.Transactions),
         })
       );
-    } else   alert('Where are incorrect fields!');
+    }
   };
 
-  const errors: TransactionFormErrors = useSelector<State, TransactionFormErrors>(
-    (s) => s.transactions.errors
-  );
+  const errors: TransactionFormErrors = useSelector<
+    State,
+    TransactionFormErrors
+  >((s) => s.transactions.errors);
 
-  const validate = (formState: IState) => {
+  const validate = () => {
     let error = false;
-    if (!formState.amount) {
+    // weak validation
+    if (!state.amount) {
       error = true;
       dispatch(
         setTransactionFormErrors({
@@ -117,7 +168,7 @@ const TransactionCreate: React.FC = () => {
         })
       );
     }
-    if (!formState.accountId) {
+    if (!state.accountOption) {
       error = true;
       dispatch(
         setTransactionFormErrors({
@@ -126,7 +177,7 @@ const TransactionCreate: React.FC = () => {
         })
       );
     }
-    if (!formState.category) {
+    if (state.category === '') {
       error = true;
       dispatch(
         setTransactionFormErrors({
@@ -135,7 +186,7 @@ const TransactionCreate: React.FC = () => {
         })
       );
     }
-    if (!formState.description) {
+    if (!state.description) {
       error = true;
       dispatch(
         setTransactionFormErrors({
@@ -144,7 +195,7 @@ const TransactionCreate: React.FC = () => {
         })
       );
     }
-    if (!formState.date) {
+    if (!state.date) {
       error = true;
       dispatch(
         setTransactionFormErrors({
@@ -155,8 +206,6 @@ const TransactionCreate: React.FC = () => {
     }
     return error;
   };
-
-
 
   return (
     <Container>
@@ -174,6 +223,8 @@ const TransactionCreate: React.FC = () => {
                 fullWidth
                 error={!!errors.name}
                 helperText={errors.name ? errors.name : undefined}
+                type="number"
+                value={state.amount}
               />
             </div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -184,9 +235,13 @@ const TransactionCreate: React.FC = () => {
                 margin="normal"
                 id="date-picker-inline"
                 label="Date"
-                value={selectedDate}
+                value={state.date}
                 error={!!errors.name}
-                onChange={(date) => { if (date) { handleDateChange(date); } }}
+                onChange={(date) => {
+                  if (date) {
+                    handleDateChange(date);
+                  }
+                }}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -202,12 +257,13 @@ const TransactionCreate: React.FC = () => {
                 labelId="categoryLabel"
                 fullWidth
                 error={!!errors.name}
+                value={state.category}
               >
                 {Object.keys(TransactionCategories).map((category) => {
-                  if (isNaN(parseFloat(category)))
+                  if (!isNaN(parseFloat(category)))
                     return (
-                      <MenuItem key={category} value={category}>
-                        {category}
+                      <MenuItem key={category} value={parseFloat(category)}>
+                        {TransactionCategories[parseFloat(category)]}
                       </MenuItem>
                     );
                   return null;
@@ -222,33 +278,26 @@ const TransactionCreate: React.FC = () => {
               fullWidth
               error={!!errors.name}
               helperText={errors.name ? errors.name : undefined}
+              value={state.description}
             />
-            <FormControl fullWidth>
-              <InputLabel id="accountLabel">Account</InputLabel>
-
-              <Select
-                onChange={(e) => handleAccountIdChange(e.target.value as number)}
-                id="account"
-                labelId="accountLabel"
-                fullWidth
-                error={!!errors.name}
-              >
-           
-                {Object.keys(AccountTypes).map((account, index) => {
-                  if (isNaN(parseFloat(account)))
-                    return (
-                      <MenuItem key={index-3} value={index-3}>
-                        {account}
-                      </MenuItem>
-                    );
-                  return null;
-                })}
-              </Select>
- 
-              {errors.type ? (
-                <FormHelperText error>{errors.type}</FormHelperText>
-              ) : null}
-            </FormControl>
+            <Autocomplete
+              options={accountSelectOptions}
+              onChange={(event: object, value: AccountSelectOption | null) =>
+                handleAccountOptionChange(value)
+              }
+              onInputChange={(event: object, value: string) =>
+                handleAccountInputChange(value)
+              }
+              value={state.accountOption}
+              inputValue={state.accountSelectInput}
+              getOptionLabel={(option) => option.label}
+              getOptionSelected={(option, value) =>
+                value && option.id === value.id
+              }
+              renderInput={(params) => (
+                <TextField {...params} label="Account" />
+              )}
+            />
 
             <div style={{ margin: 10 }}>
               <Button
@@ -267,4 +316,4 @@ const TransactionCreate: React.FC = () => {
   );
 };
 
-export default TransactionCreate;
+export default TransactionForm;

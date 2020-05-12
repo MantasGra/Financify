@@ -2,8 +2,6 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
@@ -28,15 +26,14 @@ const TransactionDeleteModal: React.FC = () => {
   const deleteId = useSelector<State, number | undefined>(
     (state) => state.transactions.deleteId
   );
-  
+
   const handleClose = () => {
     dispatch(setModalOpen(false));
   };
 
-  const handleDelete = (id?: number) => {
-    console.log('id ',id)
-    if (id) {
-      dispatch(deleteTransaction(id));
+  const handleDelete = () => {
+    if (deleteId) {
+      dispatch(deleteTransaction(deleteId));
     }
   };
 
@@ -57,7 +54,7 @@ const TransactionDeleteModal: React.FC = () => {
         <Button onClick={handleClose} color="secondary">
           Disagree
         </Button>
-        <Button onClick={() => handleDelete(deleteId)} color="primary">
+        <Button onClick={handleDelete} color="primary">
           Agree
         </Button>
       </DialogActions>

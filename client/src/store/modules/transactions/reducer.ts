@@ -1,12 +1,21 @@
 import { toDictionary } from 'utils/parsers';
-import { Transaction, TransactionState, STORE_ADD_TRANSACTION, SET_DELETE_ID, STORE_DELETE_TRANSACTION, SET_TRANSACTIONS, GET_TRANSACTIONS, SET_MODAL, SET_EDIT_ID, SET_MORE_ID } from './types';
+import {
+  Transaction,
+  TransactionState,
+  STORE_ADD_TRANSACTION,
+  SET_DELETE_ID,
+  STORE_DELETE_TRANSACTION,
+  SET_TRANSACTIONS,
+  GET_TRANSACTIONS,
+  SET_MODAL,
+  SET_EDIT_ID,
+} from './types';
 import { TransactionAction } from './actions';
 
 const initialState: TransactionState = {
-  transactions: [],
+  transactions: {},
   isModalOpen: false,
   editTransactionId: 0,
-  moreTransactionId: 0,
   errors: { name: '', type: '' },
 };
 
@@ -28,17 +37,12 @@ const reducer = (
     case SET_MODAL:
       return {
         ...state,
-        isModalOpen: action.payload
+        isModalOpen: action.payload,
       };
     case SET_EDIT_ID:
       return {
         ...state,
-        editTransactionId: action.payload
-      };
-    case SET_MORE_ID:
-      return {
-        ...state,
-        moreTransactionId: action.payload
+        editTransactionId: action.payload,
       };
     case SET_DELETE_ID:
       return {
@@ -48,12 +52,20 @@ const reducer = (
     case STORE_DELETE_TRANSACTION:
       return {
         ...state,
-        transactions: [...state.transactions.filter(transaction => transaction.id !== action.payload)]
+        transactions: toDictionary<Transaction>(
+          Object.keys(state.transactions)
+            .filter((val) => parseFloat(val) !== action.payload)
+            .map((val) => state.transactions[val]),
+          'id'
+        ),
       };
     case STORE_ADD_TRANSACTION:
       return {
         ...state,
-        transactions: [ ...state.transactions, action.payload],
+        transactions: {
+          ...state.transactions,
+          [action.payload.id]: action.payload,
+        },
       };
     default:
       return state;

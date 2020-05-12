@@ -12,12 +12,9 @@ function Alert(props: AlertProps) {
 }
 
 const Snackbar = () => {
-  const snackbar = useSelector<State, SnackbarType>(
-    (state) => {
-     
-      return state.globals.snackbar;
-    }
-  );
+  const snackbar = useSelector<State, SnackbarType>((state) => {
+    return state.globals.snackbar;
+  });
 
   const dispatch = useDispatch();
 
