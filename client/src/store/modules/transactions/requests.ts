@@ -17,16 +17,13 @@ export const deleteTransaction = (id: number) =>
 
 export const createTransaction = (transaction: TransactionForm) =>
   axios
-    .post('https://localhost:5001/api/transactions', {
-      ...transaction,
-      userId: 1,
-    })
+    .post('https://localhost:5001/api/transactions', transaction)
     .then((res: AxiosResponse) => res.data);
 
 export const editTransaction = (transaction: TransactionForm) =>
   axios
-    .put(`https://localhost:5001/api/transactions/${transaction.id}`, {
-      ...transaction,
-      userId: 1,
-    })
+    .put(
+      `https://localhost:5001/api/transactions/${transaction.id}`,
+      transaction
+    )
     .then((res: AxiosResponse) => res.data);

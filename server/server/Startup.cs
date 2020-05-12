@@ -46,7 +46,11 @@ namespace server
             services.AddDbContext<DatabaseContext>();
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                    options.SerializerSettings.DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZ";
+                });
             services.AddControllersWithViews(options =>
             {
                 options.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
@@ -56,11 +60,11 @@ namespace server
             services.AddSingleton<IAccountManager, AccountManager>();
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
-            
+
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
-            
+
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
         }
@@ -87,7 +91,6 @@ namespace server
             {
                 endpoints.MapControllers();
             });
-
 
             app.UseSwagger();
 
