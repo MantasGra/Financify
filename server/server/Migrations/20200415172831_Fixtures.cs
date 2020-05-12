@@ -10,17 +10,17 @@ namespace server.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Discriminator", "Email", "Fullname", "Password", "RegistrationDate" },
-                values: new object[] { 1, "User", "admin@financify.net", "Admin Financify", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 1, "User", "admin@financify.net", "Admin Financify", "123456789", DateTime.Now });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Discriminator", "Email", "Fullname", "Password", "RegistrationDate" },
-                values: new object[] { 2, "User", "StephanieTMacha@armyspy.com", "Stephanie T. Macha", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 2, "User", "StephanieTMacha@armyspy.com", "Stephanie T. Macha", "123456789", DateTime.Now});
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Discriminator", "Email", "Fullname", "Password", "RegistrationDate" },
-                values: new object[] { 3, "User", "DavidDReed@rhyta.com", "David D. Reed", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[] { 3, "User", "DavidDReed@rhyta.com", "David D. Reed", "123456789", DateTime.Now });
 
             migrationBuilder.InsertData(
                 table: "Accounts",

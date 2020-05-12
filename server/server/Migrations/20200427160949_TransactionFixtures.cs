@@ -12,10 +12,10 @@ namespace server.Migrations
                 columns: new[] { "Id", "AccountId", "Amount", "Category", "Date", "Description", "Disabled" },
                 values: new object[,]
                 {
-                    { 1, 1, 125.31, 6, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Some description", false },
-                    { 2, 1, 13.99, 8, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false },
-                    { 3, 1, 4.6500000000000004, 0, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "McDonalds", true },
-                    { 4, 3, 87.439999999999998, 7, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false }
+                    { 1, 1, 125.31, 6, DateTime.Now, "Some description", false },
+                    { 2, 1, 13.99, 8, DateTime.Now, null, false },
+                    { 3, 1, 4.65, 0, DateTime.Now, "McDonalds", true },
+                    { 4, 3, 87.43, 7, DateTime.Now, null, false }
                 });
         }
 
