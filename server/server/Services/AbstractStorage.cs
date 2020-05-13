@@ -90,29 +90,6 @@ namespace server.Services
             _context.Entry(item).State = EntityState.Detached;
             return getItem(item.Id, includes);
         }
-        public T updateItem(T old, T newItem)
-        {
-            foreach (var property in typeof(T).GetProperties())
-            {
-                if (property.Name == "Id")
-                {
-                    continue;
-                }
-                if (property.GetValue(newItem) != null)
-                    property.SetValue(old, property.GetValue(newItem));
-            }
-            _context.Entry(old).State = EntityState.Modified;
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            _context.Entry(old).State = EntityState.Detached;
-            return old;
-        }
         public void SaveChanges()
         {
             _context.SaveChanges();

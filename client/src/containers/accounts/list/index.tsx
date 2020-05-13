@@ -17,7 +17,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {
   getAccounts,
-  AccountType,
+  Account,
   setModalOpen,
   AccountTypes,
   setDeleteId,
@@ -30,7 +30,7 @@ import style from './style.module.scss';
 import Modal from '../modal';
 
 const Accounts: React.FC = () => {
-  const accounts: AccountType[] = useSelector<State, AccountType[]>((state) => {
+  const accounts: Account[] = useSelector<State, Account[]>((state) => {
     return Object.keys(state.account.accounts).map(
       (key) => state.account.accounts[key]
     );
@@ -49,6 +49,11 @@ const Accounts: React.FC = () => {
   const handleEdit = (id: number) => {
     dispatch(setAccountEditId(id));
     changeRoute(Routes.AccountEdit);
+  };
+
+  const handleCreate = () => {
+    dispatch(setAccountEditId(0));
+    changeRoute(Routes.AccountCreate);
   };
 
   const history = useHistory();
@@ -97,7 +102,7 @@ const Accounts: React.FC = () => {
           color="secondary"
           aria-label="add"
           className={style.fab}
-          onClick={() => changeRoute(Routes.AccountCreate)}
+          onClick={handleCreate}
         >
           <AddIcon />
         </Fab>

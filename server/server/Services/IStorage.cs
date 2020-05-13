@@ -12,7 +12,6 @@ namespace server.Services
         T createItem(T item);
         void removeItem(T item);
         T updateItem(T item, string[] includes = null);
-        T updateItem(T old,T newItem);
         void SaveChanges();
     }
 }

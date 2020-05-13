@@ -19,7 +19,7 @@ import {
   AccountFormErrors,
   setAccountFormErrors,
   clearAccountFormErrors,
-  AccountType,
+  Account,
   editAccount,
 } from 'store/modules/accounts';
 import style from './style.module.scss';
@@ -30,7 +30,7 @@ export interface IState {
 }
 
 const AccountForm: React.FC = () => {
-  const account = useSelector<State, AccountType | undefined>((s) =>
+  const account = useSelector<State, Account | undefined>((s) =>
     s.account.editId ? s.account.accounts[s.account.editId] : undefined
   );
 
@@ -98,7 +98,7 @@ const AccountForm: React.FC = () => {
           editAccount({
             accountForm: {
               id: account.id,
-              ...(state as AccountType),
+              ...(state as Account),
             },
             callback: () => changeRoute(Routes.Accounts),
           })
@@ -106,7 +106,7 @@ const AccountForm: React.FC = () => {
       } else {
         dispatch(
           createAccount({
-            accountForm: state as AccountType,
+            accountForm: state as Account,
             callback: () => changeRoute(Routes.Accounts),
           })
         );
