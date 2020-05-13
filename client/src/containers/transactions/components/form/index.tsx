@@ -9,6 +9,7 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  FormHelperText,
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ import {
   TransactionFormErrors,
   setTransactionFormErrors,
   clearTransactionFormErrors,
+  editTransaction,
 } from 'store/modules/transactions';
 import Routes from 'utils/routes';
 import {
@@ -35,7 +37,7 @@ import {
 import style from './style.module.scss';
 
 interface IState {
-  amount: number;
+  amount: number | '';
   date: Date;
   category: TransactionCategories | '';
   description: string;
@@ -45,7 +47,7 @@ interface IState {
 
 const TransactionForm: React.FC = () => {
   const [state, setState] = React.useState<IState>({
-    amount: 0,
+    amount: '',
     date: new Date(),
     description: '',
     category: '',
@@ -96,6 +98,10 @@ const TransactionForm: React.FC = () => {
     }));
   };
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   const handleAccountInputChange = (input: string) => {
     dispatch(getAccountSelectOptions(input));
     setState((prevState) => ({ ...prevState, accountSelectInput: input }));
@@ -111,10 +117,6 @@ const TransactionForm: React.FC = () => {
   );
 
   const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    dispatch(getAccountSelectOptions(''));
-  }, [dispatch]);
 
   React.useEffect(() => {
     if (transaction) {
@@ -135,7 +137,32 @@ const TransactionForm: React.FC = () => {
   const handleSave = () => {
     dispatch(clearTransactionFormErrors());
     const failedValidation = validate();
-    if (!failedValidation && state.accountOption && state.category !== '') {
+    if (
+      transaction &&
+      !failedValidation &&
+      state.accountOption &&
+      state.category !== '' &&
+      state.amount !== ''
+    ) {
+      dispatch(
+        editTransaction({
+          transactionForm: {
+            amount: state.amount,
+            date: state.date,
+            category: state.category,
+            description: state.description,
+            accountId: state.accountOption.id,
+            id: transaction.id,
+          },
+          callback: () => changeRoute(Routes.Transactions),
+        })
+      );
+    } else if (
+      !failedValidation &&
+      state.accountOption &&
+      state.category !== '' &&
+      state.amount !== ''
+    ) {
       dispatch(
         createTransaction({
           transactionForm: {
@@ -209,106 +236,124 @@ const TransactionForm: React.FC = () => {
 
   return (
     <Container>
-      <div className={style.row}>
-        <div className={style.column}>
-          <div className={style.title}>
-            <h1>Create Transaction</h1>
-          </div>
-          <div className={style.formArea}>
-            <div className={style.formField}>
-              <TextField
-                id="amount"
-                label="Amount"
-                onChange={(e) => handleAmountChange(parseFloat(e.target.value))}
-                fullWidth
-                error={!!errors.name}
-                helperText={errors.name ? errors.name : undefined}
-                type="number"
-                value={state.amount}
-              />
-            </div>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-inline"
-                label="Date"
-                value={state.date}
-                error={!!errors.name}
-                onChange={(date) => {
-                  if (date) {
-                    handleDateChange(date);
-                  }
-                }}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-                fullWidth
-              />
-            </MuiPickersUtilsProvider>
-            <FormControl fullWidth>
-              <InputLabel id="categoryLabel">Category</InputLabel>
-
-              <Select
-                onChange={(e) => handleCategoryChange(e.target.value as number)}
-                id="category"
-                labelId="categoryLabel"
-                fullWidth
-                error={!!errors.name}
-                value={state.category}
-              >
-                {Object.keys(TransactionCategories).map((category) => {
-                  if (!isNaN(parseFloat(category)))
-                    return (
-                      <MenuItem key={category} value={parseFloat(category)}>
-                        {TransactionCategories[parseFloat(category)]}
-                      </MenuItem>
-                    );
-                  return null;
-                })}
-              </Select>
-            </FormControl>
-
-            <TextField
-              multiline
-              label="Description"
-              onChange={(e) => handleDescriptionChange(e.target.value)}
+      <div className={style.title}>
+        <h1>{transaction ? 'Edit' : 'Create'} Transaction</h1>
+      </div>
+      <div className={style.formArea}>
+        <div className={style.formField}>
+          <TextField
+            id="amount"
+            label="Amount"
+            onChange={(e) => handleAmountChange(parseFloat(e.target.value))}
+            fullWidth
+            error={!!errors.amount}
+            helperText={errors.amount ? errors.amount : undefined}
+            type="number"
+            value={state.amount}
+          />
+        </div>
+        <div className={style.formField}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label="Date"
+              value={state.date}
+              error={!!errors.date}
+              helperText={errors.date ? errors.date : undefined}
+              onChange={(date) => {
+                if (date) {
+                  handleDateChange(date);
+                }
+              }}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name ? errors.name : undefined}
-              value={state.description}
             />
-            <Autocomplete
-              options={accountSelectOptions}
-              onChange={(event: object, value: AccountSelectOption | null) =>
-                handleAccountOptionChange(value)
-              }
-              onInputChange={(event: object, value: string) =>
-                handleAccountInputChange(value)
-              }
-              value={state.accountOption}
-              inputValue={state.accountSelectInput}
-              getOptionLabel={(option) => option.label}
-              getOptionSelected={(option, value) =>
-                value && option.id === value.id
-              }
-              renderInput={(params) => (
-                <TextField {...params} label="Account" />
-              )}
-            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <div className={style.formField}>
+          <FormControl fullWidth>
+            <InputLabel id="categoryLabel" error={!!errors.category}>
+              Category
+            </InputLabel>
 
-            <div style={{ margin: 10 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={style.button}
-                onClick={handleSave}
-              >
-                Submit
-              </Button>
-            </div>
+            <Select
+              onChange={(e) => handleCategoryChange(e.target.value as number)}
+              id="category"
+              labelId="categoryLabel"
+              fullWidth
+              error={!!errors.category}
+              value={state.category}
+            >
+              {Object.keys(TransactionCategories).map((category) => {
+                if (!isNaN(parseFloat(category)))
+                  return (
+                    <MenuItem key={category} value={parseFloat(category)}>
+                      {TransactionCategories[parseFloat(category)]}
+                    </MenuItem>
+                  );
+                return null;
+              })}
+            </Select>
+            {errors.category ? (
+              <FormHelperText error>{errors.category}</FormHelperText>
+            ) : null}
+          </FormControl>
+        </div>
+        <div className={style.formField}>
+          <TextField
+            multiline
+            label="Description"
+            onChange={(e) => handleDescriptionChange(e.target.value)}
+            fullWidth
+            error={!!errors.description}
+            helperText={errors.description ? errors.description : undefined}
+            value={state.description}
+          />
+        </div>
+        <div className={style.formField}>
+          <Autocomplete
+            options={accountSelectOptions}
+            onChange={(event: object, value: AccountSelectOption | null) =>
+              handleAccountOptionChange(value)
+            }
+            onInputChange={(event: object, value: string) =>
+              handleAccountInputChange(value)
+            }
+            value={state.accountOption}
+            inputValue={state.accountSelectInput}
+            getOptionLabel={(option) => option.label}
+            getOptionSelected={(option, value) =>
+              value && option.id === value.id
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Account"
+                error={!!errors.account}
+                helperText={errors.account ? errors.account : undefined}
+              />
+            )}
+            onFocus={() =>
+              dispatch(getAccountSelectOptions(state.accountSelectInput))
+            }
+          />
+        </div>
+        <div className={style.actionsContainer}>
+          <div className={style.buttonContainer}>
+            <Button variant="contained" color="primary" onClick={handleSave}>
+              Submit
+            </Button>
+          </div>
+          <div className={style.buttonContainer}>
+            <Button variant="text" color="secondary" onClick={handleBack}>
+              Back to list
+            </Button>
           </div>
         </div>
       </div>

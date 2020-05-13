@@ -1,4 +1,18 @@
 import { Dictionary } from 'utils/types';
+import {
+  Fastfood,
+  ShoppingCart,
+  FlightTakeoff,
+  DirectionsTransit,
+  AttachMoney,
+  LocalGasStation,
+  CardGiftcard,
+  AccountBalance,
+  Category,
+  Money,
+  BeachAccess,
+} from '@material-ui/icons';
+import React from 'react';
 import { Account } from '../accounts/types';
 
 // Define types for different objects
@@ -26,6 +40,23 @@ export enum TransactionCategories {
   Other,
 }
 
+interface TransactionCategoryIcon {
+  [category: number]: JSX.Element;
+}
+export const TransactionCategoryIcons: TransactionCategoryIcon = {
+  [TransactionCategories.Food]: <Fastfood color="primary" />,
+  [TransactionCategories.Shopping]: <ShoppingCart color="primary" />,
+  [TransactionCategories.Travel]: <FlightTakeoff color="primary" />,
+  [TransactionCategories.Savings]: <AccountBalance color="primary" />,
+  [TransactionCategories.Transport]: <DirectionsTransit color="primary" />,
+  [TransactionCategories.Salary]: <Money color="primary" />,
+  [TransactionCategories.Bills]: <AttachMoney color="primary" />,
+  [TransactionCategories.Fuel]: <LocalGasStation color="primary" />,
+  [TransactionCategories.Gifts]: <CardGiftcard color="primary" />,
+  [TransactionCategories.Holidays]: <BeachAccess color="primary" />,
+  [TransactionCategories.Other]: <Category color="primary" />,
+};
+
 export interface TransactionForm {
   id?: number;
   amount: number;
@@ -45,8 +76,11 @@ export interface TransactionState {
 }
 
 export interface TransactionFormErrors {
-  name: string;
-  type: string;
+  amount?: string;
+  date?: string;
+  category?: string;
+  description?: string;
+  account?: string;
 }
 
 // Define action names

@@ -9,6 +9,8 @@ import {
   GET_TRANSACTIONS,
   SET_MODAL,
   SET_EDIT_ID,
+  SET_TRANSACTION_FORM_ERRORS,
+  CLEAR_TRANSACTION_FORM_ERRORS,
 } from './types';
 import { TransactionAction } from './actions';
 
@@ -16,7 +18,7 @@ const initialState: TransactionState = {
   transactions: {},
   isModalOpen: false,
   editTransactionId: 0,
-  errors: { name: '', type: '' },
+  errors: {},
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
@@ -66,6 +68,19 @@ const reducer = (
           ...state.transactions,
           [action.payload.id]: action.payload,
         },
+      };
+    case SET_TRANSACTION_FORM_ERRORS:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload.prop]: action.payload.error,
+        },
+      };
+    case CLEAR_TRANSACTION_FORM_ERRORS:
+      return {
+        ...state,
+        errors: {},
       };
     default:
       return state;
