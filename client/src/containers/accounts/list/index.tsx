@@ -51,6 +51,11 @@ const Accounts: React.FC = () => {
     changeRoute(Routes.AccountEdit);
   };
 
+  const handleCreate = () => {
+    dispatch(setAccountEditId(0));
+    changeRoute(Routes.AccountCreate);
+  };
+
   const history = useHistory();
 
   const changeRoute = (route: string) => {
@@ -97,7 +102,7 @@ const Accounts: React.FC = () => {
           color="secondary"
           aria-label="add"
           className={style.fab}
-          onClick={() => changeRoute(Routes.AccountCreate)}
+          onClick={handleCreate}
         >
           <AddIcon />
         </Fab>
