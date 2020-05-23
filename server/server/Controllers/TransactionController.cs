@@ -119,9 +119,14 @@ namespace server.Controllers
 
         [HttpPost("{accountId},{newValue}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> CreateEliminatingTransaction([FromRoute] double newValue,[FromRoute] int accountId)
         {
         	double sum = 0;
+
+            if(_accountManager.GetAccount(accountId) == null)
+                return NotFound();
+
         	var transactions = _accountManager.GetAccount(accountId,new string[] {"Transactions"}).Transactions;
         	foreach(Transaction transaction in transactions)
         	{
@@ -129,9 +134,10 @@ namespace server.Controllers
         		    sum += transaction.Amount;
         	}
 
-        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = newValue - sumn};
+        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = Math.Round(newValue - sum,2)};
         	_transactionManager.AddTransaction(tmp);
-        	return Ok(tmp);
+            return CreatedAtAction(nameof(GetTransactions), new { Id = tmp.Id }, _transactionManager.GetTransaction(tmp.Id, _transactionIncludes));
+            
         }
         // public ActionResult<string> ConstructCsv(int accountId)
         // {
