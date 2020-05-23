@@ -116,19 +116,23 @@ namespace server.Controllers
             }
             return Ok(updatedTransaction);
         }
-        // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
-        // {
-        // 	double sum = 0;
-        // 	var transactions = _accountManager.GetAccount(accountId).Transactions;
-        // 	foreach(Transaction transaction in transactions)
-        // 	{
-        // 		sum += transaction.Amount;
-        // 	}
 
-        // 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
-        // 	_transactionManager.AddTransaction(tmp);
-        // 	return Ok(tmp);
-        // }
+        [HttpPost("{accountId},{newValue}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<Transaction> CreateEliminatingTransaction([FromRoute] double newValue,[FromRoute] int accountId)
+        {
+        	double sum = 0;
+        	var transactions = _accountManager.GetAccount(accountId,new string[] {"Transactions"}).Transactions;
+        	foreach(Transaction transaction in transactions)
+        	{
+                if(!transaction.Disabled)
+        		    sum += transaction.Amount;
+        	}
+
+        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = newValue - sumn};
+        	_transactionManager.AddTransaction(tmp);
+        	return Ok(tmp);
+        }
         // public ActionResult<string> ConstructCsv(int accountId)
         // {
         // 	string csv = "";
