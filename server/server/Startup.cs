@@ -60,6 +60,8 @@ namespace server
             services.AddSingleton<IAccountManager, AccountManager>();
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
+            services.AddSingleton<IBudgetManager, BudgetManager>();
+
 
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
@@ -83,9 +85,9 @@ namespace server
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseCors(MyAllowSpecificOrigins);
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

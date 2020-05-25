@@ -100,6 +100,48 @@ namespace server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 125.31,
+                            Category = 6,
+                            DateFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateTo = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 0,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 25.609999999999999,
+                            Category = 8,
+                            DateFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateTo = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 2,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Amount = 400.69,
+                            Category = 5,
+                            DateFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateTo = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 4,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Amount = 138.50999999999999,
+                            Category = 1,
+                            DateFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateTo = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = 1,
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("server.Models.BugReport", b =>

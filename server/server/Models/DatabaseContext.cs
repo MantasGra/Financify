@@ -22,7 +22,7 @@ namespace server.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;");
+            optionsBuilder.UseMySql("Server=localhost;port=3306;Database=financify;User=root;Password=root");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +49,13 @@ namespace server.Models
                 new { Id = 2, Amount = 13.99, Date = new DateTime(), Category = TransactionCategory.Gifts, Disabled = false, AccountId = 1 },
                 new { Id = 3, Amount = 4.65, Date = new DateTime(), Category = TransactionCategory.Food, Description = "McDonalds", Disabled = true, AccountId = 1 },
                 new { Id = 4, Amount = 87.44, Date = new DateTime(), Category = TransactionCategory.Fuel, Disabled = false, AccountId = 3 }
+            );
+
+            modelBuilder.Entity<Budget>().HasData(
+                new { Id = 1, Amount = 125.31, Date = new DateTime(), Category = TransactionCategory.Bills, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.AlmostThere, UserId = 1 },
+                new { Id = 2, Amount = 25.61, Date = new DateTime(), Category = TransactionCategory.Gifts, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.Under, UserId = 1 },
+                new { Id = 3, Amount = 400.69, Date = new DateTime(), Category = TransactionCategory.Salary, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.Over, UserId = 1 },
+                new { Id = 4, Amount = 138.51, Date = new DateTime(), Category = TransactionCategory.Shopping, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.AtThreshold, UserId = 1 }
             );
         }
     }
