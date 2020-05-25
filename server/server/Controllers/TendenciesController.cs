@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.DTO;
 using server.Models;
 using server.ResourceManagers;
 
@@ -24,26 +25,11 @@ namespace server.Controllers
             _transactionManager = transactionManager;
         }
 
-
-        public struct Tendency
-        {
-            public Tendency(int month, double coeficient, double amount)
-            {
-                Month = month;
-                Coeficient = coeficient;
-                Amount = amount;
-            }
-
-            public int Month { get; set; }
-            public double Coeficient { get; set; }
-            public double Amount { get; set; }
-        }
-
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Tendency>> GetTendencies([FromQuery]int? userId)
+        public ActionResult<List<TendencyDto>> GetTendencies([FromQuery]int? userId)
         {
-            List<Tendency> tendencies = new List<Tendency>();
+            List<TendencyDto> tendencies = new List<TendencyDto>();
 
             IQueryable<Transaction> transactions = null;
             if (userId.HasValue)
@@ -65,15 +51,15 @@ namespace server.Controllers
 
                     if (i > 0)
                     {
-                        tendencies.Add(new Tendency(currentDate.Month - i, temp / tendencies[0].Amount, temp));
+                        tendencies.Add(new TendencyDto(currentDate.Month - i, temp / tendencies[0].Amount, temp));
                     }
                     else
                     {
-                        tendencies.Add(new Tendency(currentDate.Month - i, 0, temp));
+                        tendencies.Add(new TendencyDto(currentDate.Month - i, 0, temp));
                     }
 
                 }
-                tendencies.Add(new Tendency(currentDate.Month + 1, 0, tendencies[0].Amount * (tendencies[1].Coeficient + tendencies[2].Coeficient + tendencies[3].Coeficient) / 3));
+                tendencies.Add(new TendencyDto(currentDate.Month + 1, (tendencies[1].Coeficient + tendencies[2].Coeficient + tendencies[3].Coeficient) / 3, tendencies[0].Amount * (tendencies[1].Coeficient + tendencies[2].Coeficient + tendencies[3].Coeficient) / 3));
             }
 
             if (transactions == null)
