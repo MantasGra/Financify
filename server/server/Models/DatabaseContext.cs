@@ -22,7 +22,7 @@ namespace server.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;");
+            optionsBuilder.UseMySql("Server=localhost;Database=financify;User=root;Password=root");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +49,13 @@ namespace server.Models
                 new { Id = 2, Amount = 13.99, Date = new DateTime(), Category = TransactionCategory.Gifts, Disabled = false, AccountId = 1 },
                 new { Id = 3, Amount = 4.65, Date = new DateTime(), Category = TransactionCategory.Food, Description = "McDonalds", Disabled = true, AccountId = 1 },
                 new { Id = 4, Amount = 87.44, Date = new DateTime(), Category = TransactionCategory.Fuel, Disabled = false, AccountId = 3 }
+            );
+
+            modelBuilder.Entity<CurrencySubscription>().HasData(
+                new { Id = 1, Currency = "USD", UserId = 1 },
+                new { Id = 2, Currency = "EUR", UserId = 1 },
+                new { Id = 3, Currency = "GBP", UserId = 2 },
+                new { Id = 4, Currency = "EUR", UserId = 3 }
             );
         }
     }

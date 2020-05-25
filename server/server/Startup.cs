@@ -56,7 +56,8 @@ namespace server
             services.AddSingleton<IAccountManager, AccountManager>();
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
-            
+            services.AddSingleton<ICurrencySubscriptionManager, CurrencySubscriptionManager>();
+
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
