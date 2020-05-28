@@ -17,10 +17,13 @@ namespace server.Services
 
         private readonly IEmailTemplateManager _templateManager;
 
-        public GoodCurrencyPriceCron(ICurrencySubscriptionManager resourceManager, IEmailTemplateManager templateManager)
+        private readonly IMailerService _mailerService;
+
+        public GoodCurrencyPriceCron(ICurrencySubscriptionManager resourceManager, IEmailTemplateManager templateManager, IMailerService mailerService)
         {
             _resourceManager = resourceManager;
             _templateManager = templateManager;
+            _mailerService = mailerService;
 
             Schedule(() => Execute()).ToRunNow();
         }
@@ -107,29 +110,30 @@ namespace server.Services
 
         public void SendEmail(string email, string currency, double price)
         {
-            MailAddress from = new MailAddress("financify1@gmail.com");
-            MailAddress to = new MailAddress(email);
+            _mailerService.SendEmail(email, 1, new string[] { currency, price.ToString() });
+            //MailAddress from = new MailAddress("financify1@gmail.com");
+            //MailAddress to = new MailAddress(email);
 
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(from.Address, "ISP2Projektas")
-            };
+            //var smtp = new SmtpClient
+            //{
+            //    Host = "smtp.gmail.com",
+            //    Port = 587,
+            //    EnableSsl = true,
+            //    DeliveryMethod = SmtpDeliveryMethod.Network,
+            //    UseDefaultCredentials = false,
+            //    Credentials = new NetworkCredential(from.Address, "ISP2Projektas")
+            //};
 
-            var template = _templateManager.GetTemplate(1);
+            //var template = _templateManager.GetTemplate(1);
 
-            using (var message = new MailMessage(from, to)
-            {
-                Subject = template.Title,
-                Body = String.Format(template.Content, currency, price),
-            })
-            {
-                smtp.Send(message);
-            }
+            //using (var message = new MailMessage(from, to)
+            //{
+            //    Subject = template.Title,
+            //    Body = String.Format(template.Content, currency, price),
+            //})
+            //{
+            //    smtp.Send(message);
+            //}
         }
     }
 

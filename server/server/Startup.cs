@@ -64,7 +64,8 @@ namespace server
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
-            
+            services.AddSingleton<IMailerService, MailerService>();
+
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
         }
@@ -104,7 +105,8 @@ namespace server
             JobManager.Initialize(
                 new GoodCurrencyPriceCron(
                     app.ApplicationServices.GetService<ICurrencySubscriptionManager>(),
-                    app.ApplicationServices.GetService<IEmailTemplateManager>()
+                    app.ApplicationServices.GetService<IEmailTemplateManager>(),
+                    app.ApplicationServices.GetService<IMailerService>()
             ));
         }
 
