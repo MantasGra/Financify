@@ -1,7 +1,7 @@
 import { Dictionary } from 'utils/types';
 
 // Define types for different objects
-export interface AccountType {
+export interface Account {
   id: number;
   name: string;
   type: AccountTypes;
@@ -9,11 +9,12 @@ export interface AccountType {
 
 // Define type for state of a given module
 export interface AccountsState {
-  accounts: Dictionary<AccountType>;
+  accounts: Dictionary<Account>;
   isModalOpen: boolean;
   deleteId?: number;
   errors: AccountFormErrors;
   editId?: number;
+  selectOptions: AccountSelectOption[];
 }
 
 export interface AccountFormType {
@@ -24,6 +25,11 @@ export interface AccountFormType {
 export interface AccountFormErrors {
   name: string;
   type: string;
+}
+
+export interface AccountSelectOption {
+  label: string;
+  id: number;
 }
 
 export enum AccountTypes {
@@ -46,3 +52,5 @@ export const CLEAR_ACCOUNT_FORM_ERRORS = 'accounts/CLEAR_ACCOUNT_FORM_ERRORS';
 export const EDIT_ACCOUNT = 'accounts/EDIT_ACCOUNT';
 export const SET_ACCOUNT_EDIT_ID = 'accounts/SET_ACCOUNT_EDIT_ID';
 export const UNSET_ACCOUNT_EDIT_ID = 'accounts/UNSET_ACCOUNT_EDIT_ID';
+export const GET_ACCOUNT_SELECT_OPTIONS = 'accounts/GET_ACCOUNT_SELECT_OPTIONS';
+export const SET_ACCOUNT_SELECT_OPTIONS = 'accounts/SET_ACCOUNT_SELECT_OPTIONS';

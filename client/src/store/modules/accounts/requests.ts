@@ -1,8 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
-import { AccountType, AccountFormType } from './types';
+import { Account, AccountFormType, AccountSelectOption } from './types';
 
 interface GetAccountsResponse extends AxiosResponse {
-  data: AccountType[];
+  data: Account[];
+}
+
+interface GetSelectOptionsResponse extends AxiosResponse {
+  data: AccountSelectOption[];
 }
 
 export const getAccounts = () =>
@@ -20,10 +24,20 @@ export const createAccount = (account: AccountFormType) =>
     .post('https://localhost:5001/api/accounts', { ...account, userId: 1 })
     .then((res: AxiosResponse) => res.data);
 
-export const editAccount = (account: AccountType) =>
+export const editAccount = (account: Account) =>
   axios
     .put(`https://localhost:5001/api/accounts/${account.id}`, {
       ...account,
       userId: 1,
     })
     .then((res: AxiosResponse) => res.data);
+
+export const getSelectOptions = (input: string) =>
+  axios
+    .get('https://localhost:5001/api/select-options/accounts', {
+      params: {
+        name: input,
+        userId: 1,
+      },
+    })
+    .then((res: GetSelectOptionsResponse) => res.data);

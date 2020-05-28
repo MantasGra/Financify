@@ -15,11 +15,14 @@ namespace server.Controllers
     {
         private readonly ITransactionManager _transactionManager;
 
+        private readonly IAccountManager _accountManager;
+
         private readonly string[] _transactionIncludes = new string[] { "Account" };
 
-        public TransactionController(ITransactionManager transactionManager)
+        public TransactionController(ITransactionManager transactionManager, IAccountManager accountManager)
         {
             _transactionManager = transactionManager;
+            _accountManager = accountManager;
         }
 
         [HttpGet]
@@ -43,7 +46,7 @@ namespace server.Controllers
         public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
-            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction(transaction.Id,new string[]{"Account"}));
+            return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction(transaction.Id, _transactionIncludes));
         }
         
         [HttpGet("{id}")]
@@ -51,7 +54,7 @@ namespace server.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Transaction> GetTransaction(int id)
         {
-            var transaction = _transactionManager.GetTransaction(id,new string[]{"Account"});
+            var transaction = _transactionManager.GetTransaction(id, _transactionIncludes);
 
             if (transaction == null)
             {
@@ -68,57 +71,76 @@ namespace server.Controllers
             var transaction = _transactionManager.GetTransaction(id);
             if (transaction != null)
             {
-                transaction.Disabled = true;
-                _transactionManager.SaveChanges();
+                _transactionManager.DeleteTransaction(transaction);
                 return Ok();
             }
             return NotFound();
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Transaction> UpdateTransaction([FromRoute]int id, [FromBody]Transaction transaction)
+        public ActionResult<Transaction> UpdateTransaction([FromRoute] int id, [FromBody] Transaction transaction)
         {
-            var old = _transactionManager.GetTransaction(id);
-            transaction.AccountId = transaction.AccountId == 0 ? old.AccountId : transaction.AccountId;
-            transaction.Amount = transaction.Amount == 0 ? old.Amount : transaction.Amount;
-            transaction.Category = transaction.Category == 0 ? old.Category : transaction.Category;
-            transaction.Description = transaction.Description == "" ? old.Description : transaction.Description;
-            transaction.Date = transaction.Date.CompareTo(DateTime.Parse("0001-01-01 00:00:00"))==0 ? old.Date : transaction.Date;
-           
-            if (old == null)
+            if (transaction.Id == 0)
             {
-                return NotFound();    
+                return BadRequest("Id must be provided");
             }
-            var updatedTransaction = _transactionManager.UpdateTransaction(old,transaction);
+            if (id != transaction.Id)
+            {
+                return BadRequest("Resource Id and route id does not match");
+            }
+
+            var oldTransaction = _transactionManager.GetTransaction(transaction.Id);
+            if (oldTransaction == null)
+            {
+                return NotFound("Resource was not found");
+            }
+
+            var account = _accountManager.GetAccount(transaction.AccountId);
+            if (account == null)
+            {
+                return NotFound("Account was not found");
+            }
+            transaction.Disabled = oldTransaction.Disabled;
+
+            Transaction updatedTransaction = null;
+            try
+            {
+                updatedTransaction = _transactionManager.UpdateTransaction(transaction, _transactionIncludes);
+            }
+            catch
+            {
+                return BadRequest();
+            }
             return Ok(updatedTransaction);
         }
-		// public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
-		// {
-		// 	double sum = 0;
-		// 	var transactions = _accountManager.GetAccount(accountId).Transactions;
-		// 	foreach(Transaction transaction in transactions)
-		// 	{
-		// 		sum += transaction.Amount;
-		// 	}
+        // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
+        // {
+        // 	double sum = 0;
+        // 	var transactions = _accountManager.GetAccount(accountId).Transactions;
+        // 	foreach(Transaction transaction in transactions)
+        // 	{
+        // 		sum += transaction.Amount;
+        // 	}
 
-		// 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
-		// 	_transactionManager.AddTransaction(tmp);
-		// 	return Ok(tmp);
-		// }
-		// public ActionResult<string> ConstructCsv(int accountId)
-		// {
-		// 	string csv = "";
-		// 	var transactions = _accountManager.GetAccount(accountId).Transactions;
-		// 	foreach (Transaction transaction in transactions)
-		// 	{
-		// 		if (!transaction.Disabled)
-		// 		{
-		// 			csv += $"{transaction.Amount};{transaction.Description};{transaction.Date};{transaction.Category}\n";
-		// 		}
-		// 	}
-		// 	return Ok(csv);
-		// }
-	}
+        // 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
+        // 	_transactionManager.AddTransaction(tmp);
+        // 	return Ok(tmp);
+        // }
+        // public ActionResult<string> ConstructCsv(int accountId)
+        // {
+        // 	string csv = "";
+        // 	var transactions = _accountManager.GetAccount(accountId).Transactions;
+        // 	foreach (Transaction transaction in transactions)
+        // 	{
+        // 		if (!transaction.Disabled)
+        // 		{
+        // 			csv += $"{transaction.Amount};{transaction.Description};{transaction.Date};{transaction.Category}\n";
+        // 		}
+        // 	}
+        // 	return Ok(csv);
+        // }
+    }
 }

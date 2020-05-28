@@ -5,12 +5,13 @@ import {
   SET_MODAL,
   SET_DELETE_ID,
   STORE_DELETE_ACCOUNT,
-  AccountType,
   STORE_ADD_ACCOUNT,
   SET_ACCOUNT_FORM_ERRORS,
   CLEAR_ACCOUNT_FORM_ERRORS,
   SET_ACCOUNT_EDIT_ID,
   UNSET_ACCOUNT_EDIT_ID,
+  Account,
+  SET_ACCOUNT_SELECT_OPTIONS,
 } from './types';
 import { AccountsActionType } from './actions';
 
@@ -18,6 +19,7 @@ const initialState: AccountsState = {
   accounts: {},
   isModalOpen: false,
   errors: { name: '', type: '' },
+  selectOptions: [],
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
@@ -44,7 +46,7 @@ const reducer = (
     case STORE_DELETE_ACCOUNT:
       return {
         ...state,
-        accounts: toDictionary<AccountType>(
+        accounts: toDictionary<Account>(
           Object.keys(state.accounts)
             .filter((val) => parseFloat(val) !== action.payload)
             .map((val) => state.accounts[val]),
@@ -78,6 +80,11 @@ const reducer = (
       return {
         ...state,
         editId: undefined,
+      };
+    case SET_ACCOUNT_SELECT_OPTIONS:
+      return {
+        ...state,
+        selectOptions: action.payload,
       };
     default:
       return state;

@@ -18,7 +18,7 @@ namespace server.ResourceManagers
 
         public Transaction GetTransaction(int id,string[] includes = null)
         {
-            return _transactionStorage.getItem(id,includes);
+            return _transactionStorage.getItem(id, includes);
         }
         public Transaction AddTransaction(Transaction transaction)
         {
@@ -42,20 +42,17 @@ namespace server.ResourceManagers
         {
             try
             {
-                _transactionStorage.removeItem(transaction);
+                transaction.Disabled = true;
+                _transactionStorage.updateItem(transaction);
             }
             catch (Exception e)
             {
                 throw e;
             }
         }
-        public Transaction UpdateTransaction(Transaction transaction)
+        public Transaction UpdateTransaction(Transaction transaction, string[] includes = null)
         {
-            return _transactionStorage.updateItem(transaction);
-        }
-        public Transaction UpdateTransaction(Transaction oldTransaction,Transaction newTransaction)
-        {
-            return _transactionStorage.updateItem(oldTransaction,newTransaction);
+            return _transactionStorage.updateItem(transaction, includes);
         }
         public void SaveChanges() 
         {
