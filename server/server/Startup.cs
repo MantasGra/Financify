@@ -59,6 +59,7 @@ namespace server
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
             services.AddSingleton<ICurrencySubscriptionManager, CurrencySubscriptionManager>();
+            services.AddSingleton<IEmailTemplateManager, EmailTemplateManager>();
 
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
@@ -100,7 +101,11 @@ namespace server
             });
 
             JobManager.UseUtcTime();
-            JobManager.Initialize(new GoodCurrencyPriceCron(app.ApplicationServices.GetService<ICurrencySubscriptionManager>()));
+            JobManager.Initialize(
+                new GoodCurrencyPriceCron(
+                    app.ApplicationServices.GetService<ICurrencySubscriptionManager>(),
+                    app.ApplicationServices.GetService<IEmailTemplateManager>()
+            ));
         }
 
         private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using FluentScheduler;
 using Microsoft.AspNetCore.Localization;
 using Newtonsoft.Json;
@@ -13,9 +15,12 @@ namespace server.Services
     {
         private readonly ICurrencySubscriptionManager _resourceManager;
 
-        public GoodCurrencyPriceCron(ICurrencySubscriptionManager resourceManager)
+        private readonly IEmailTemplateManager _templateManager;
+
+        public GoodCurrencyPriceCron(ICurrencySubscriptionManager resourceManager, IEmailTemplateManager templateManager)
         {
             _resourceManager = resourceManager;
+            _templateManager = templateManager;
 
             Schedule(() => Execute()).ToRunNow();
         }
@@ -28,12 +33,12 @@ namespace server.Services
                 var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
                 if (latestPrice > 0)
                 {
-                    SendEmail(currencySubscription.User.Email, currencySubscription.Currency, latestPrice);
+                    SendEmail("martis.kasparavicius@gmail.com", currencySubscription.Currency, latestPrice);
                 }
             }
         }
 
-        public static double CheckForGoodPrice(string currency)
+        public double CheckForGoodPrice(string currency)
         {
             var latestPrice = GetLatestRate(currency);
             if (latestPrice < GetLastMonthAverageRate(currency))
@@ -43,7 +48,7 @@ namespace server.Services
             return 0;
         }
 
-        public static double GetLastMonthAverageRate(string currency)
+        public double GetLastMonthAverageRate(string currency)
         {
             try
             {
@@ -82,7 +87,7 @@ namespace server.Services
             }
         }
 
-        public static double GetLatestRate(string currency)
+        public double GetLatestRate(string currency)
         {
             try
             {
@@ -100,9 +105,31 @@ namespace server.Services
             }
         }
 
-        public static void SendEmail(string email, string currency, double price)
+        public void SendEmail(string email, string currency, double price)
         {
+            MailAddress from = new MailAddress("financify1@gmail.com");
+            MailAddress to = new MailAddress(email);
 
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(from.Address, "ISP2Projektas")
+            };
+
+            var template = _templateManager.GetTemplate(1);
+
+            using (var message = new MailMessage(from, to)
+            {
+                Subject = template.Title,
+                Body = String.Format(template.Content, currency, price),
+            })
+            {
+                smtp.Send(message);
+            }
         }
     }
 
