@@ -36,7 +36,7 @@ namespace server.Services
                 var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
                 if (latestPrice > 0)
                 {
-                    SendEmail("martis.kasparavicius@gmail.com", currencySubscription.Currency, latestPrice);
+                    SendEmail(currencySubscription.User.Email, currencySubscription.Currency, latestPrice);
                 }
             }
         }
@@ -110,42 +110,7 @@ namespace server.Services
 
         public void SendEmail(string email, string currency, double price)
         {
-            _mailerService.SendEmail(email, 1, new string[] { currency, price.ToString() });
-            //MailAddress from = new MailAddress("financify1@gmail.com");
-            //MailAddress to = new MailAddress(email);
-
-            //var smtp = new SmtpClient
-            //{
-            //    Host = "smtp.gmail.com",
-            //    Port = 587,
-            //    EnableSsl = true,
-            //    DeliveryMethod = SmtpDeliveryMethod.Network,
-            //    UseDefaultCredentials = false,
-            //    Credentials = new NetworkCredential(from.Address, "ISP2Projektas")
-            //};
-
-            //var template = _templateManager.GetTemplate(1);
-
-            //using (var message = new MailMessage(from, to)
-            //{
-            //    Subject = template.Title,
-            //    Body = String.Format(template.Content, currency, price),
-            //})
-            //{
-            //    smtp.Send(message);
-            //}
-        }
-    }
-
-    public class LatestRate
-    {
-        public string Symbol { get; set; }
-        public double Rate { get; set; }
-
-        public LatestRate(string Symbol, double Rate)
-        {
-            this.Symbol = Symbol;
-            this.Rate = Rate;
+            _mailerService.SendEmail(email, 1, new object[] { currency, price });
         }
     }
 }

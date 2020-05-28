@@ -6,9 +6,8 @@ namespace server.Services
 {
     public interface IMailerService
     {
-        void SendEmail(string receiver, int templateId, string[] bodyParams);
+        void SendEmail(string receiver, int templateId, object[] bodyParams);
         SmtpClient GetClient();
-        MailMessage GetMessage(EmailTemplate template, string[] bodyParams);
-        IEnumerable<string> FormatBodyParams(string[] bodyParams);
+        MailMessage GetMessage(EmailTemplate template, MailAddress from, MailAddress to, object[] bodyParams);
     }
 }

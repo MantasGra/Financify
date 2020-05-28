@@ -16,14 +16,15 @@ namespace server.Services
             _templateManager = templateManager;
         }
 
-        public void SendEmail(string receiver, int templateId, string[] bodyParams)
+        public void SendEmail(string receiver, int templateId, object[] bodyParams)
         {
             MailAddress from = new MailAddress("financify1@gmail.com");
             MailAddress to = new MailAddress(receiver);
 
             var smtp = GetClient();
             var template = _templateManager.GetTemplate(templateId);
-            var message = GetMessage(template, bodyParams);
+            var message = GetMessage(template, from, to, bodyParams);
+            smtp.Send(message);
         }
 
         public SmtpClient GetClient()
@@ -39,21 +40,13 @@ namespace server.Services
             };
         }
 
-        public MailMessage GetMessage(EmailTemplate template, string[] bodyParams)
+        public MailMessage GetMessage(EmailTemplate template, MailAddress from, MailAddress to, object[] bodyParams)
         {
-            var foo = String.Format(template.Content, FormatBodyParams(bodyParams)); // TODO: fix
-            return new MailMessage
+            return new MailMessage(from, to)
             {
                 Subject = template.Title,
+                Body = String.Format(template.Content, bodyParams)
             };
-        }
-
-        public IEnumerable<string> FormatBodyParams(string[] bodyParams)
-        {
-            foreach(string param in bodyParams)
-            {
-                yield return param;
-            }
         }
     }
 }
