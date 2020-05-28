@@ -9,8 +9,8 @@ using server.Models;
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200528165743_EmailTemplatFixtures")]
-    partial class EmailTemplatFixtures
+    [Migration("20200528220715_EmailTemplateFixture")]
+    partial class EmailTemplateFixture
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -197,8 +197,8 @@ namespace server.Migrations
                         new
                         {
                             Id = 1,
-                            Content = "Eina sau kokia gera dabar zinok {0} kaina. Jos verte siuo metu {1} lyginant su doleriu.",
-                            Title = "Gera kaina blemba. Tempk ja cia!"
+                            Content = "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD.",
+                            Title = "Good currency price"
                         });
                 });
 
@@ -392,7 +392,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 3,
-                            Email = "DavidDReed@rhyta.com",
+                            Email = "mykolasvitkus@gmail.com",
                             Fullname = "David D. Reed",
                             Password = "123456789",
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)

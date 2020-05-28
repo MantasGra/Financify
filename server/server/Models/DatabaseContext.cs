@@ -58,7 +58,7 @@ namespace server.Models
                 new { Id = 4, Currency = "EUR", UserId = 3 }
             );
             modelBuilder.Entity<EmailTemplate>().HasData(
-               new { Id = 1, Title = "Gera kaina blemba. Tempk ja cia!", Content = "Eina sau kokia gera dabar zinok {0} kaina. Jos verte siuo metu {1} lyginant su doleriu."}
+               new { Id = 1, Title = "Good currency price", Content = "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD."}
            );
         }
     }
