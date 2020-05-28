@@ -36,7 +36,7 @@ namespace server.Services
                 var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
                 if (latestPrice > 0)
                 {
-                    SendEmail(currencySubscription.User.Email, currencySubscription.Currency, latestPrice);
+                    _mailerService.SendEmail(currencySubscription.User.Email, 1, new object[] { currencySubscription.Currency, latestPrice});
                 }
             }
         }
@@ -106,11 +106,6 @@ namespace server.Services
             {
                 return 0;
             }
-        }
-
-        public void SendEmail(string email, string currency, double price)
-        {
-            _mailerService.SendEmail(email, 1, new object[] { currency, price });
         }
     }
 }
