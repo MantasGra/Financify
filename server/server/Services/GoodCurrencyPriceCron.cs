@@ -65,7 +65,7 @@ namespace server.Services
                 using (var webClient = new System.Net.WebClient())
                 {
                     var json = webClient.DownloadString(URLString);
-                    dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
+                    dynamic Rates = JsonConvert.DeserializeObject<dynamic>(json);
 
                     int days = DateTime.DaysInMonth(first.Year, first.Month);
                     double sum = 0;
@@ -74,9 +74,9 @@ namespace server.Services
                     for (int day = 1; day <= days; day++)
                     {
                         var checkDate = new DateTime(first.Year, first.Month, day).ToString("yyyy-MM-dd");
-                        if(Test.rates[checkDate] != null)
+                        if(Rates.rates[checkDate] != null)
                         {
-                            sum += Convert.ToDouble(Test.rates[checkDate][currency]);
+                            sum += Convert.ToDouble(Rates.rates[checkDate][currency]);
                             foundDays++;
                         }
                     }
