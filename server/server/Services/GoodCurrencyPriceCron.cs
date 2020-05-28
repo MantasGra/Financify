@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentScheduler;
+using Microsoft.AspNetCore.Localization;
 using Newtonsoft.Json;
 using server.Models;
 using server.ResourceManagers;
@@ -11,8 +12,6 @@ namespace server.Services
     public class GoodCurrencyPriceCron : Registry
     {
         private readonly ICurrencySubscriptionManager _resourceManager;
-
-        private static List<LatestRate> latestRates = new List<LatestRate>();
 
         public GoodCurrencyPriceCron(ICurrencySubscriptionManager resourceManager)
         {
@@ -26,58 +25,84 @@ namespace server.Services
             IQueryable<CurrencySubscription> currencySubscriptions = _resourceManager.GetCurrencySubscriptions(new string[] { "User" });
             foreach (var currencySubscription in currencySubscriptions)
             {
-                CheckRatePrice(currencySubscription);
-            }
-        }
-
-        public static void CheckRatePrice(CurrencySubscription currencySubscription)
-        {
-            var checkList = latestRates.Where(lr => lr.Symbol.CompareTo(currencySubscription.Currency) == 0);
-            if(!checkList.Any())
-            {
-                var result = GetLatestRate(currencySubscription.Currency);
-                if (result != null)
+                var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
+                if (latestPrice > 0)
                 {
-                    latestRates.Add(result);
+                    SendEmail(currencySubscription.User.Email, currencySubscription.Currency, latestPrice);
                 }
             }
         }
 
-        //public static bool GetLastMonthRates(string currency)
-        //{
-        //// https://api.exchangeratesapi.io/history?start_at=2020-04-01&end_at=2020-04-30&base=USD&symbols=EUR,GBP,KRW
-        //    try
-        //    {
-        //        String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
-        //        using (var webClient = new System.Net.WebClient())
-        //        {
-        //            var json = webClient.DownloadString(URLString);
-        //            ERP_API Test = JsonConvert.DeserializeObject<ERP_API>(json);
-        //            return true;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
+        public static double CheckForGoodPrice(string currency)
+        {
+            var latestPrice = GetLatestRate(currency);
+            if (latestPrice < GetLastMonthAverageRate(currency))
+            {
+                return latestPrice;
+            }
+            return 0;
+        }
 
-        public static LatestRate GetLatestRate(string rate)
+        public static double GetLastMonthAverageRate(string currency)
         {
             try
             {
-                String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={rate}";
+                var month = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                var first = month.AddMonths(-1);
+                var last = month.AddDays(-1);
+                var firstDate = first.ToString("yyyy-MM-dd");
+                var lastDate = last.ToString("yyyy-MM-dd");
+
+                String URLString = $"https://api.exchangeratesapi.io/history?start_at={firstDate}&end_at={lastDate}&base=USD&symbols={currency}";
                 using (var webClient = new System.Net.WebClient())
                 {
                     var json = webClient.DownloadString(URLString);
-                    ERP_API Test = JsonConvert.DeserializeObject<ERP_API>(json);
-                    return new LatestRate(rate, Convert.ToDouble(Test.rates.GetType().GetProperty(rate).GetValue(Test.rates)));
+                    dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
+
+                    int days = DateTime.DaysInMonth(first.Year, first.Month);
+                    double sum = 0;
+                    int foundDays = 0;
+
+                    for (int day = 1; day <= days; day++)
+                    {
+                        var checkDate = new DateTime(first.Year, first.Month, day).ToString("yyyy-MM-dd");
+                        if(Test.rates[checkDate] != null)
+                        {
+                            sum += Convert.ToDouble(Test.rates[checkDate][currency]);
+                            foundDays++;
+                        }
+                    }
+
+                    return (sum / foundDays);
                 }
             }
             catch (Exception)
             {
-                return null;
+                return 0;
             }
+        }
+
+        public static double GetLatestRate(string currency)
+        {
+            try
+            {
+                String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
+                using (var webClient = new System.Net.WebClient())
+                {
+                    var json = webClient.DownloadString(URLString);
+                    dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
+                    return Convert.ToDouble(Test.rates[currency]);
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        public static void SendEmail(string email, string currency, double price)
+        {
+
         }
     }
 

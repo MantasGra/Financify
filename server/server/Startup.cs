@@ -63,9 +63,6 @@ namespace server
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
-
-            //JobManager.UseUtcTime();
-            //JobManager.Initialize(new GoodCurrencyPriceCron(services.App));
             
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
