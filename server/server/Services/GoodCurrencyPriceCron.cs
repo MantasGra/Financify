@@ -90,21 +90,21 @@ namespace server.Services
         }
 
         public double GetLatestRate(string currency)
-{
-    try
-    {
-        String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
-        using (var webClient = new System.Net.WebClient())
         {
-            var json = webClient.DownloadString(URLString);
-            dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
-            return Convert.ToDouble(Test.rates[currency]);
+            try
+            {
+                String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
+                using (var webClient = new System.Net.WebClient())
+                {
+                    var json = webClient.DownloadString(URLString);
+                    dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
+                    return Convert.ToDouble(Test.rates[currency]);
+                }
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
-    }
-    catch (Exception)
-    {
-        return 0;
-    }
-}
     }
 }
