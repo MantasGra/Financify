@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Routes from '../../utils/routes';
+import style from './style.module.scss';
 
 const Navbar: React.FC = () => {
   const history = useHistory();
@@ -22,18 +23,18 @@ const Navbar: React.FC = () => {
             <Button color="inherit" onClick={() => changeRoute(Routes.Home)}>
               Home
             </Button>
-            <Divider style={{ backgroundColor: 'white' }} flexItem orientation="vertical" />
+            <Divider className={style.AppBar__Divider} orientation="vertical" />
             <Button color="inherit" onClick={() => changeRoute(Routes.Accounts)}>
               Accounts
             </Button>
-            <Divider style={{ backgroundColor: 'white' }} flexItem orientation="vertical" />
+            <Divider className={style.AppBar__Divider} orientation="vertical" />
             <Button
               color="inherit"
               onClick={() => changeRoute(Routes.Transactions)}
             >
               Transactions
             </Button>
-            <Divider style={{ backgroundColor: 'white' }} flexItem orientation="vertical" />
+            <Divider className={style.AppBar__Divider} orientation="vertical" />
             <Button
               color="inherit"
               onClick={() => changeRoute(Routes.CurrencySubscriptions)}

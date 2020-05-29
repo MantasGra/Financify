@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Fab } from '@material-ui/core';
+import { Container, Fab, Card, CardHeader, CardActions, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrencySubscriptions, CurrencySubscription } from 'store/modules/currencySubscriptions';
@@ -38,11 +38,16 @@ const CurrencySubscriptions: React.FC = () => {
     <Container>
       <h1>Your Currency Subscriptions</h1>
       {currencySubscriptions.length > 0 ?
-        <ul>
+        <div className={style.List__Container}>
           {currencySubscriptions.map(row => (
-            <li key={row.id}>{row.currency}</li>
+            <Card className={style.List__Card} key={row.id}>
+              <CardHeader title={row.currency} subheader="Currency" />
+              <CardActions>
+                <Button color="secondary">Unsubscribe</Button>
+              </CardActions>
+            </Card>
           ))}
-        </ul>
+        </div>
         : <span>You don't have any currency subscriptions yet.</span>}
       <Fab
         size="medium"

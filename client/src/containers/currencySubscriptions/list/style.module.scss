@@ -3,3 +3,14 @@
   bottom: 32px;
   right: 32px;
 }
+
+.List__Container {
+  display: flex;
+  flex-wrap: wrap;
+
+  .List__Card {
+    min-width: 220px;
+    margin: 16px;
+    flex: 1 0 auto;
+  }
+}

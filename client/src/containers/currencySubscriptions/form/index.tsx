@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { CurrencySubscription, CurrencySubscriptionCurrencies, CurrencySubscriptionFormErrors, clearCurrencySubscriptionFormErrors, setCurrencySubscriptionFormErrors, createCurrencySubscription } from 'store/modules/currencySubscriptions';
 import { useHistory } from 'react-router-dom';
 import Routes from 'utils/routes';
+import style from './style.module.scss';
 
 export interface IState {
   currency: CurrencySubscriptionCurrencies | '';
@@ -84,40 +85,44 @@ const CurrencySubscriptionForm: React.FC = () => {
   return (
     <Container>
       <h1>Subscribe to currency</h1>
-      <FormControl fullWidth>
-        <InputLabel id="currencyLabel" error={!!errors.currency}>
-          Currency
-        </InputLabel>
+      <div className={style.Form__Container}>
+        <FormControl fullWidth>
+          <InputLabel id="currencyLabel" error={!!errors.currency}>
+            Currency
+          </InputLabel>
 
-        <Select
-          id="currency"
-          labelId="currencyLabel"
-          value={state.currency}
-          onChange={(e) => 
-            handleCurrencyChange(
-              e.target.value as CurrencySubscriptionCurrencies
-            )}
-          fullWidth
-        >
-          {Object.keys(CurrencySubscriptionCurrencies).map((type) => {
-            if (!isNaN(parseFloat(type))) {
-              return (
-                <MenuItem key={type} value={parseFloat(type)}>
-                  {CurrencySubscriptionCurrencies[parseFloat(type)]}
-                </MenuItem>
-              );
-            }
-            return null;
-          })}
-        </Select>
-        {errors.currency ? (
-          <FormHelperText error>{errors.currency}</FormHelperText>
-        ) : null}
-      </FormControl>
-      <Button variant="contained" color="primary" onClick={handleSave}>Submit</Button>
-      <Button color="secondary" onClick={handleToList}>
-        Back to list
-      </Button>
+          <Select
+            id="currency"
+            labelId="currencyLabel"
+            value={state.currency}
+            onChange={(e) => 
+              handleCurrencyChange(
+                e.target.value as CurrencySubscriptionCurrencies
+              )}
+            fullWidth
+          >
+            {Object.keys(CurrencySubscriptionCurrencies).map((type) => {
+              if (!isNaN(parseFloat(type))) {
+                return (
+                  <MenuItem key={type} value={parseFloat(type)}>
+                    {CurrencySubscriptionCurrencies[parseFloat(type)]}
+                  </MenuItem>
+                );
+              }
+              return null;
+            })}
+          </Select>
+          {errors.currency ? (
+            <FormHelperText error>{errors.currency}</FormHelperText>
+          ) : null}
+        </FormControl>
+        <div className={style.Form__ActionContainer}>
+          <Button className={style.Form__Button} variant="contained" color="primary" onClick={handleSave}>Submit</Button>
+          <Button className={style.Form__Button} color="primary" onClick={handleToList}>
+            Back to list
+          </Button>
+        </div>
+      </div>
     </Container>
   );
 };
