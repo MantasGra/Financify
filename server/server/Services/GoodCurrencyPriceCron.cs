@@ -36,7 +36,7 @@ namespace server.Services
                 var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
                 if (latestPrice > 0)
                 {
-                    _mailerService.SendEmail(currencySubscription.User.Email, 1, new object[] { currencySubscription.Currency, latestPrice});
+                    _mailerService.SendEmail(currencySubscription.User.Email, 1, new object[] { currencySubscription.Currency, latestPrice });
                 }
             }
         }
@@ -74,13 +74,12 @@ namespace server.Services
                     for (int day = 1; day <= days; day++)
                     {
                         var checkDate = new DateTime(first.Year, first.Month, day).ToString("yyyy-MM-dd");
-                        if(Rates.rates[checkDate] != null)
+                        if (Rates.rates[checkDate] != null)
                         {
                             sum += Convert.ToDouble(Rates.rates[checkDate][currency]);
                             foundDays++;
                         }
                     }
-
                     return (sum / foundDays);
                 }
             }
@@ -91,21 +90,21 @@ namespace server.Services
         }
 
         public double GetLatestRate(string currency)
+{
+    try
+    {
+        String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
+        using (var webClient = new System.Net.WebClient())
         {
-            try
-            {
-                String URLString = $"https://api.exchangeratesapi.io/latest?base=USD&symbols={currency}";
-                using (var webClient = new System.Net.WebClient())
-                {
-                    var json = webClient.DownloadString(URLString);
-                    dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
-                    return Convert.ToDouble(Test.rates[currency]);
-                }
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
+            var json = webClient.DownloadString(URLString);
+            dynamic Test = JsonConvert.DeserializeObject<dynamic>(json);
+            return Convert.ToDouble(Test.rates[currency]);
         }
+    }
+    catch (Exception)
+    {
+        return 0;
+    }
+}
     }
 }
