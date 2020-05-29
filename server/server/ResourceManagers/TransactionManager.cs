@@ -58,5 +58,10 @@ namespace server.ResourceManagers
         {
             _transactionStorage.SaveChanges();
         }
+
+        public IQueryable<Transaction> GetTransactionsForBudget(Budget budget)
+        {
+            return _transactionStorage.getCollection().Where(s => s.Category == budget.Category);
+        }
     }
 }

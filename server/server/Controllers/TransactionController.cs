@@ -116,6 +116,12 @@ namespace server.Controllers
             }
             return Ok(updatedTransaction);
         }
+
+        public ActionResult<Budget[]> GetRecommendedBudgets([FromQuery] int userId)
+        {
+            var transactions = _transactionManager.GetUserTransactions(userId);
+            return Ok();
+        }
         // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
         // {
         // 	double sum = 0;

@@ -35,8 +35,6 @@ const Budgets: React.FC = () => {
     dispatch(getBudgets());
   }, [dispatch]);
 
-  console.log(budgets);
-
   // const handleEdit = (id: number) => {
   //   dispatch(setAccountEditId(id));
   //   changeRoute(Routes.AccountEdit);
@@ -80,9 +78,6 @@ const Budgets: React.FC = () => {
                   />
                 </TableCell>
                 <TableCell align="right">
-                  <IconButton>
-                    <EditIcon />
-                  </IconButton>
                   <IconButton>
                     <DeleteIcon className={style.deleteButton} />
                   </IconButton>

@@ -17,7 +17,6 @@ import { GET_BUDGETS, Budget } from './types';
 // Actual worker saga which does something, when an action is dispatched.
 function* getBudgetsSaga() {
   const budgets: Budget[] = yield call(getBudgets);
-  console.log(budgets);
   yield put(actions.setBudgets(toDictionary(budgets, 'id')));
 }
 

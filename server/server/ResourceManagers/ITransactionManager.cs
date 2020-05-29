@@ -15,5 +15,6 @@ namespace server.ResourceManagers
         void DeleteTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction transaction, string[] includes = null);
         void SaveChanges();
+        IQueryable<Transaction> GetTransactionsForBudget(Budget budget);
     }
 }

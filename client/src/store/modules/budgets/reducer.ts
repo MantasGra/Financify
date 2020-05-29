@@ -13,6 +13,7 @@ const reducer = (
 ): BudgetsState => {
   switch (action.type) {
     case SET_BUDGETS:
+      console.log(action);
       return {
         ...state,
         budgets: action.payload,
