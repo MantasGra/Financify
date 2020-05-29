@@ -6,6 +6,7 @@ enum Routes {
   Accounts = '/accounts',
   AccountCreate = '/accounts/new',
   AccountEdit = '/accounts/edit',
+  CurrencySubscriptions = '/currency-subscriptions',
 }
 
 export default Routes;
