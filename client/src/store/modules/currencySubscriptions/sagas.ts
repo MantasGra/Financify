@@ -5,8 +5,6 @@ import * as actions from './actions';
 import { getCurrencySubscriptions } from './requests';
 
 function* getCurrencySubscriptionsSaga() {
-  // eslint-disable-next-line no-console
-  console.log('hi');
   const currencySubscriptions: CurrencySubscription[] = yield call(
     getCurrencySubscriptions
   );
