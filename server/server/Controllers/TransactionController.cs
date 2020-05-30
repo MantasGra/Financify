@@ -120,6 +120,7 @@ namespace server.Controllers
         [HttpPost("{accountId},{newValue}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Transaction> CreateEliminatingTransaction([FromRoute] double newValue,[FromRoute] int accountId)
         {
         	double sum = 0;
@@ -133,8 +134,11 @@ namespace server.Controllers
                 if(!transaction.Disabled)
         		    sum += transaction.Amount;
         	}
+            double difference = Math.Round(newValue - sum,2);
+            if(difference == 0)
+                return Ok();
 
-        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = Math.Round(newValue - sum,2)};
+        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = difference};
         	_transactionManager.AddTransaction(tmp);
             return CreatedAtAction(nameof(GetTransactions), new { Id = tmp.Id }, _transactionManager.GetTransaction(tmp.Id, _transactionIncludes));
             
