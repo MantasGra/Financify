@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.DTO;
 using server.Models;
 using server.ResourceManagers;
 
@@ -117,28 +118,28 @@ namespace server.Controllers
             return Ok(updatedTransaction);
         }
 
-        [HttpPost("{accountId},{newValue}")]
+        [HttpPost("eliminate")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Transaction> CreateEliminatingTransaction([FromRoute] double newValue,[FromRoute] int accountId)
+        public ActionResult<Transaction> CreateEliminatingTransaction([FromBody] EliminateTransactionDto request)
         {
         	double sum = 0;
 
-            if(_accountManager.GetAccount(accountId) == null)
+            if(_accountManager.GetAccount(request.AccountId) == null)
                 return NotFound();
 
-        	var transactions = _accountManager.GetAccount(accountId,new string[] {"Transactions"}).Transactions;
+        	var transactions = _accountManager.GetAccount(request.AccountId,new string[] {"Transactions"}).Transactions;
         	foreach(Transaction transaction in transactions)
         	{
                 if(!transaction.Disabled)
         		    sum += transaction.Amount;
         	}
-            double difference = Math.Round(newValue - sum,2);
+            double difference = Math.Round(request.NewValue - sum,2);
             if(difference == 0)
                 return Ok();
 
-        	var tmp = new Transaction() { AccountId = accountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = difference};
+        	var tmp = new Transaction() { AccountId = request.AccountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = difference};
         	_transactionManager.AddTransaction(tmp);
             return CreatedAtAction(nameof(GetTransactions), new { Id = tmp.Id }, _transactionManager.GetTransaction(tmp.Id, _transactionIncludes));
             

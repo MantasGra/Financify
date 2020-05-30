@@ -21,6 +21,10 @@ import {
   EDIT_ACCOUNT,
   GET_ACCOUNT_SELECT_OPTIONS,
   SET_ACCOUNT_SELECT_OPTIONS,
+  CREATE_ELIMINATING_TRANSACTION,
+  EliminationForm,
+  CLEAR_ELIMINATION_FORM_ERRORS,
+  SET_ELIMINATION_FORM_ERRORS
 } from './types';
 
 // Define action creators
@@ -64,6 +68,21 @@ export const setAccountFormErrors = createAction<
   },
   typeof SET_ACCOUNT_FORM_ERRORS
 >(SET_ACCOUNT_FORM_ERRORS);
+
+export const clearEliminationFormErrors = createAction<
+  void,
+  typeof CLEAR_ELIMINATION_FORM_ERRORS
+>(CLEAR_ELIMINATION_FORM_ERRORS);
+export const setEliminationFormErrors = createAction<
+  {
+    prop: string;
+    error: string;
+  },
+  typeof SET_ELIMINATION_FORM_ERRORS
+>(SET_ELIMINATION_FORM_ERRORS);
+
+
+
 export const setAccountEditId = createAction<
   number,
   typeof SET_ACCOUNT_EDIT_ID
@@ -89,6 +108,15 @@ export const setAccountSelectOptions = createAction<
   typeof SET_ACCOUNT_SELECT_OPTIONS
 >(SET_ACCOUNT_SELECT_OPTIONS);
 
+
+
+export const createEliminatingTransaction = createAction<
+ 
+  EliminationForm,
+
+  typeof CREATE_ELIMINATING_TRANSACTION
+  >(CREATE_ELIMINATING_TRANSACTION);
+  
 // Define action types (nest through "|")
 export type AccountsActionType =
   | ReturnType<typeof getAccounts>
@@ -105,4 +133,6 @@ export type AccountsActionType =
   | ReturnType<typeof clearAccountFormErrors>
   | ReturnType<typeof unsetAccountEditId>
   | ReturnType<typeof getAccountSelectOptions>
-  | ReturnType<typeof setAccountSelectOptions>;
+  | ReturnType<typeof setAccountSelectOptions>
+  | ReturnType<typeof setEliminationFormErrors>
+  | ReturnType<typeof clearEliminationFormErrors>

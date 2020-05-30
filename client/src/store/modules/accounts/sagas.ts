@@ -15,6 +15,7 @@ import {
   createAccount,
   editAccount,
   getSelectOptions,
+  createEliminatingTransaction,
 } from './requests';
 import {
   GET_ACCOUNTS,
@@ -24,7 +25,9 @@ import {
   EDIT_ACCOUNT,
   AccountSelectOption,
   GET_ACCOUNT_SELECT_OPTIONS,
+  CREATE_ELIMINATING_TRANSACTION,
 } from './types';
+import { Transaction,storeAddTransaction } from '../transactions';
 
 // The function* syntax is required here, because sagas are based on generator functions.
 
@@ -141,6 +144,43 @@ function* getSelectOptionsSaga(
 function* getSelectOptionsWatcher() {
   yield takeLatest(GET_ACCOUNT_SELECT_OPTIONS, getSelectOptionsSaga);
 }
+function* createEliminatingTransactionSaga(action: ReturnType<typeof actions.createEliminatingTransaction>) {
+  const transaction: {data: Transaction,status: number} = yield call(
+    createEliminatingTransaction, action.payload 
+  );
+  if(transaction.status===201){
+    yield put(storeAddTransaction(transaction.data));
+    yield put(
+      globalActions.setSnackbar({
+        severity: 'success',
+        text: 'Eliminating transaction created succesfully.',
+        isOpen: true,
+      }))
+  }
+  else if (transaction.status===200){
+    yield put(
+      globalActions.setSnackbar({
+        severity: 'info',
+        text: 'Your account balance is already the number you entered.',
+        isOpen: true,
+      }))
+  }
+  else {
+    yield put(
+      globalActions.setSnackbar({
+        severity: 'error',
+        text: 'Something went horribly wrong.',
+        isOpen: true,
+      }))
+  }
+}
+
+function* createEliminatingTransactionWatcher() {
+  yield takeEvery(CREATE_ELIMINATING_TRANSACTION,createEliminatingTransactionSaga)
+}
+
+
+
 
 // Combine all watchers to work on parallel with fork for exporting.
 function* rootSaga() {
@@ -150,6 +190,7 @@ function* rootSaga() {
     fork(createAccountWatcher),
     fork(editAccountWatcher),
     fork(getSelectOptionsWatcher),
+    fork(createEliminatingTransactionWatcher),
   ]);
 }
 

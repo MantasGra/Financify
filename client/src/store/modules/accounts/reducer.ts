@@ -12,6 +12,8 @@ import {
   UNSET_ACCOUNT_EDIT_ID,
   Account,
   SET_ACCOUNT_SELECT_OPTIONS,
+  SET_ELIMINATION_FORM_ERRORS,
+  CLEAR_ELIMINATION_FORM_ERRORS,
 } from './types';
 import { AccountsActionType } from './actions';
 
@@ -20,6 +22,7 @@ const initialState: AccountsState = {
   isModalOpen: false,
   errors: { name: '', type: '' },
   selectOptions: [],
+  eliminationErrors: {accountId: '', newValue: ''}
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
@@ -65,6 +68,19 @@ const reducer = (
           ...state.errors,
           [action.payload.prop]: action.payload.error,
         },
+      };
+      case SET_ELIMINATION_FORM_ERRORS:
+      return {
+        ...state,
+        eliminationErrors: {
+          ...state.eliminationErrors,
+          [action.payload.prop]: action.payload.error,
+        },
+      };
+      case CLEAR_ELIMINATION_FORM_ERRORS:
+      return {
+        ...state,
+        eliminationErrors: { newValue: '', accountId: '' },
       };
     case CLEAR_ACCOUNT_FORM_ERRORS:
       return {
