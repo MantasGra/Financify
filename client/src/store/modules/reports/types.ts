@@ -8,7 +8,7 @@ export interface Tendency {
 }
 
 // Define type for state of a given module
-export interface TendenciesState {
+export interface ReportsState {
   tendencies: Dictionary<Tendency>;
 }
 

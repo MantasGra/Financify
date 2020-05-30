@@ -10,15 +10,15 @@ import {
   TableRow,
   Container,
 } from '@material-ui/core';
-import { Tendency, getTendencies } from 'store/modules/tendencies';
+import { Tendency, getTendencies } from 'store/modules/reports';
 import { State } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
 
 
 const Tend: React.FC = () => {
   const tendencies = useSelector<State, Tendency[]>((state) =>
-  Object.keys(state.tendencies.tendencies).map(
-    (key) => state.tendencies.tendencies[key]
+  Object.keys(state.reports.tendencies).map(
+    (key) => state.reports.tendencies[key]
   )
 );
 

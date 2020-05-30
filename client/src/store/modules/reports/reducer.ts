@@ -1,11 +1,11 @@
 import {
-  TendenciesState,
+ ReportsState ,
   GET_TENDENCIES,
   SET_TENDENCIES,
 } from './types';
 import { TendenciesAction } from './actions';
 
-const initialState: TendenciesState = {
+const initialState: ReportsState = {
   tendencies: {},
 };
 
@@ -13,7 +13,7 @@ const initialState: TendenciesState = {
 const reducer = (
   state = initialState,
   action: TendenciesAction
-): TendenciesState => {
+): ReportsState => {
   switch (action.type) {
     case GET_TENDENCIES:
       return {
