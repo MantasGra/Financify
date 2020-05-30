@@ -59,9 +59,32 @@ namespace server.ResourceManagers
             _transactionStorage.SaveChanges();
         }
 
+        public IQueryable<Transaction> GetUserTransactionsByCategory(int userId, TransactionCategory category, string[] includes = null)
+        {
+            return _transactionStorage.getCollection().Where(s => s.Account.UserId == userId).Where(s => s.Category == category);
+        }
         public IQueryable<Transaction> GetTransactionsForBudget(Budget budget)
         {
             return _transactionStorage.getCollection().Where(s => s.Category == budget.Category);
+        }
+
+        public List<Budget> FormRecommendedBudgets(int userId)
+        {
+            List<Budget> recommendedBudgets = new List<Budget>();
+            foreach (TransactionCategory transactionCategory in Enum.GetValues(typeof(TransactionCategory)))
+            {
+                var transactions = GetUserTransactionsByCategory(userId, transactionCategory);
+                int count = transactions.Count();
+                if (transactions != null && count > 5) {
+                    Budget recommendedBudget = new Budget();
+                    double avgAmount = (from x in transactions select x.Amount).Sum() / count;
+                    recommendedBudget.Amount = avgAmount;
+                    recommendedBudget.Category = transactionCategory;
+                    recommendedBudget.UserId = userId;
+                    recommendedBudgets.Add(recommendedBudget);
+                }
+            }
+            return recommendedBudgets;
         }
     }
 }

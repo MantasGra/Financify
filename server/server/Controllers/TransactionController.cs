@@ -117,10 +117,10 @@ namespace server.Controllers
             return Ok(updatedTransaction);
         }
 
+        [HttpGet("/api/recommended-budgets")]
         public ActionResult<Budget[]> GetRecommendedBudgets([FromQuery] int userId)
         {
-            var transactions = _transactionManager.GetUserTransactions(userId);
-            return Ok();
+            return Ok(_transactionManager.FormRecommendedBudgets(userId));
         }
         // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
         // {
