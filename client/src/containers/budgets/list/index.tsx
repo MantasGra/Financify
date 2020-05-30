@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Table,
-  TableBody,
   TableCell,
   TableContainer,
   TableHead,
@@ -15,7 +14,7 @@ import {
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
 import { getBudgets, Budget } from 'store/modules/budgets';
 import { TransactionCategories } from 'store/modules/transactions';
 import { State } from 'store';
@@ -35,36 +34,46 @@ const Budgets: React.FC = () => {
     dispatch(getBudgets());
   }, [dispatch]);
 
-  // const handleEdit = (id: number) => {
-  //   dispatch(setAccountEditId(id));
-  //   changeRoute(Routes.AccountEdit);
-  // };
-
   const handleCreate = () => {
-    // dispatch(setAccountEditId(0));
-    // changeRoute(Routes.AccountCreate);
+    changeRoute(Routes.BudgetsCreate);
   };
 
+  const handleRecommendedBudgetsButtonClick = () => {
+    changeRoute(Routes.RecommendedBudgets);
+  };
   const history = useHistory();
 
   const changeRoute = (route: string) => {
     history.push(route);
   };
 
+  const resolveProgressionValue = (row: Budget) => {
+    if (!row.usedAmount) return 0;
+    if (row.usedAmount > row.amount) return 100;
+    return ((row.usedAmount / row.amount) * 100);
+  };
+
   return (
     <Container>
       <div className={style.title}>
         <h1>Your Budgets</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          className={style.budgetButton}
+          onClick={handleRecommendedBudgetsButtonClick}
+        >
+          Recommended budgets
+        </Button>
       </div>
       <div>
-        <div>
-          <IconButton>Check out recommended budgets</IconButton>
-        </div>
         <TableContainer>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell>Category</TableCell>
+                <TableCell>From</TableCell>
+                <TableCell>To</TableCell>
                 <TableCell>Progress</TableCell>
                 <TableCell align="right">Actions</TableCell>
               </TableRow>
@@ -73,11 +82,17 @@ const Budgets: React.FC = () => {
               <TableRow key={row.id}>
                 <TableCell>{TransactionCategories[row.category]}</TableCell>
                 <TableCell>
-                  {row.usedAmount} used out of {row.amount}
+                  {new Date(row.dateFrom).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  {new Date(row.dateTo).toLocaleDateString()}
+                </TableCell>
+                <TableCell>
+                  {row.usedAmount?.toFixed(2)} used out of {row.amount.toFixed(2)}
                   <LinearProgress
                     variant="determinate"
                     color="secondary"
-                    value={row.usedAmount / row.amount * 100}
+                    value={resolveProgressionValue(row)}
                   />
                 </TableCell>
                 <TableCell align="right">

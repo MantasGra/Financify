@@ -61,10 +61,10 @@ namespace server.Models
             );
 
             modelBuilder.Entity<Budget>().HasData(
-                new { Id = 1, Amount = 1250.31, Date = new DateTime(), Category = TransactionCategory.Bills, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.AlmostThere, UserId = 1 },
-                new { Id = 2, Amount = 25.61, Date = new DateTime(), Category = TransactionCategory.Gifts, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.Under, UserId = 1 },
-                new { Id = 3, Amount = 400.69, Date = new DateTime(), Category = TransactionCategory.Salary, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.Over, UserId = 1 },
-                new { Id = 4, Amount = 138.51, Date = new DateTime(), Category = TransactionCategory.Shopping, DateFrom = new DateTime(), DateTo = new DateTime(), Status = BudgetStatus.AtThreshold, UserId = 1 }
+                new { Id = 1, Amount = 1250.31, Category = TransactionCategory.Bills, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.AlmostThere, UserId = 1 },
+                new { Id = 2, Amount = 25.61, Category = TransactionCategory.Gifts, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.Under, UserId = 1 },
+                new { Id = 3, Amount = 400.69, Category = TransactionCategory.Salary, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.Over, UserId = 1 },
+                new { Id = 4, Amount = 138.51, Category = TransactionCategory.Shopping, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.AtThreshold, UserId = 1 }
             );
         }
     }

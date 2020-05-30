@@ -71,7 +71,10 @@ namespace server.ResourceManagers
         }
         public IQueryable<Transaction> GetTransactionsForBudget(Budget budget)
         {
-            return _transactionStorage.getCollection().Where(s => s.Category == budget.Category);
+            return _transactionStorage
+                .getCollection()
+                .Where(s => s.Category == budget.Category)
+                .Where(s => s.Date >= budget.DateFrom && s.Date < budget.DateTo);
         }
 
         public List<Budget> FormRecommendedBudgets(int userId)
