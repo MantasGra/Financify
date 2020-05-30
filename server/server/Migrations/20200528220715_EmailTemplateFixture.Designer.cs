@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Models;
 
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200528220715_EmailTemplateFixture")]
+    partial class EmailTemplateFixture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,48 +102,6 @@ namespace server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Amount = 1250.3099999999999,
-                            Category = 6,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 166, DateTimeKind.Local).AddTicks(9513),
-                            Status = 0,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Amount = 25.609999999999999,
-                            Category = 8,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(299),
-                            Status = 2,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Amount = 400.69,
-                            Category = 5,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(333),
-                            Status = 4,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Amount = 138.50999999999999,
-                            Category = 1,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(337),
-                            Status = 1,
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("server.Models.BugReport", b =>
@@ -341,7 +301,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 125.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -351,7 +311,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 13.99,
                             Category = 8,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Disabled = false
                         },
                         new
@@ -360,7 +320,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 4.6500000000000004,
                             Category = 0,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "McDonalds",
                             Disabled = true
                         },
@@ -370,67 +330,7 @@ namespace server.Migrations
                             AccountId = 3,
                             Amount = 87.439999999999998,
                             Category = 7,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccountId = 1,
-                            Amount = 15.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccountId = 1,
-                            Amount = 12.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AccountId = 1,
-                            Amount = 25.309999999999999,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AccountId = 1,
-                            Amount = 45.310000000000002,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 9,
-                            AccountId = 1,
-                            Amount = 16.309999999999999,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 10,
-                            AccountId = 1,
-                            Amount = 115.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            Description = "Some description",
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Disabled = false
                         });
                 });

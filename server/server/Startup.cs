@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using FluentScheduler;
+using System.Runtime.CompilerServices;
 
 namespace server
 {
@@ -62,10 +64,13 @@ namespace server
             services.AddSingleton<ITransactionManager, TransactionManager>();
             services.AddSingleton<IBudgetManager, BudgetManager>();
 
+            services.AddSingleton<ICurrencySubscriptionManager, CurrencySubscriptionManager>();
+            services.AddSingleton<IEmailTemplateManager, EmailTemplateManager>();
 
             // Services
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
+            services.AddSingleton<IMailerService, MailerService>();
 
             services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
@@ -100,6 +105,14 @@ namespace server
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Financify");
             });
+
+            JobManager.UseUtcTime();
+            JobManager.Initialize(
+                new GoodCurrencyPriceCron(
+                    app.ApplicationServices.GetService<ICurrencySubscriptionManager>(),
+                    app.ApplicationServices.GetService<IEmailTemplateManager>(),
+                    app.ApplicationServices.GetService<IMailerService>()
+            ));
         }
 
         private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()

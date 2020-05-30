@@ -66,6 +66,16 @@ namespace server.Models
                 new { Id = 3, Amount = 400.69, Category = TransactionCategory.Salary, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.Over, UserId = 1 },
                 new { Id = 4, Amount = 138.51, Category = TransactionCategory.Shopping, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.AtThreshold, UserId = 1 }
             );
+
+            modelBuilder.Entity<CurrencySubscription>().HasData(
+                new { Id = 1, Currency = "USD", UserId = 1 },
+                new { Id = 2, Currency = "EUR", UserId = 1 },
+                new { Id = 3, Currency = "GBP", UserId = 2 },
+                new { Id = 4, Currency = "EUR", UserId = 3 }
+            );
+            modelBuilder.Entity<EmailTemplate>().HasData(
+               new { Id = 1, Title = "Good currency price", Content = "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD."}
+           );
         }
     }
 }
