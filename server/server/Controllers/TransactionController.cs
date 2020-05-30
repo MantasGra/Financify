@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
+using server.DTO;
 using server.ResourceManagers;
+using server.Services;
 
 namespace server.Controllers
 {
@@ -17,12 +19,15 @@ namespace server.Controllers
 
         private readonly IAccountManager _accountManager;
 
+        public readonly ITendenciesService _tendenciesService;
+
         private readonly string[] _transactionIncludes = new string[] { "Account" };
 
-        public TransactionController(ITransactionManager transactionManager, IAccountManager accountManager)
+        public TransactionController(ITransactionManager transactionManager, IAccountManager accountManager, ITendenciesService tendenciesService)
         {
             _transactionManager = transactionManager;
             _accountManager = accountManager;
+            _tendenciesService = tendenciesService;
         }
 
         [HttpGet]
@@ -39,6 +44,21 @@ namespace server.Controllers
                 transactions = _transactionManager.GetTransactions();
             }
             return Ok(transactions);
+        }
+
+        [HttpGet("tendencies")]  
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<TendencyDto> GetTendencies([FromQuery] int? userId)
+        {
+            List<TendencyDto> tendencies = new List<TendencyDto>();
+            IQueryable<Transaction> transactions = null;
+            if (userId.HasValue)
+            {
+                transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
+                tendencies = _tendenciesService.getTendencies(transactions);
+            }
+          
+            return Ok(tendencies);
         }
 
         [HttpPost]

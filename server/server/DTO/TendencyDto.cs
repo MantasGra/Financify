@@ -7,15 +7,16 @@ namespace server.DTO
 {
     public class TendencyDto
     {
-            public TendencyDto(int month, double coeficient, double amount)
-            {
-                Month = month;
-                Coeficient = coeficient;
-                Amount = amount;
-            }
+        public TendencyDto(DateTime date, double coeficient, double amount)
+        {
+            Date = date;
+            Coeficient = coeficient;
+            Amount = amount;
+        }
+        public TendencyDto() { }
 
-            public int Month { get; set; }
-            public double Coeficient { get; set; }
-            public double Amount { get; set; }      
+        public DateTime Date { get; set; }
+        public double Coeficient { get; set; }
+        public double Amount { get; set; }
     }
 }
