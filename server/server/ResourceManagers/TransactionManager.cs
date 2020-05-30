@@ -16,7 +16,7 @@ namespace server.ResourceManagers
             _transactionStorage = storage;
         }
 
-        public Transaction GetTransaction(int id, string[] includes = null)
+        public Transaction GetTransaction(int id,string[] includes = null)
         {
             return _transactionStorage.getItem(id, includes);
         }
@@ -54,47 +54,9 @@ namespace server.ResourceManagers
         {
             return _transactionStorage.updateItem(transaction, includes);
         }
-        public void SaveChanges()
+        public void SaveChanges() 
         {
             _transactionStorage.SaveChanges();
-        }
-
-        public IQueryable<Transaction> GetUserLastMonthTransactionsByCategory(int userId, TransactionCategory category, string[] includes = null)
-        {
-            var today = DateTime.Today;
-            var max = new DateTime(today.Year, today.Month, 1);
-            var min = max.AddMonths(-1);
-            return _transactionStorage.getCollection()
-            .Where(s => s.Account.UserId == userId)
-            .Where(s => s.Category == category)
-            .Where(s => s.Date >= min && s.Date < max);
-        }
-        public IQueryable<Transaction> GetTransactionsForBudget(Budget budget)
-        {
-            return _transactionStorage.getCollection().Where(s => s.Category == budget.Category);
-        }
-
-        public List<Budget> FormRecommendedBudgets(int userId)
-        {
-            List<Budget> recommendedBudgets = new List<Budget>();
-            foreach (TransactionCategory transactionCategory in Enum.GetValues(typeof(TransactionCategory)))
-            {
-                var transactions = GetUserLastMonthTransactionsByCategory(userId, transactionCategory);
-                if (transactions != null && transactions.Count() > 5)
-                {
-                    Budget recommendedBudget = new Budget();
-                    double sumAmount = (from x in transactions select x.Amount).Sum();
-                    recommendedBudget.Amount = sumAmount;
-                    recommendedBudget.Category = transactionCategory;
-                    recommendedBudget.UserId = userId;
-                    var year = DateTime.Today.Year;
-                    var month = DateTime.Today.Month;
-                    recommendedBudget.DateFrom = new DateTime(year, month, 1);
-                    recommendedBudget.DateTo = new DateTime(year, month, DateTime.DaysInMonth(year, month));
-                    recommendedBudgets.Add(recommendedBudget);
-                }
-            }
-            return recommendedBudgets;
         }
     }
 }

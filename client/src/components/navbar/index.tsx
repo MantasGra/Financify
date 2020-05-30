@@ -16,8 +16,8 @@ const Navbar: React.FC = () => {
     <AppBar position="static">
       <Container>
         <Toolbar>
-          <Button color="inherit" onClick={() => changeRoute(Routes.Budgets)}>
-            Budgets
+          <Button color="inherit" onClick={() => changeRoute(Routes.Home)}>
+            Home
           </Button>
           <Button color="inherit" onClick={() => changeRoute(Routes.Accounts)}>
             Accounts
