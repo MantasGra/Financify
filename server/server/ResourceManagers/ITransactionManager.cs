@@ -12,8 +12,11 @@ namespace server.ResourceManagers
         Transaction AddTransaction(Transaction transaction);
         IQueryable<Transaction> GetTransactions();
         IQueryable<Transaction> GetUserTransactions(int userId, string[] includes = null);
+        IQueryable<Transaction> GetUserLastMonthTransactionsByCategory(int userId, TransactionCategory category, string[] includes = null);
         void DeleteTransaction(Transaction transaction);
         Transaction UpdateTransaction(Transaction transaction, string[] includes = null);
         void SaveChanges();
+        IQueryable<Transaction> GetTransactionsForBudget(Budget budget);
+        List<Budget> FormRecommendedBudgets(int userId);
     }
 }

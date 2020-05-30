@@ -117,6 +117,12 @@ namespace server.Controllers
             return Ok(updatedTransaction);
         }
 
+        [HttpGet("/api/recommended-budgets")]
+        public ActionResult<Budget[]> GetRecommendedBudgets([FromQuery] int userId)
+        {
+            return Ok(_transactionManager.FormRecommendedBudgets(userId));
+        }
+
         [HttpPost("{accountId},{newValue}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

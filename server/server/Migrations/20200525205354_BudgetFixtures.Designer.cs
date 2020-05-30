@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Models;
 
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200525205354_BudgetFixtures")]
+    partial class BudgetFixtures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,7 +107,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 1,
-                            Amount = 1250.3099999999999,
+                            Amount = 125.31,
                             Category = 6,
                             DateFrom = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateTo = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -186,32 +188,6 @@ namespace server.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CurrencySubscriptions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Currency = "USD",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Currency = "EUR",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Currency = "GBP",
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Currency = "EUR",
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("server.Models.EmailTemplate", b =>
@@ -232,14 +208,6 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailTemplates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD.",
-                            Title = "Good currency price"
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Response", b =>
@@ -341,7 +309,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 125.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -351,7 +319,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 13.99,
                             Category = 8,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Disabled = false
                         },
                         new
@@ -360,7 +328,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 4.6500000000000004,
                             Category = 0,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "McDonalds",
                             Disabled = true
                         },
@@ -370,67 +338,7 @@ namespace server.Migrations
                             AccountId = 3,
                             Amount = 87.439999999999998,
                             Category = 7,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccountId = 1,
-                            Amount = 15.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccountId = 1,
-                            Amount = 12.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AccountId = 1,
-                            Amount = 25.309999999999999,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AccountId = 1,
-                            Amount = 45.310000000000002,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 9,
-                            AccountId = 1,
-                            Amount = 16.309999999999999,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
-                            Disabled = false
-                        },
-                        new
-                        {
-                            Id = 10,
-                            AccountId = 1,
-                            Amount = 115.31,
-                            Category = 6,
-                            Date = new DateTime(2020, 4, 30, 15, 6, 50, 179, DateTimeKind.Local).AddTicks(1144),
-                            Description = "Some description",
+                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Disabled = false
                         });
                 });
@@ -492,7 +400,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 3,
-                            Email = "mykolasvitkus@gmail.com",
+                            Email = "DavidDReed@rhyta.com",
                             Fullname = "David D. Reed",
                             Password = "123456789",
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
