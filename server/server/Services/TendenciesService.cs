@@ -12,7 +12,7 @@ namespace server.Services
     public class TendenciesService : ITendenciesService
     {
     
-        public List<TendencyDto> getTendencies(IQueryable<Transaction> transactions)
+        public List<TendencyDto> formTendencies(IQueryable<Transaction> transactions)
         {
             List<TendencyDto> tendencies = new List<TendencyDto>() ;
             var transactionList = transactions.ToList();

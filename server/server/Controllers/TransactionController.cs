@@ -55,7 +55,7 @@ namespace server.Controllers
             if (userId.HasValue)
             {
                 transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
-                tendencies = _tendenciesService.getTendencies(transactions);
+                tendencies = _tendenciesService.formTendencies(transactions);
             }
           
             return Ok(tendencies);
