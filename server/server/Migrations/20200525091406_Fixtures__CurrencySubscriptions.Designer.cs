@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using server.Models;
 
 namespace server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200525091406_Fixtures__CurrencySubscriptions")]
+    partial class Fixtures__CurrencySubscriptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,14 +192,6 @@ namespace server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailTemplates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD.",
-                            Title = "Good currency price"
-                        });
                 });
 
             modelBuilder.Entity("server.Models.Response", b =>
@@ -390,7 +384,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 3,
-                            Email = "mykolasvitkus@gmail.com",
+                            Email = "DavidDReed@rhyta.com",
                             Fullname = "David D. Reed",
                             Password = "123456789",
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
