@@ -57,6 +57,9 @@ const Budgets: React.FC = () => {
         <h1>Your Budgets</h1>
       </div>
       <div>
+        <div>
+          <IconButton>Check out recommended budgets</IconButton>
+        </div>
         <TableContainer>
           <Table aria-label="simple table">
             <TableHead>
