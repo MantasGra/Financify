@@ -1,0 +1,38 @@
+.fab {
+    position: fixed !important;
+    bottom: 32px;
+    right: 32px;
+}
+
+.listItemPrimary>span {
+    color: darkgray;
+}
+
+.listItemPrimary>span>span {
+    font-size: smaller;
+}
+
+.listItemSecondary {
+    word-wrap: break-word;
+    color: #162950;
+}
+
+.paperContainer {
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+}
+
+.title {
+    text-align: center;
+}
+
+.listStyle {
+    margin: auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+.graphStyle {
+    text-align: center;
+}
