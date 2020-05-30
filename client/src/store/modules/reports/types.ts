@@ -2,7 +2,7 @@ import { Dictionary } from 'utils/types';
 
 // Define types for different objects
 export interface Tendency {
-  date: String;
+  date: Date;
   amount: number;
   coeficient: number;
 }
@@ -15,4 +15,3 @@ export interface ReportsState {
 // Define action names
 export const GET_TENDENCIES = 'tendencies/GET_TENDENCIES';
 export const SET_TENDENCIES = 'tendencies/SET_TENDENCIES';
-

@@ -1,19 +1,8 @@
-import {
-  all,
-  call,
-  fork,
-  put,
-  takeEvery,
-} from 'redux-saga/effects';
+import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { toDictionary } from 'utils/parsers';
 import * as actions from './actions';
-import {
-  getTendencies,
-} from './requests';
-import {
-  GET_TENDENCIES,
-  Tendency,
-} from './types';
+import { getTendencies } from './requests';
+import { GET_TENDENCIES, Tendency } from './types';
 
 // The function* syntax is required here, because sagas are based on generator functions.
 
@@ -30,9 +19,7 @@ function* getTendenciesWatcher() {
 
 // Combine all watchers to work on parallel with fork for exporting.
 function* rootSaga() {
-  yield all([
-    fork(getTendenciesWatcher),
-  ]);
+  yield all([fork(getTendenciesWatcher)]);
 }
 
 export default rootSaga;

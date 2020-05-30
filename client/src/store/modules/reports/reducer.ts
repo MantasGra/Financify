@@ -1,8 +1,4 @@
-import {
- ReportsState ,
-  GET_TENDENCIES,
-  SET_TENDENCIES,
-} from './types';
+import { ReportsState, GET_TENDENCIES, SET_TENDENCIES } from './types';
 import { TendenciesAction } from './actions';
 
 const initialState: ReportsState = {
