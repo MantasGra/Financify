@@ -30,7 +30,7 @@ const dispatch = useDispatch();
   tendencies.forEach(tendency => {
     tendency.date = tendency.date.toString().substr(0,4) +  tendency.date.toString().substr(4,3)
     tendency.amount = Number (tendency.amount.toFixed(2))
-    tendency.coeficient = Number (tendency.amount.toFixed(5))
+    tendency.coeficient = Number (tendency.coeficient.toFixed(5))
   });
 
   const data = tendencies;
