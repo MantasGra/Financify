@@ -1,9 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Container } from '@material-ui/core';
 import Transaction from 'containers/transactions';
 import TransactionForm from 'containers/transactions/components/form';
 import Accounts from './containers/accounts/list';
 import AccountForm from './containers/accounts/form';
+import CurrencySubscriptions from './containers/currencySubscriptions/list';
+import CurrencySubscriptionForm from './containers/currencySubscriptions/form';
 import Navbar from './components/navbar';
 import Routes from './utils/routes';
 import Snackbar from './components/snackbar';
@@ -14,7 +17,9 @@ const App = () => {
       <Navbar />
       <Switch>
         <Route exact path={Routes.Home}>
-          TODO: Implement home page
+          <Container>
+            <h1>Home page</h1>
+          </Container>
         </Route>
         <Route path={[Routes.TransactionsCreate, Routes.TransactionsEdit]}>
           <TransactionForm />
@@ -27,6 +32,12 @@ const App = () => {
         </Route>
         <Route path={Routes.Accounts}>
           <Accounts />
+        </Route>
+        <Route exact path={Routes.CurrencySubscriptions}>
+          <CurrencySubscriptions />
+        </Route>
+        <Route path={Routes.CurrencySubscriptionCreate}>
+          <CurrencySubscriptionForm />
         </Route>
       </Switch>
       <Snackbar />
