@@ -28,13 +28,10 @@ interface IState {
     date: string;
     amount: number;
     coefficient: number;
-  }>
+  }>;
 }
 
-
-
-
-const Tend: React.FC = () => {
+const Tendencies: React.FC = () => {
   const tendencies = useSelector<State, Tendency[]>((state) =>
     Object.keys(state.reports.tendencies).map(
       (key) => state.reports.tendencies[key]
@@ -48,31 +45,23 @@ const Tend: React.FC = () => {
         data: tendencies.map((tendency) => ({
           date: moment(tendency.date).format('YYYY-MM'),
           amount: Number(tendency.amount.toFixed(2)),
-          coefficient: Number(tendency.coeficient.toFixed(5))
-        }))
+          coefficient: Number(tendency.coeficient.toFixed(5)),
+        })),
       });
     }
-  }, [tendencies]);
+  }, [tendencies.length]);
 
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getTendencies());
   }, [dispatch]);
 
-
-
-  
   return (
     <div className={style.title}>
       <h1>Your Tendencies</h1>
 
       <Container>
-        <LineChart
-          width={1200}
-          height={400}
-          data={state.data}
-          margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-        >
+        <LineChart width={1200} height={400} data={state.data}>
           <XAxis dataKey="date" />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
@@ -116,4 +105,4 @@ const Tend: React.FC = () => {
   );
 };
 
-export default Tend;
+export default Tendencies;
