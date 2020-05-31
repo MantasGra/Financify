@@ -1,8 +1,23 @@
 import React from 'react';
-import { Container, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@material-ui/core';
+import {
+  Container,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from '@material-ui/core';
 import { State } from 'store';
 import { useSelector, useDispatch } from 'react-redux';
-import { CurrencySubscription, CurrencySubscriptionCurrencies, CurrencySubscriptionFormErrors, clearCurrencySubscriptionFormErrors, setCurrencySubscriptionFormErrors, createCurrencySubscription } from 'store/modules/currencySubscriptions';
+import {
+  CurrencySubscription,
+  CurrencySubscriptionCurrencies,
+  CurrencySubscriptionFormErrors,
+  clearCurrencySubscriptionFormErrors,
+  setCurrencySubscriptionFormErrors,
+  createCurrencySubscription,
+} from 'store/modules/currencySubscriptions';
 import { useHistory } from 'react-router-dom';
 import Routes from 'utils/routes';
 import style from './style.module.scss';
@@ -13,8 +28,8 @@ export interface IState {
 
 const CurrencySubscriptionForm: React.FC = () => {
   const currencySubscription = useSelector<
-  State,
-  CurrencySubscription | undefined
+    State,
+    CurrencySubscription | undefined
   >((s) => undefined);
 
   const [state, setState] = React.useState<IState>({
@@ -28,11 +43,9 @@ const CurrencySubscriptionForm: React.FC = () => {
   }, [currencySubscription]);
 
   const errors: CurrencySubscriptionFormErrors = useSelector<
-  State,
-  CurrencySubscriptionFormErrors
-  >(
-    (s) => s.currencySubscription.errors
-  );
+    State,
+    CurrencySubscriptionFormErrors
+  >((s) => s.currencySubscription.errors);
 
   const history = useHistory();
 
@@ -95,10 +108,11 @@ const CurrencySubscriptionForm: React.FC = () => {
             id="currency"
             labelId="currencyLabel"
             value={state.currency}
-            onChange={(e) => 
+            onChange={(e) =>
               handleCurrencyChange(
                 e.target.value as CurrencySubscriptionCurrencies
-              )}
+              )
+            }
             fullWidth
           >
             {Object.keys(CurrencySubscriptionCurrencies).map((type) => {
@@ -117,8 +131,19 @@ const CurrencySubscriptionForm: React.FC = () => {
           ) : null}
         </FormControl>
         <div className={style.Form__ActionContainer}>
-          <Button className={style.Form__Button} variant="contained" color="primary" onClick={handleSave}>Submit</Button>
-          <Button className={style.Form__Button} color="primary" onClick={handleToList}>
+          <Button
+            className={style.Form__Button}
+            variant="contained"
+            color="primary"
+            onClick={handleSave}
+          >
+            Submit
+          </Button>
+          <Button
+            className={style.Form__Button}
+            color="primary"
+            onClick={handleToList}
+          >
             Back to list
           </Button>
         </div>

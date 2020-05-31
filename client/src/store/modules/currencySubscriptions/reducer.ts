@@ -1,4 +1,10 @@
-import { CurrencySubscriptionsState, SET_CURRENCY_SUBSCRIPTIONS, STORE_ADD_CURRENCY_SUBSCRIPTION, SET_CURRENCY_SUBSCRIPTION_FORM_ERRORS, CLEAR_CURRENCY_SUBSCRIPTION_FORM_ERRORS } from './types';
+import {
+  CurrencySubscriptionsState,
+  SET_CURRENCY_SUBSCRIPTIONS,
+  STORE_ADD_CURRENCY_SUBSCRIPTION,
+  SET_CURRENCY_SUBSCRIPTION_FORM_ERRORS,
+  CLEAR_CURRENCY_SUBSCRIPTION_FORM_ERRORS,
+} from './types';
 import { CurrencySubscriptionsActionType } from './actions';
 
 const initialState: CurrencySubscriptionsState = {
@@ -12,7 +18,7 @@ const reducer = (
   state = initialState,
   action: CurrencySubscriptionsActionType
 ): CurrencySubscriptionsState => {
-  switch(action.type) {
+  switch (action.type) {
     case SET_CURRENCY_SUBSCRIPTIONS:
       return {
         ...state,
@@ -23,7 +29,7 @@ const reducer = (
         ...state,
         currencySubscriptions: {
           ...state.currencySubscriptions,
-          [action.payload.id]: action.payload
+          [action.payload.id]: action.payload,
         },
       };
     case SET_CURRENCY_SUBSCRIPTION_FORM_ERRORS:

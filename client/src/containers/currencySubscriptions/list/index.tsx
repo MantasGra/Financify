@@ -1,8 +1,18 @@
 import React from 'react';
-import { Container, Fab, Card, CardHeader, CardActions, Button } from '@material-ui/core';
+import {
+  Container,
+  Fab,
+  Card,
+  CardHeader,
+  CardActions,
+  Button,
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrencySubscriptions, CurrencySubscription } from 'store/modules/currencySubscriptions';
+import {
+  getCurrencySubscriptions,
+  CurrencySubscription,
+} from 'store/modules/currencySubscriptions';
 import { State } from 'store';
 import Routes from 'utils/routes';
 import { useHistory } from 'react-router-dom';
@@ -10,11 +20,11 @@ import style from './style.module.scss';
 
 const CurrencySubscriptions: React.FC = () => {
   const currencySubscriptions: CurrencySubscription[] = useSelector<
-  State,
-  CurrencySubscription[]
+    State,
+    CurrencySubscription[]
   >((state) => {
     return Object.keys(state.currencySubscription.currencySubscriptions).map(
-      (key) => state.currencySubscription.currencySubscriptions[key],
+      (key) => state.currencySubscription.currencySubscriptions[key]
     );
   });
 
@@ -37,9 +47,9 @@ const CurrencySubscriptions: React.FC = () => {
   return (
     <Container>
       <h1>Your Currency Subscriptions</h1>
-      {currencySubscriptions.length > 0 ?
+      {currencySubscriptions.length > 0 ? (
         <div className={style.List__Container}>
-          {currencySubscriptions.map(row => (
+          {currencySubscriptions.map((row) => (
             <Card className={style.List__Card} key={row.id}>
               <CardHeader title={row.currency} subheader="Currency" />
               <CardActions>
@@ -48,7 +58,9 @@ const CurrencySubscriptions: React.FC = () => {
             </Card>
           ))}
         </div>
-        : <span>You don't have any currency subscriptions yet.</span>}
+      ) : (
+        <span>You don't have any currency subscriptions yet.</span>
+      )}
       <Fab
         size="medium"
         color="secondary"

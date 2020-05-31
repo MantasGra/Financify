@@ -9,7 +9,7 @@ import {
   CREATE_CURRENCY_SUBSCRIPTION,
   CLEAR_CURRENCY_SUBSCRIPTION_FORM_ERRORS,
   STORE_ADD_CURRENCY_SUBSCRIPTION,
-  CurrencySubscriptionFormType
+  CurrencySubscriptionFormType,
 } from './types';
 
 export const getCurrencySubscriptions = createAction<
