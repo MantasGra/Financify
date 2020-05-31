@@ -1,8 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
-import { Tendency } from './types';
+import { Tendency, ExpensesReport } from './types';
 
 interface GetTendenciesResponse extends AxiosResponse {
   data: Tendency[];
+}
+
+interface GetExpensesReport extends AxiosResponse {
+  data: ExpensesReport[];
 }
 
 export const getTendencies = () =>
@@ -11,3 +15,10 @@ export const getTendencies = () =>
       params: { userId: 1 },
     })
     .then((res: GetTendenciesResponse) => res.data);
+
+export const getExpensesReport = () =>
+  axios
+    .get('https://localhost:5001/api/transactions/expenses-report', {
+      params: { userId: 1 },
+    })
+    .then((res: GetExpensesReport) => res.data);

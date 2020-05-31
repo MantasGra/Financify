@@ -21,13 +21,16 @@ namespace server.Controllers
 
         public readonly ITendenciesService _tendenciesService;
 
+        public readonly IReportsService _reportsService;
+
         private readonly string[] _transactionIncludes = new string[] { "Account" };
 
-        public TransactionController(ITransactionManager transactionManager, IAccountManager accountManager, ITendenciesService tendenciesService)
+        public TransactionController(ITransactionManager transactionManager, IAccountManager accountManager, ITendenciesService tendenciesService, IReportsService reportsService)
         {
             _transactionManager = transactionManager;
             _accountManager = accountManager;
             _tendenciesService = tendenciesService;
+            _reportsService = reportsService;
         }
 
         [HttpGet]
@@ -46,7 +49,7 @@ namespace server.Controllers
             return Ok(transactions);
         }
 
-        [HttpGet("tendencies")]  
+        [HttpGet("tendencies")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<TendencyDto> GetTendencies([FromQuery] int? userId)
         {
@@ -57,18 +60,18 @@ namespace server.Controllers
                 transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
                 tendencies = _tendenciesService.formTendencies(transactions);
             }
-          
+
             return Ok(tendencies);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<Transaction> PostTransaction([FromBody]Transaction transaction)
+        public ActionResult<Transaction> PostTransaction([FromBody] Transaction transaction)
         {
             _transactionManager.AddTransaction(transaction);
             return CreatedAtAction(nameof(GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction(transaction.Id, _transactionIncludes));
         }
-        
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -86,7 +89,7 @@ namespace server.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Transaction> DeleteTransaction([FromRoute]int id)
+        public ActionResult<Transaction> DeleteTransaction([FromRoute] int id)
         {
             var transaction = _transactionManager.GetTransaction(id);
             if (transaction != null)
@@ -135,6 +138,18 @@ namespace server.Controllers
                 return BadRequest();
             }
             return Ok(updatedTransaction);
+        }
+        [HttpGet("expenses-report")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<List<MonthlyExpensesDto>> GetMonthlyExpensesReport([FromQuery] int userId)
+        {
+            if (userId == 0)
+            {
+                return BadRequest("You must provide user id");
+            }
+            List<MonthlyExpensesDto> expensesReport = _reportsService.FormMonthlyExpensesReport(userId);
+            return Ok(expensesReport);
         }
         // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
         // {

@@ -34,6 +34,9 @@ const Navbar: React.FC = () => {
           >
             Tendencies
           </Button>
+          <Button color="inherit" onClick={() => changeRoute(Routes.Reports)}>
+            Reports
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>

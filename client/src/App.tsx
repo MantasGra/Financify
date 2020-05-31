@@ -5,6 +5,8 @@ import TransactionForm from 'containers/transactions/components/form';
 import Accounts from './containers/accounts/list';
 import AccountForm from './containers/accounts/form';
 import Tendencies from './containers/tendencies';
+import Reports from './containers/reports';
+import MonthlyExpensesReport from './containers/reports/monthlyExpensesReport';
 import Navbar from './components/navbar';
 import Routes from './utils/routes';
 import Snackbar from './components/snackbar';
@@ -31,6 +33,12 @@ const App = () => {
         </Route>
         <Route path={Routes.Tendencies}>
           <Tendencies />
+        </Route>
+        <Route exact path={Routes.Reports}>
+          <Reports />
+        </Route>
+        <Route exact path={Routes.MonthlyExpensesReport}>
+          <MonthlyExpensesReport />
         </Route>
       </Switch>
       <Snackbar />
