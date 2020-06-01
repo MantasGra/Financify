@@ -16,7 +16,7 @@ namespace server.Migrations
                 keyColumn: "Id",
                 keyValue: 3,
                 column: "Email",
-                value: "mykolasvitkus@gmail.com");
+                value: "lanac91245@dfb55.com");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

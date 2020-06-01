@@ -53,7 +53,7 @@ namespace server.ResourceManagers
             {
                 sum += transaction.Amount;
             }
-            dto.UsedAmount = sum;
+            dto.UsedAmount = -sum;
             return dto;
         }
     }

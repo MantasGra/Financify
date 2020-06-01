@@ -88,7 +88,7 @@ const Budgets: React.FC = () => {
                   {new Date(row.dateTo).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
-                  {row.usedAmount?.toFixed(2)} used out of{' '}
+                  {row.usedAmount && row.usedAmount < 0 ? (0).toFixed(2) : row.usedAmount?.toFixed(2)} used out of{' '}
                   {row.amount.toFixed(2)}
                   <LinearProgress
                     variant="determinate"

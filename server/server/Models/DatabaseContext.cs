@@ -19,7 +19,7 @@ namespace server.Models {
         public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseMySql ("Server=localhost;Database=financify;User=root;Password=");
+            optionsBuilder.UseMySql ("Server=localhost;Database=financify;User=root;Password=root");
         }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
