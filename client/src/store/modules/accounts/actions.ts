@@ -135,4 +135,4 @@ export type AccountsActionType =
   | ReturnType<typeof getAccountSelectOptions>
   | ReturnType<typeof setAccountSelectOptions>
   | ReturnType<typeof setEliminationFormErrors>
-  | ReturnType<typeof clearEliminationFormErrors>
+  | ReturnType<typeof clearEliminationFormErrors>;

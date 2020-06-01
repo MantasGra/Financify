@@ -160,7 +160,7 @@ function* createEliminatingTransactionSaga(action: ReturnType<typeof actions.cre
   else if (transaction.status===200){
     yield put(
       globalActions.setSnackbar({
-        severity: 'info',
+        severity: 'success',
         text: 'Your account balance is already the number you entered.',
         isOpen: true,
       }))
