@@ -29,19 +29,4 @@ namespace server.Services
     }
 
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
+} 
