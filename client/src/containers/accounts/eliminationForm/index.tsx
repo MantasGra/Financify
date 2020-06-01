@@ -151,14 +151,12 @@ const EliminatingForm: React.FC = () => {
                 }
               />
             </div>
-            <div className={style.actionsContainer}>
               <div className={style.buttonContainer}>
                 <Button variant="contained" color="primary" onClick={handleSave}>
                   Submit
                 </Button>
               </div>
             </div>
-          </div>
         </Container>
       );
     };
