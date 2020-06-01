@@ -63,7 +63,11 @@ namespace server.Controllers {
         [ProducesResponseType (StatusCodes.Status201Created)]
         public ActionResult<Transaction> PostTransaction ([FromBody] Transaction transaction) {
             _transactionManager.AddTransaction(transaction);
-            _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+            var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+            foreach (var budget in budgets)
+            {
+                _budgetManager.UpdateBudget(budget);
+            }
             return CreatedAtAction (nameof (GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction (transaction.Id, _transactionIncludes));
         }
 
@@ -85,7 +89,11 @@ namespace server.Controllers {
         public ActionResult<Transaction> DeleteTransaction ([FromRoute] int id) {
             var transaction = _transactionManager.GetTransaction (id);
             if (transaction != null) {
-                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+                var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+                foreach (var budget in budgets)
+                {
+                    _budgetManager.UpdateBudget(budget);
+                }
                 _transactionManager.DeleteTransaction (transaction);
                 return Ok ();
             }
@@ -118,7 +126,11 @@ namespace server.Controllers {
             Transaction updatedTransaction = null;
             try {
                 updatedTransaction = _transactionManager.UpdateTransaction (transaction, _transactionIncludes);
-                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+                var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+                foreach (var budget in budgets)
+                {
+                    _budgetManager.UpdateBudget(budget);
+                }
             }
             catch {
                 return BadRequest ();

@@ -28,6 +28,10 @@ namespace server.ResourceManagers
         {
             return _budgetStorage.createItem(budget);
         }
+        public Budget UpdateBudget(Budget budget, string[] includes = null)
+        {
+            return _budgetStorage.updateItem(budget, includes);
+        }
         public List<BudgetDto> GetBudgets(int ?userId)
         {
             List<BudgetDto> budgets = new List<BudgetDto>();
