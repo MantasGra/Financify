@@ -48,7 +48,7 @@ namespace server.Controllers
 
         [HttpGet("tendencies")]  
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<TendencyDto> GetTendencies([FromQuery] int userId)
+        public ActionResult<List<TendencyDto>> GetTendencies([FromQuery] int userId)
         {
             if (userId > 0)
             {

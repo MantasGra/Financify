@@ -32,10 +32,8 @@ interface IState {
 }
 
 const Tendencies: React.FC = () => {
-  const tendencies = useSelector<State, Tendency[]>((state) =>
-    Object.keys(state.reports.tendencies).map(
-      (key) => state.reports.tendencies[key]
-    )
+  const tendencies = useSelector<State, Tendency[]>(
+    (state) => state.reports.tendencies
   );
   const [state, setState] = React.useState<IState>({ data: [] });
 
@@ -44,12 +42,12 @@ const Tendencies: React.FC = () => {
       setState({
         data: tendencies.map((tendency) => ({
           date: moment(tendency.date).format('YYYY-MM'),
-          amount: Number(tendency.amount.toFixed(2)),
-          coefficient: Number(tendency.coeficient.toFixed(5)),
+          amount: tendency.amount,
+          coefficient: tendency.coeficient,
         })),
       });
     }
-  }, [tendencies.length]);
+  }, [tendencies]);
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -90,10 +88,10 @@ const Tendencies: React.FC = () => {
                     {row.date}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.amount}
+                    {row.amount.toFixed(2)}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.coefficient}
+                    {row.coefficient.toFixed(5)}
                   </TableCell>
                 </TableRow>
               ))}

@@ -2,7 +2,7 @@ import { ReportsState, GET_TENDENCIES, SET_TENDENCIES } from './types';
 import { TendenciesAction } from './actions';
 
 const initialState: ReportsState = {
-  tendencies: {},
+  tendencies: [],
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.
