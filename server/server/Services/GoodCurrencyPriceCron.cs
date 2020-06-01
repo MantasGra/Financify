@@ -36,7 +36,7 @@ namespace server.Services
                 var latestPrice = CheckForGoodPrice(currencySubscription.Currency);
                 if (latestPrice > 0)
                 {
-                    _mailerService.SendEmail(currencySubscription.User.Email, 1, new object[] { currencySubscription.Currency, latestPrice});
+                    _mailerService.SendEmail(currencySubscription.User.Email, 1, new object[] { currencySubscription.Currency, latestPrice });
                 }
             }
         }
@@ -74,13 +74,12 @@ namespace server.Services
                     for (int day = 1; day <= days; day++)
                     {
                         var checkDate = new DateTime(first.Year, first.Month, day).ToString("yyyy-MM-dd");
-                        if(Rates.rates[checkDate] != null)
+                        if (Rates.rates[checkDate] != null)
                         {
                             sum += Convert.ToDouble(Rates.rates[checkDate][currency]);
                             foundDays++;
                         }
                     }
-
                     return (sum / foundDays);
                 }
             }
