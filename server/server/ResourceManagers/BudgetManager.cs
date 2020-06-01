@@ -36,7 +36,6 @@ namespace server.ResourceManagers
             }
             return budgets;
         }
-        public void DeleteBudget(Budget budget) { }
 
         public BudgetDto transformBudgetToDto(Budget budget)
         {

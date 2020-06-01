@@ -16,6 +16,9 @@ const App = () => {
     <Router>
       <Navbar />
       <Switch>
+        <Route exact path={Routes.Home}>
+          TODO: Implement home page
+        </Route>
         <Route exact path={Routes.BudgetsCreate}>
           <BudgetForm />
         </Route>

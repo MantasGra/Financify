@@ -38,8 +38,8 @@ const BudgetForm: React.FC = () => {
   const [state, setState] = React.useState<IState>({
     amount: 0,
     category: '',
-    dateFrom: new Date() as Date,
-    dateTo: new Date() as Date,
+    dateFrom: new Date(),
+    dateTo: new Date(),
   });
 
   const errors: BudgetFormErrors = useSelector<State, BudgetFormErrors>(
@@ -134,10 +134,10 @@ const BudgetForm: React.FC = () => {
 
   return (
     <Container>
-      <div className={style.title}>
+      <div>
         <h1>Create Budget</h1>
       </div>
-      <div className={style.formArea}>
+      <div>
         <div className={style.formField}>
           <TextField
             id="amount"
@@ -232,7 +232,6 @@ const BudgetForm: React.FC = () => {
         <Button
           variant="contained"
           color="primary"
-          className={style.button}
           onClick={handleSave}
         >
           Submit

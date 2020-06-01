@@ -12,6 +12,5 @@ namespace server.ResourceManagers
         Budget GetBudget(int id);
         Budget AddBudget(Budget budget);
         List<BudgetDto> GetBudgets(int ?userId);
-        void DeleteBudget(Budget budget);
     }
 }
