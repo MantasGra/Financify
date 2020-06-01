@@ -23,6 +23,9 @@ const Navbar: React.FC = () => {
             <Button color="inherit" onClick={() => changeRoute(Routes.Home)}>
               Home
             </Button>
+            <Button color="inherit" onClick={() => changeRoute(Routes.Budgets)}>
+              Budgets
+            </Button>
             <Divider className={style.AppBar__Divider} orientation="vertical" />
             <Button
               color="inherit"

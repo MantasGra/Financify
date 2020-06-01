@@ -44,11 +44,27 @@ namespace server.Models
                 new { Id = 4, Name = "Default", Type = AccountType.Cash, UserId = 3 }
             );
 
+            var LastMonth = DateTime.Now.AddMonths(-1);
+
             modelBuilder.Entity<Transaction>().HasData(
-                new { Id = 1, Amount = 125.31, Date = new DateTime(), Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
-                new { Id = 2, Amount = 13.99, Date = new DateTime(), Category = TransactionCategory.Gifts, Disabled = false, AccountId = 1 },
-                new { Id = 3, Amount = 4.65, Date = new DateTime(), Category = TransactionCategory.Food, Description = "McDonalds", Disabled = true, AccountId = 1 },
-                new { Id = 4, Amount = 87.44, Date = new DateTime(), Category = TransactionCategory.Fuel, Disabled = false, AccountId = 3 }
+                new { Id = 1, Amount = 125.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 2, Amount = 13.99, Date = LastMonth, Category = TransactionCategory.Gifts, Disabled = false, AccountId = 1 },
+                new { Id = 3, Amount = 4.65, Date = LastMonth, Category = TransactionCategory.Food, Description = "McDonalds", Disabled = true, AccountId = 1 },
+                new { Id = 4, Amount = 87.44, Date = LastMonth, Category = TransactionCategory.Fuel, Disabled = false, AccountId = 3 },
+                new { Id = 5, Amount = 15.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 6, Amount = 12.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 7, Amount = 25.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 8, Amount = 45.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 9, Amount = 16.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
+                new { Id = 10, Amount = 115.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 }
+
+            );
+
+            modelBuilder.Entity<Budget>().HasData(
+                new { Id = 1, Amount = 1250.31, Category = TransactionCategory.Bills, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.AlmostThere, UserId = 1 },
+                new { Id = 2, Amount = 25.61, Category = TransactionCategory.Gifts, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.Under, UserId = 1 },
+                new { Id = 3, Amount = 400.69, Category = TransactionCategory.Salary, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.Over, UserId = 1 },
+                new { Id = 4, Amount = 138.51, Category = TransactionCategory.Shopping, DateFrom = LastMonth, DateTo = DateTime.Now, Status = BudgetStatus.AtThreshold, UserId = 1 }
             );
 
             modelBuilder.Entity<CurrencySubscription>().HasData(
