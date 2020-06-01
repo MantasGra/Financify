@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { Account, AccountFormType, AccountSelectOption } from './types';
+import { Account, AccountFormType, AccountSelectOption, EliminationForm } from './types';
+import { Transaction } from '../transactions';
 
 interface GetAccountsResponse extends AxiosResponse {
   data: Account[];
@@ -8,6 +9,14 @@ interface GetAccountsResponse extends AxiosResponse {
 interface GetSelectOptionsResponse extends AxiosResponse {
   data: AccountSelectOption[];
 }
+interface CreateEliminatingTransaction extends AxiosResponse {
+  data: Transaction;
+}
+export const createEliminatingTransaction = (eliminationForm: EliminationForm)  =>
+  axios
+    .post('https://localhost:5001/api/accounts/eliminate', eliminationForm)
+    .then((res: CreateEliminatingTransaction) => ({data: res.data,status: res.status}));
+
 
 export const getAccounts = () =>
   axios

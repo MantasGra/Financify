@@ -16,6 +16,7 @@ import CurrencySubscriptionForm from './containers/currencySubscriptions/form';
 import Navbar from './components/navbar';
 import Routes from './utils/routes';
 import Snackbar from './components/snackbar';
+import EliminatingForm from 'containers/accounts/eliminationForm';
 
 const App = () => {
   return (
@@ -45,8 +46,11 @@ const App = () => {
         <Route path={[Routes.AccountCreate, Routes.AccountEdit]}>
           <AccountForm />
         </Route>
-        <Route path={Routes.Accounts}>
+        <Route exact path={Routes.Accounts}>
           <Accounts />
+        </Route>
+        <Route path={Routes.EliminateMismatch}>
+          <EliminatingForm/>
         </Route>
         <Route path={Routes.Tendencies}>
           <Tendencies />

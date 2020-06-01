@@ -9,7 +9,7 @@
   flex-wrap: wrap;
 
   .List__Card {
-    min-width: 220px;
+    max-width: 220px;
     margin: 16px;
     flex: 1 0 auto;
   }

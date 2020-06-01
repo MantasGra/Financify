@@ -15,7 +15,19 @@ export interface AccountsState {
   errors: AccountFormErrors;
   editId?: number;
   selectOptions: AccountSelectOption[];
+  eliminationErrors: EliminationFormErrors;
 }
+
+export interface EliminationForm {
+  accountId: number;
+  newValue:number;
+}
+export interface EliminationFormErrors {
+  accountId: string;
+  newValue: string;
+}
+
+
 
 export interface AccountFormType {
   name: string;
@@ -54,3 +66,6 @@ export const SET_ACCOUNT_EDIT_ID = 'accounts/SET_ACCOUNT_EDIT_ID';
 export const UNSET_ACCOUNT_EDIT_ID = 'accounts/UNSET_ACCOUNT_EDIT_ID';
 export const GET_ACCOUNT_SELECT_OPTIONS = 'accounts/GET_ACCOUNT_SELECT_OPTIONS';
 export const SET_ACCOUNT_SELECT_OPTIONS = 'accounts/SET_ACCOUNT_SELECT_OPTIONS';
+export const CREATE_ELIMINATING_TRANSACTION = 'accounts/CREATE_ELIMINATING_TRANSACTION';
+export const CLEAR_ELIMINATION_FORM_ERRORS = 'accounts/CLEAR_ELIMINATION_FORM_ERRORS';
+export const SET_ELIMINATION_FORM_ERRORS = 'accounts/SET_ELIMINATION_FORM_ERRORS';

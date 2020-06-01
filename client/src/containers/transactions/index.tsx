@@ -21,6 +21,7 @@ import {
   getTransactions,
   setModalOpen,
   setEditTransactionId,
+  clearTransactionFormErrors,
 } from 'store/modules/transactions/actions';
 import style from './style.module.scss';
 import Modal from './components/modal';
@@ -35,6 +36,7 @@ const Trans: React.FC = () => {
   const dispatch = useDispatch();
 
   const openEdit = (id: number) => {
+    dispatch(clearTransactionFormErrors());
     dispatch(setEditTransactionId(id));
     changeRoute(Routes.TransactionsEdit);
   };
@@ -44,6 +46,7 @@ const Trans: React.FC = () => {
   }, [dispatch]);
 
   const openCreate = () => {
+    dispatch(clearTransactionFormErrors());
     dispatch(setEditTransactionId(0));
     changeRoute(Routes.TransactionsCreate);
   };

@@ -22,6 +22,8 @@ import {
   AccountTypes,
   setDeleteId,
   setAccountEditId,
+  clearEliminationFormErrors,
+  clearAccountFormErrors,
 } from 'store/modules/accounts';
 import { State } from 'store';
 import { useHistory } from 'react-router-dom';
@@ -47,13 +49,19 @@ const Accounts: React.FC = () => {
   };
 
   const handleEdit = (id: number) => {
+    dispatch(clearAccountFormErrors());
     dispatch(setAccountEditId(id));
     changeRoute(Routes.AccountEdit);
   };
 
   const handleCreate = () => {
+    dispatch(clearAccountFormErrors());
     dispatch(setAccountEditId(0));
     changeRoute(Routes.AccountCreate);
+  };
+  const handleCreateEliminating = () => {
+    dispatch(clearEliminationFormErrors());
+    changeRoute(Routes.EliminateMismatch);
   };
 
   const history = useHistory();
@@ -106,6 +114,18 @@ const Accounts: React.FC = () => {
         >
           <AddIcon />
         </Fab>
+        <Fab
+          size="large"
+          color="secondary"
+          variant="extended"
+          className={style.eliminateFab}
+          onClick={handleCreateEliminating}
+        >
+          Create eliminating transaction
+        </Fab>
+        
+        
+        
         <Modal />
         <Snackbar />
       </div>
