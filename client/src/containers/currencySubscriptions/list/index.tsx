@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/indent: 0 */
+/* eslint-disable @typescript-eslint/indent */
 import React from 'react';
 import {
   Container,

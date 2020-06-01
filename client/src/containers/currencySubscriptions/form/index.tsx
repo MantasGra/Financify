@@ -1,4 +1,5 @@
-/* eslint @typescript-eslint/indent: 0 */
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable react/jsx-curly-newline */
 import React from 'react';
 import {
   Container,
@@ -112,7 +113,8 @@ const CurrencySubscriptionForm: React.FC = () => {
             onChange={(e) =>
               handleCurrencyChange(
                 e.target.value as CurrencySubscriptionCurrencies
-              )}
+              )
+            }
             fullWidth
           >
             {Object.keys(CurrencySubscriptionCurrencies).map((type) => {

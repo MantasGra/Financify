@@ -52,6 +52,17 @@ const Navbar: React.FC = () => {
             >
               Curency subscriptions
             </Button>
+            <Divider className={style.AppBar__Divider} orientation="vertical" />
+            <Button
+              color="inherit"
+              onClick={() => changeRoute(Routes.Tendencies)}
+            >
+              Tendencies
+            </Button>
+            <Divider className={style.AppBar__Divider} orientation="vertical" />
+            <Button color="inherit" onClick={() => changeRoute(Routes.Reports)}>
+              Reports
+            </Button>
           </Grid>
         </Toolbar>
       </Container>

@@ -16,7 +16,7 @@ namespace server.ResourceManagers
             _transactionStorage = storage;
         }
 
-        public Transaction GetTransaction(int id,string[] includes = null)
+        public Transaction GetTransaction(int id, string[] includes = null)
         {
             return _transactionStorage.getItem(id, includes);
         }
@@ -54,7 +54,7 @@ namespace server.ResourceManagers
         {
             return _transactionStorage.updateItem(transaction, includes);
         }
-        public void SaveChanges() 
+        public void SaveChanges()
         {
             _transactionStorage.SaveChanges();
         }

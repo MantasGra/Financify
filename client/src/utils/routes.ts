@@ -7,6 +7,8 @@ enum Routes {
   AccountCreate = '/accounts/new',
   AccountEdit = '/accounts/edit',
   Tendencies = '/tendencies',
+  Reports = '/reports',
+  MonthlyExpensesReport = '/reports/monthly-expenses',
   CurrencySubscriptions = '/currency-subscriptions',
   CurrencySubscriptionCreate = '/currency-subscriptions/new',
 }
