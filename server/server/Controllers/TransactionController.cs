@@ -118,32 +118,7 @@ namespace server.Controllers
             return Ok(updatedTransaction);
         }
 
-        [HttpPost("eliminate")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Transaction> CreateEliminatingTransaction([FromBody] EliminateTransactionDto request)
-        {
-        	double sum = 0;
-
-            if(_accountManager.GetAccount(request.AccountId) == null)
-                return NotFound();
-
-        	var transactions = _accountManager.GetAccount(request.AccountId,new string[] {"Transactions"}).Transactions;
-        	foreach(Transaction transaction in transactions)
-        	{
-                if(!transaction.Disabled)
-        		    sum += transaction.Amount;
-        	}
-            double difference = Math.Round(request.NewValue - sum,2);
-            if(difference == 0)
-                return Ok();
-
-        	var tmp = new Transaction() { AccountId = request.AccountId, Date = DateTime.Now, Description = "Elimination transaction", Amount = difference};
-        	_transactionManager.AddTransaction(tmp);
-            return CreatedAtAction(nameof(GetTransactions), new { Id = tmp.Id }, _transactionManager.GetTransaction(tmp.Id, _transactionIncludes));
-            
-        }
+        
         // public ActionResult<string> ConstructCsv(int accountId)
         // {
         // 	string csv = "";

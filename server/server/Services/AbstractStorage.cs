@@ -42,6 +42,7 @@ namespace server.Services
                     query = query.Include(include);
                 }
             }
+            
             return query
                 .AsNoTracking()
                 .SingleOrDefault(item => item.Id == id);

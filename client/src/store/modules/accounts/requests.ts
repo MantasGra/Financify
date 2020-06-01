@@ -14,7 +14,7 @@ interface CreateEliminatingTransaction extends AxiosResponse {
 }
 export const createEliminatingTransaction = (eliminationForm: EliminationForm)  =>
   axios
-    .post('https://localhost:5001/api/transactions/eliminate', eliminationForm)
+    .post('https://localhost:5001/api/accounts/eliminate', eliminationForm)
     .then((res: CreateEliminatingTransaction) => ({data: res.data,status: res.status}));
 
 

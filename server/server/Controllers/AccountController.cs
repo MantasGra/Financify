@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using server.Models;
 using server.ResourceManagers;
 using Microsoft.AspNetCore.JsonPatch;
+using server.DTO;
+using server.Services;
 
 namespace server.Controllers
 {
@@ -19,12 +21,18 @@ namespace server.Controllers
    
         private readonly IUserManager _userManager;
 
-        private readonly string[] _accountIncludes = new string[] { "User", "Subscriptions", "Transactions" };
+        private readonly ITransactionManager _transactionManager;
 
-        public AccountController(IAccountManager accountManager, IUserManager userManager)
+        private readonly ITransactionService _transactionService;
+        private readonly string[] _accountIncludes = new string[] { "User", "Subscriptions", "Transactions" };
+        private readonly string[] _transactionIncludes = new string[] { "Account" };
+
+        public AccountController(IAccountManager accountManager, IUserManager userManager, ITransactionManager transactionManager,ITransactionService transactionService)
         {
             _manager = accountManager;
             _userManager = userManager;
+            _transactionManager = transactionManager;
+            _transactionService = transactionService;
         }
 
         [HttpGet]
@@ -133,5 +141,48 @@ namespace server.Controllers
             _manager.DeleteAccount(account);
             return Ok();
         }
+
+        [HttpPost("eliminate")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<Transaction> ValidateAndCreateEliminatingTransaction([FromBody] EliminateTransactionDto request)
+        {
+
+            if(request == null) 
+            {
+                return BadRequest();
+            }
+
+
+            double sum = 0;
+
+            
+
+        	var account = _manager.GetAccount(request.AccountId,new string[] {"Transactions"});
+            if(account==null)
+            {
+                return NotFound();
+            }
+            var transactions = account.Transactions;
+            
+        	foreach(Transaction transaction in transactions)
+        	{
+                if(!transaction.Disabled)
+        		    sum += transaction.Amount;
+        	}
+            if(sum==request.NewValue)
+            {
+                return Ok();
+            }
+
+            Transaction newTransaction = _transactionService.CreateEliminatingTransaction(request.AccountId,request.NewValue-sum); 
+          
+            return CreatedAtAction(nameof(ValidateAndCreateEliminatingTransaction), new { Id = newTransaction.Id }, _transactionManager.GetTransaction(newTransaction.Id,_transactionIncludes));
+        }
+
+
     }
+
 }
