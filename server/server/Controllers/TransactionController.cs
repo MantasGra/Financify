@@ -51,17 +51,19 @@ namespace server.Controllers
 
         [HttpGet("tendencies")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<TendencyDto> GetTendencies([FromQuery] int? userId)
+        public ActionResult<List<TendencyDto>> GetTendencies([FromQuery] int userId)
         {
-            List<TendencyDto> tendencies = new List<TendencyDto>();
-            IQueryable<Transaction> transactions = null;
-            if (userId.HasValue)
+            if (userId > 0)
             {
-                transactions = _transactionManager.GetUserTransactions(userId.Value, _transactionIncludes);
-                tendencies = _tendenciesService.formTendencies(transactions);
+                IQueryable<Transaction> transactions = _transactionManager.GetUserTransactions(userId, _transactionIncludes);
+                List<TendencyDto> tendencies = _tendenciesService.FormTendencies(transactions);
+                return Ok(tendencies);
             }
-
-            return Ok(tendencies);
+            else
+            {
+                return NotFound();
+            }
+   
         }
 
         [HttpPost]

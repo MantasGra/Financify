@@ -1,5 +1,3 @@
-import { Dictionary } from 'utils/types';
-
 // Define types for different objects
 export interface Tendency {
   date: Date;
@@ -14,8 +12,8 @@ export interface ExpensesReport {
 
 // Define type for state of a given module
 export interface ReportsState {
-  tendencies: Dictionary<Tendency>;
   expensesReport: ExpensesReport[];
+  tendencies: Tendency[];
 }
 
 // Define action names

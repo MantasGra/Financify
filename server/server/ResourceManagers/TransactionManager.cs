@@ -38,18 +38,6 @@ namespace server.ResourceManagers
                 .Where(t => t.Account.UserId == userId && !t.Disabled);
         }
 
-        public IQueryable<Transaction> GetUserTransactionsByDate(int userId, DateTime date, string[] includes = null)
-        {
-            return _transactionStorage
-                .getCollection(includes)
-                .Where(t => t.Account.UserId == userId && !t.Disabled && t.Date >= date);
-        }
-        public IQueryable<Transaction> GetMonthlyTransactions(int userId, int numberOfMonths)
-        {
-            DateTime date = DateTime.UtcNow.AddMonths(-numberOfMonths).AddDays(-DateTime.UtcNow.AddMonths(-numberOfMonths).Day + 1);
-            return _transactionStorage.getCollection().Where(t => t.Account.UserId == userId && !t.Disabled && t.Date >= date);
-        }
-
         public void DeleteTransaction(Transaction transaction)
         {
             try

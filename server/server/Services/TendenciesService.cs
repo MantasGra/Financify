@@ -1,7 +1,4 @@
-﻿using server.ResourceManagers;
-using System.Net;
-using System.Net.Mail;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using server.Models;
 using server.DTO;
 using System;
@@ -11,40 +8,40 @@ namespace server.Services
 {
     public class TendenciesService : ITendenciesService
     {
-    
-        public List<TendencyDto> formTendencies(IQueryable<Transaction> transactions)
+
+        public List<TendencyDto> FormTendencies(IQueryable<Transaction> transactions)
         {
-            List<TendencyDto> tendencies = new List<TendencyDto>() ;
+            List<TendencyDto> tendencies = new List<TendencyDto>();
             var transactionList = transactions.ToList();
             DateTime main = DateTime.Now;
-    
 
             for (int i = 4; i >= 1; i--)
             {
-                List<Transaction> transactionss = new List<Transaction>();
+                List<Transaction> tempTransactionsList = new List<Transaction>();
                 DateTime end = main.AddMonths(-i + 1).AddDays(-(main.Day));
                 for (int n = 0; n < transactions.Count(); n++)
                 {
 
                     if (transactionList[n].Date <= end)
                     {
-                        transactionss.Add(transactionList[n]);
+                        tempTransactionsList.Add(transactionList[n]);
                     }
                 }
-                tendencies.Add(createTendency(transactionss, end));
-                Console.WriteLine();
+                tendencies.Add(CreateTendency(tempTransactionsList, end));
             }
 
             for (int i = 1; i < tendencies.Count; i++)
             {
-                tendencies[i].Coeficient = tendencies[i].Amount / tendencies[i - 1].Amount;
+                if (tendencies[i - 1].Amount != 0)
+                {
+                    tendencies[i].Coeficient = tendencies[i].Amount / tendencies[i - 1].Amount;
+
+                }
             }
-
-
 
             for (int i = 1; i <= 3; i++)
             {
-                tendencies.Add(calculateFutureMonths(tendencies));
+                tendencies.Add(CalculateFutureMonths(tendencies));
             }
 
             tendencies.RemoveAt(0);
@@ -52,7 +49,7 @@ namespace server.Services
             return tendencies;
         }
 
-       public TendencyDto createTendency(List<Transaction> transactions, DateTime date)
+        public TendencyDto CreateTendency(List<Transaction> transactions, DateTime date)
         {
             TendencyDto tendency = new TendencyDto();
             tendency.Amount = 0;
@@ -65,21 +62,20 @@ namespace server.Services
             return tendency;
         }
 
-        public TendencyDto calculateFutureMonths(List<TendencyDto> tendencies)
+        public TendencyDto CalculateFutureMonths(List<TendencyDto> tendencies)
         {
             TendencyDto tendency = new TendencyDto();
             tendency.Date = tendencies[tendencies.Count - 1].Date.AddMonths(2).AddDays(-tendencies[tendencies.Count - 1].Date.Day);
-            double coffecientSum = 0;
+            double coffecientsSum = 0;
 
-            for (int i = tendencies.Count-1; i > tendencies.Count - 4; i--)
+            for (int i = tendencies.Count - 1; i > tendencies.Count - 4; i--)
             {
-                coffecientSum += tendencies[i].Coeficient;
+                coffecientsSum += tendencies[i].Coeficient;
             }
-            tendency.Coeficient = coffecientSum /= 3;
+            tendency.Coeficient = coffecientsSum /= 3;
             tendency.Amount = tendencies[tendencies.Count - 1].Amount * tendency.Coeficient;
 
             return tendency;
-
         }
     }
 }

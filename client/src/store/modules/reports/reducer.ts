@@ -2,8 +2,8 @@ import { ReportsState, SET_TENDENCIES, SET_EXPENSES_REPORT } from './types';
 import { TendenciesAction } from './actions';
 
 const initialState: ReportsState = {
-  tendencies: {},
   expensesReport: [],
+  tendencies: [],
 };
 
 // Reducer should be extended with cases as needed and should always return a state object.

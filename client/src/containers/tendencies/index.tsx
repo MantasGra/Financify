@@ -31,11 +31,9 @@ interface IState {
   }>;
 }
 
-const Tend: React.FC = () => {
-  const tendencies = useSelector<State, Tendency[]>((state) =>
-    Object.keys(state.reports.tendencies).map(
-      (key) => state.reports.tendencies[key]
-    )
+const Tendencies: React.FC = () => {
+  const tendencies = useSelector<State, Tendency[]>(
+    (state) => state.reports.tendencies
   );
   const [state, setState] = React.useState<IState>({ data: [] });
 
@@ -44,8 +42,8 @@ const Tend: React.FC = () => {
       setState({
         data: tendencies.map((tendency) => ({
           date: moment(tendency.date).format('YYYY-MM'),
-          amount: Number(tendency.amount.toFixed(2)),
-          coefficient: Number(tendency.coeficient.toFixed(5)),
+          amount: tendency.amount,
+          coefficient: tendency.coeficient,
         })),
       });
     }
@@ -61,12 +59,7 @@ const Tend: React.FC = () => {
       <h1>Your Tendencies</h1>
 
       <Container>
-        <LineChart
-          width={1200}
-          height={400}
-          data={state.data}
-          margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-        >
+        <LineChart width={1200} height={400} data={state.data}>
           <XAxis dataKey="date" />
           <YAxis />
           <CartesianGrid strokeDasharray="3 3" />
@@ -95,10 +88,10 @@ const Tend: React.FC = () => {
                     {row.date}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.amount}
+                    {row.amount.toFixed(2)}
                   </TableCell>
                   <TableCell component="th" scope="row">
-                    {row.coefficient}
+                    {row.coefficient.toFixed(5)}
                   </TableCell>
                 </TableRow>
               ))}
@@ -110,4 +103,4 @@ const Tend: React.FC = () => {
   );
 };
 
-export default Tend;
+export default Tendencies;

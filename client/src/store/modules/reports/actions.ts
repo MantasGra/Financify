@@ -1,6 +1,5 @@
 // Disabling because of conflict with prettier, formatting code takes care of indenting
 /* eslint @typescript-eslint/indent: 0 */
-import { Dictionary } from 'utils/types';
 import { createAction } from '../../actions';
 import {
   Tendency,
@@ -16,10 +15,9 @@ export const getTendencies = createAction<void, typeof GET_TENDENCIES>(
   GET_TENDENCIES
 );
 
-export const setTendencies = createAction<
-  Dictionary<Tendency>,
-  typeof SET_TENDENCIES
->(SET_TENDENCIES);
+export const setTendencies = createAction<Tendency[], typeof SET_TENDENCIES>(
+  SET_TENDENCIES
+);
 
 export const getExpensesReport = createAction<void, typeof GET_EXPENSES_REPORT>(
   GET_EXPENSES_REPORT

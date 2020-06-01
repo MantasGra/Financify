@@ -1,5 +1,4 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { toDictionary } from 'utils/parsers';
 import * as actions from './actions';
 import { getTendencies, getExpensesReport } from './requests';
 import {
@@ -14,7 +13,7 @@ import {
 // Actual worker saga which does something, when an action is dispatched.
 function* getTendenciesSaga() {
   const tendencies: Tendency[] = yield call(getTendencies);
-  yield put(actions.setTendencies(toDictionary(tendencies, 'date')));
+  yield put(actions.setTendencies(tendencies));
 }
 
 // Watcher saga which watches for dispatched actions.
