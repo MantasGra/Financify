@@ -62,6 +62,8 @@ namespace server
             services.AddSingleton<IAccountManager, AccountManager>();
             services.AddSingleton<IUserManager, UserManager>();
             services.AddSingleton<ITransactionManager, TransactionManager>();
+            services.AddSingleton<IBudgetManager, BudgetManager>();
+
             services.AddSingleton<ICurrencySubscriptionManager, CurrencySubscriptionManager>();
             services.AddSingleton<IEmailTemplateManager, EmailTemplateManager>();
 
@@ -71,8 +73,10 @@ namespace server
             services.AddSingleton<IMailerService, MailerService>();
             services.AddSingleton<ITransactionService, TransactionService>();
 
+            services.AddSingleton<ITendenciesService, TendenciesService>();
+            services.AddSingleton<IReportsService, ReportsService>();
             services.AddMvc();
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1" }));
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Financify", Version = "v1.1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

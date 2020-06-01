@@ -61,7 +61,7 @@ const Trans: React.FC = () => {
   return (
     <>
       <div className={style.title}>
-        <h1>Your transactions</h1>
+        <h1>Your Transactions</h1>
       </div>
       <Paper className={style.paperContainer} elevation={5}>
         <div className={style.listStyle}>

@@ -40,7 +40,7 @@ namespace server.Controllers
         public ActionResult<IQueryable<Account>> GetAccounts([FromQuery]int? userId)
         {
             IQueryable<Account> accounts = null;
-            if (userId.HasValue)
+             if (userId.HasValue)
             {
                 accounts = _manager.GetUserAccounts(userId.Value, _accountIncludes);
             }
