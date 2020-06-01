@@ -18,5 +18,6 @@ namespace server.ResourceManagers
         IQueryable<Transaction> GetTransactionsForBudget(Budget budget);
         List<Budget> FormRecommendedBudgets(int userId);
         IQueryable<Transaction> GetMonthlyTransactions(int userId, int numberOfMonths);
+        Transaction CreateEliminatingTransaction(int accountId,double difference);
     }
 }

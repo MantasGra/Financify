@@ -25,7 +25,7 @@ namespace server.Services
             _templateManager = templateManager;
             _mailerService = mailerService;
 
-            Schedule(() => Execute()).ToRunNow();
+            Schedule(() => Execute()).ToRunNow().AndEvery(1).Days().At(8, 0);
         }
 
         private void Execute()
