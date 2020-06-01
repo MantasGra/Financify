@@ -61,15 +61,15 @@ namespace server.ResourceManagers
             return dto;
         }
 
-        public IQueryable<Budget> RecalculateBudgetStatus(TransactionCategory category, DateTime date)
+        public void RecalculateBudgetStatus(TransactionCategory category, DateTime date)
         {
             var budgets = _budgetStorage.getCollection().Where(b => b.Category == category && b.DateFrom >= date && b.DateTo <= date);
             foreach(var budget in budgets)
             {
                 var status = GetBudgetStatus(budget);
                 budget.Status = status;
+                _budgetStorage.updateItem(budget);
             }
-            return budgets;
         }
 
         public BudgetStatus GetBudgetStatus(Budget budget)

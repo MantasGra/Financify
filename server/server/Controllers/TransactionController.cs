@@ -62,12 +62,12 @@ namespace server.Controllers {
         [HttpPost]
         [ProducesResponseType (StatusCodes.Status201Created)]
         public ActionResult<Transaction> PostTransaction ([FromBody] Transaction transaction) {
-            _transactionManager.AddTransaction(transaction);
-            var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
-            foreach (var budget in budgets)
+            if (transaction == null)
             {
-                _budgetManager.UpdateBudget(budget);
+                return BadRequest();
             }
+            _transactionManager.AddTransaction(transaction);
+            _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
             return CreatedAtAction (nameof (GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction (transaction.Id, _transactionIncludes));
         }
 
@@ -89,12 +89,8 @@ namespace server.Controllers {
         public ActionResult<Transaction> DeleteTransaction ([FromRoute] int id) {
             var transaction = _transactionManager.GetTransaction (id);
             if (transaction != null) {
-                var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
-                foreach (var budget in budgets)
-                {
-                    _budgetManager.UpdateBudget(budget);
-                }
                 _transactionManager.DeleteTransaction (transaction);
+                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
                 return Ok ();
             }
             return NotFound ();
@@ -126,11 +122,7 @@ namespace server.Controllers {
             Transaction updatedTransaction = null;
             try {
                 updatedTransaction = _transactionManager.UpdateTransaction (transaction, _transactionIncludes);
-                var budgets = _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
-                foreach (var budget in budgets)
-                {
-                    _budgetManager.UpdateBudget(budget);
-                }
+                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
             }
             catch {
                 return BadRequest ();

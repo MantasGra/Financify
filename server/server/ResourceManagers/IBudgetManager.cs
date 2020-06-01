@@ -13,7 +13,7 @@ namespace server.ResourceManagers
         Budget AddBudget(Budget budget);
         Budget UpdateBudget(Budget budget, string[] includes = null);
         List<BudgetDto> GetBudgets(int ?userId);
-        IQueryable<Budget> RecalculateBudgetStatus(TransactionCategory category, DateTime date);
+        void RecalculateBudgetStatus(TransactionCategory category, DateTime date);
         BudgetStatus GetBudgetStatus(Budget budget);
     }
 }
