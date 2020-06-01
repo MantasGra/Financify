@@ -49,7 +49,7 @@ namespace server.Controllers
             {
                 return NotFound("User was not found.");
             }
-
+            budget.Status = _budgetManager.GetBudgetStatus(budget);
             _budgetManager.AddBudget(budget);
 
             return CreatedAtAction(nameof(GetBudgets), new { Id = budget.Id }, budget);

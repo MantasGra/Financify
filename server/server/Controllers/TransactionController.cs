@@ -21,13 +21,17 @@ namespace server.Controllers {
 
         public readonly IReportsService _reportsService;
 
+        public readonly IBudgetManager _budgetManager;
+
         private readonly string[] _transactionIncludes = new string[] { "Account" };
 
-        public TransactionController (ITransactionManager transactionManager, IAccountManager accountManager, ITendenciesService tendenciesService, IReportsService reportsService) {
+        public TransactionController (ITransactionManager transactionManager, IAccountManager accountManager, ITendenciesService tendenciesService, IReportsService reportsService, IBudgetManager budgetManager)
+        {
             _transactionManager = transactionManager;
             _accountManager = accountManager;
             _tendenciesService = tendenciesService;
             _reportsService = reportsService;
+            _budgetManager = budgetManager;
         }
 
         [HttpGet]
@@ -58,7 +62,8 @@ namespace server.Controllers {
         [HttpPost]
         [ProducesResponseType (StatusCodes.Status201Created)]
         public ActionResult<Transaction> PostTransaction ([FromBody] Transaction transaction) {
-            _transactionManager.AddTransaction (transaction);
+            _transactionManager.AddTransaction(transaction);
+            _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
             return CreatedAtAction (nameof (GetTransactions), new { Id = transaction.Id }, _transactionManager.GetTransaction (transaction.Id, _transactionIncludes));
         }
 
@@ -80,6 +85,7 @@ namespace server.Controllers {
         public ActionResult<Transaction> DeleteTransaction ([FromRoute] int id) {
             var transaction = _transactionManager.GetTransaction (id);
             if (transaction != null) {
+                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
                 _transactionManager.DeleteTransaction (transaction);
                 return Ok ();
             }
@@ -112,7 +118,9 @@ namespace server.Controllers {
             Transaction updatedTransaction = null;
             try {
                 updatedTransaction = _transactionManager.UpdateTransaction (transaction, _transactionIncludes);
-            } catch {
+                _budgetManager.RecalculateBudgetStatus(transaction.Category, transaction.Date);
+            }
+            catch {
                 return BadRequest ();
             }
             return Ok (updatedTransaction);

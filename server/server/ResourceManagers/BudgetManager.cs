@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using server.Models;
 using server.Services;
 using server.DTO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace server.ResourceManagers
 {
@@ -55,6 +56,43 @@ namespace server.ResourceManagers
             }
             dto.UsedAmount = sum;
             return dto;
+        }
+
+        public IQueryable<Budget> RecalculateBudgetStatus(TransactionCategory category, DateTime date)
+        {
+            var budgets = _budgetStorage.getCollection().Where(b => b.Category == category && b.DateFrom >= date && b.DateTo < date);
+            foreach(var budget in budgets)
+            {
+                var status = GetBudgetStatus(budget);
+                budget.Status = status;
+            }
+            return budgets;
+        }
+
+        public BudgetStatus GetBudgetStatus(Budget budget)
+        {
+            var budgetTransactions = _transactionManager.GetTransactionsForBudget(budget);
+            var sumAmount = (from t in budgetTransactions select t.Amount).Sum();
+            var percentage = sumAmount * 100 / budget.Amount;
+
+            if (percentage <= 90)
+            {
+                budget.Status = BudgetStatus.Under;
+            }
+            else if (percentage > 90 && percentage <= 100)
+            {
+                budget.Status = BudgetStatus.AlmostThere;
+            }
+            else if (percentage > 100 && percentage <= 105)
+            {
+                budget.Status = BudgetStatus.AtThreshold;
+            }
+            else if (percentage > 105)
+            {
+                budget.Status = BudgetStatus.Over;
+            }
+
+            return budget.Status;
         }
     }
 }
