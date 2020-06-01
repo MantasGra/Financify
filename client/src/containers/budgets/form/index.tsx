@@ -229,11 +229,7 @@ const BudgetForm: React.FC = () => {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSave}
-        >
+        <Button variant="contained" color="primary" onClick={handleSave}>
           Submit
         </Button>
       </div>

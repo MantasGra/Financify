@@ -50,7 +50,7 @@ const Budgets: React.FC = () => {
   const resolveProgressionValue = (row: Budget) => {
     if (!row.usedAmount) return 0;
     if (row.usedAmount > row.amount) return 100;
-    return ((row.usedAmount / row.amount) * 100);
+    return (row.usedAmount / row.amount) * 100;
   };
 
   return (
@@ -88,7 +88,8 @@ const Budgets: React.FC = () => {
                   {new Date(row.dateTo).toLocaleDateString()}
                 </TableCell>
                 <TableCell>
-                  {row.usedAmount?.toFixed(2)} used out of {row.amount.toFixed(2)}
+                  {row.usedAmount?.toFixed(2)} used out of{' '}
+                  {row.amount.toFixed(2)}
                   <LinearProgress
                     variant="determinate"
                     color="secondary"

@@ -8,6 +8,9 @@ import AccountForm from './containers/accounts/form';
 import Budgets from './containers/budgets/list';
 import RecommendedBudgets from './containers/budgets/recommended';
 import BudgetForm from './containers/budgets/form';
+import Tendencies from './containers/tendencies';
+import Reports from './containers/reports';
+import MonthlyExpensesReport from './containers/reports/monthlyExpensesReport';
 import CurrencySubscriptions from './containers/currencySubscriptions/list';
 import CurrencySubscriptionForm from './containers/currencySubscriptions/form';
 import Navbar from './components/navbar';
@@ -44,6 +47,15 @@ const App = () => {
         </Route>
         <Route path={Routes.Accounts}>
           <Accounts />
+        </Route>
+        <Route path={Routes.Tendencies}>
+          <Tendencies />
+        </Route>
+        <Route exact path={Routes.Reports}>
+          <Reports />
+        </Route>
+        <Route exact path={Routes.MonthlyExpensesReport}>
+          <MonthlyExpensesReport />
         </Route>
         <Route exact path={Routes.CurrencySubscriptions}>
           <CurrencySubscriptions />

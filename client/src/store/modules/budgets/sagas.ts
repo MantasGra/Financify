@@ -1,10 +1,4 @@
-import {
-  all,
-  call,
-  fork,
-  put,
-  takeEvery,
-} from 'redux-saga/effects';
+import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 import { toDictionary } from 'utils/parsers';
 import * as actions from './actions';
 import * as globalActions from '../global/actions';
