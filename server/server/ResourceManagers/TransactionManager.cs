@@ -59,7 +59,7 @@ namespace server.ResourceManagers {
             return _transactionStorage
                 .getCollection()
                 .Where(t => t.Category == budget.Category)
-                .Where(t => t.Date >= budget.DateFrom && t.Date < budget.DateTo)
+                .Where(t => t.Date >= budget.DateFrom && t.Date <= budget.DateTo)
                 .Where(t => !t.Disabled);
         }
 

@@ -63,7 +63,7 @@ namespace server.ResourceManagers
 
         public IQueryable<Budget> RecalculateBudgetStatus(TransactionCategory category, DateTime date)
         {
-            var budgets = _budgetStorage.getCollection().Where(b => b.Category == category && b.DateFrom >= date && b.DateTo < date);
+            var budgets = _budgetStorage.getCollection().Where(b => b.Category == category && b.DateFrom >= date && b.DateTo <= date);
             foreach(var budget in budgets)
             {
                 var status = GetBudgetStatus(budget);
