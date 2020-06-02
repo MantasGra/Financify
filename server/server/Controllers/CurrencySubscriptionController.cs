@@ -28,12 +28,12 @@ namespace server.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IQueryable<CurrencySubscription>> GetCurrencySubscriptions([FromQuery]int? userId, [FromQuery]string currency = null)
+        public ActionResult<IQueryable<CurrencySubscription>> GetCurrencySubscriptions([FromQuery]int? userId)
         {
             IQueryable<CurrencySubscription> currencySubscriptions = null;
             if (userId.HasValue)
             {
-                currencySubscriptions = _manager.GetUserCurrencySubscriptions(userId.Value, currency, _currencySubscriptionIncludes);
+                currencySubscriptions = _manager.GetUserCurrencySubscriptions(userId.Value, null, _currencySubscriptionIncludes);
             }
             else
             {

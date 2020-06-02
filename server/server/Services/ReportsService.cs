@@ -22,7 +22,8 @@ namespace server.Services
             List<MonthlyExpensesDto> expenses = new List<MonthlyExpensesDto>();
             for (int i = 12; i >= 1; i--)
             {
-                DateTime month = DateTime.UtcNow.AddMonths(-i).AddDays(-DateTime.UtcNow.AddMonths(-i).Day + 1);
+                DateTime month = DateTime.Now.AddMonths(-i).AddDays(-DateTime.Now.AddMonths(-i).Day + 1);
+                month = new DateTime(month.Year, month.Month, month.Day, 0, 0, 0);
                 double sum = -transactions.Where(t => t.Amount < 0 && t.Date >= month && t.Date < month.AddMonths(1)).Sum(t => t.Amount);
                 expenses.Add(new MonthlyExpensesDto(sum, $"{month.Year}-{(month.Month < 10 ? $"0{month.Month}" : month.Month.ToString())}"));
             }

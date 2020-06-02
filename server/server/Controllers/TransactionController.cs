@@ -145,31 +145,6 @@ namespace server.Controllers {
             List<MonthlyExpensesDto> expensesReport = _reportsService.FormMonthlyExpensesReport (userId);
             return Ok (expensesReport);
         }
-        // public ActionResult<Transaction> CreateEliminatingTransaction(double newValue, int accountId)
-        // {
-        // 	double sum = 0;
-        // 	var transactions = _accountManager.GetAccount(accountId).Transactions;
-        // 	foreach(Transaction transaction in transactions)
-        // 	{
-        // 		sum += transaction.Amount;
-        // 	}
-
-        // 	var tmp = new Transaction() { AccountId = accountId, Date = DateT, Description = "Elimination transaction", Amount = newValue - sum };
-        // 	_transactionManager.AddTransaction(tmp);
-        // 	return Ok(tmp);
-        // }
-        // public ActionResult<string> ConstructCsv(int accountId)
-        // {
-        // 	string csv = "";
-        // 	var transactions = _accountManager.GetAccount(accountId).Transactions;
-        // 	foreach (Transaction transaction in transactions)
-        // 	{
-        // 		if (!transaction.Disabled)
-        // 		{
-        // 			csv += $"{transaction.Amount};{transaction.Description};{transaction.Date};{transaction.Category}\n";
-        // 		}
-        // 	}
-        // 	return Ok(csv);
-        // }
     }
+  }
 }

@@ -71,7 +71,6 @@ namespace server
             services.AddSingleton(typeof(IStorage<>), typeof(AbstractStorage<>));
             services.AddSingleton<ISelectOptionsFormatter, SelectOptionsFormatter>();
             services.AddSingleton<IMailerService, MailerService>();
-            services.AddSingleton<ITransactionService, TransactionService>();
 
             services.AddSingleton<ITendenciesService, TendenciesService>();
             services.AddSingleton<IReportsService, ReportsService>();

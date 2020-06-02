@@ -24,7 +24,10 @@ namespace server.Services
             var smtp = GetClient();
             var template = _templateManager.GetTemplate(templateId);
             var message = GetMessage(template, from, to, bodyParams);
-            smtp.Send(message);
+            try {
+                smtp.Send(message);
+            }
+            catch (Exception) {}
         }
 
         public SmtpClient GetClient()

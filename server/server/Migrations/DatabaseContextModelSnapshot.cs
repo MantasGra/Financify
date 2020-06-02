@@ -492,7 +492,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 3,
-                            Email = "mykolasvitkus@gmail.com",
+                            Email = "lanac91245@dfb55.com",
                             Fullname = "David D. Reed",
                             Password = "123456789",
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
