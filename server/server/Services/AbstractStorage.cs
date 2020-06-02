@@ -32,6 +32,10 @@ namespace server.Services
             }
             return query.AsNoTracking();
         }
+        public IQueryable<T> getCollectionAsTracking()
+        {
+            return dbSet;
+        }
         public T getItem(int id, string[] includes = null)
         {
             IQueryable<T> query = dbSet.AsQueryable();

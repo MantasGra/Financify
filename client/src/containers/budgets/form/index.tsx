@@ -28,7 +28,7 @@ import {
 import style from './style.module.scss';
 
 export interface IState {
-  amount: number;
+  amount: number | '';
   category: TransactionCategories | '';
   dateFrom: Date;
   dateTo: Date;
@@ -36,7 +36,7 @@ export interface IState {
 
 const BudgetForm: React.FC = () => {
   const [state, setState] = React.useState<IState>({
-    amount: 0,
+    amount: '',
     category: '',
     dateFrom: new Date(),
     dateTo: new Date(),
