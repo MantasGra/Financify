@@ -11,6 +11,9 @@ namespace server.ResourceManagers
     {
         Budget GetBudget(int id);
         Budget AddBudget(Budget budget);
+        Budget UpdateBudget(Budget budget, string[] includes = null);
         List<BudgetDto> GetBudgets(int ?userId);
+        void RecalculateBudgetStatus(TransactionCategory category, DateTime date);
+        BudgetStatus GetBudgetStatus(Budget budget);
     }
 }

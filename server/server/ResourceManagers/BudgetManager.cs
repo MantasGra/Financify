@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using server.Models;
 using server.Services;
 using server.DTO;
+using System.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.ResourceManagers
 {
@@ -12,7 +14,6 @@ namespace server.ResourceManagers
     {
         private readonly IStorage<Budget> _budgetStorage;
         private readonly ITransactionManager _transactionManager;
-
 
         public BudgetManager(IStorage<Budget> budgetStorage, ITransactionManager transactionManager)
         {
@@ -26,6 +27,10 @@ namespace server.ResourceManagers
         public Budget AddBudget(Budget budget) 
         {
             return _budgetStorage.createItem(budget);
+        }
+        public Budget UpdateBudget(Budget budget, string[] includes = null)
+        {
+            return _budgetStorage.updateItem(budget, includes);
         }
         public List<BudgetDto> GetBudgets(int ?userId)
         {
@@ -55,6 +60,41 @@ namespace server.ResourceManagers
             }
             dto.UsedAmount = -sum;
             return dto;
+        }
+
+        public void RecalculateBudgetStatus(TransactionCategory category, DateTime date)
+        {
+            var budgets = _budgetStorage.getCollectionAsTracking().Where(b => b.Category == category && b.DateFrom <= date && b.DateTo >= date);
+            foreach (var budget in budgets)
+            {
+                budget.Status = GetBudgetStatus(budget);
+            }
+            _budgetStorage.SaveChanges();
+        }
+
+        public BudgetStatus GetBudgetStatus(Budget budget)
+        {
+            var budgetTransactions = _transactionManager.GetTransactionsForBudget(budget);
+            var sumAmount = (from t in budgetTransactions select t.Amount).Sum();
+            var percentage = sumAmount * 100 / budget.Amount;
+
+            if (percentage <= 90)
+            {
+                return BudgetStatus.Under;
+            }
+            else if (percentage > 90 && percentage <= 100)
+            {
+                return BudgetStatus.AlmostThere;
+            }
+            else if (percentage > 100 && percentage <= 105)
+            {
+                return BudgetStatus.AtThreshold;
+            }
+            else if (percentage > 105)
+            {
+                return BudgetStatus.Over;
+            }
+            return BudgetStatus.Undefined;
         }
     }
 }

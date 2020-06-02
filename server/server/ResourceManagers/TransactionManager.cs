@@ -59,22 +59,22 @@ namespace server.ResourceManagers
       _transactionStorage.SaveChanges();
     }
 
-    public IQueryable<Transaction> GetUserLastMonthTransactionsByCategory(int userId, TransactionCategory category, string[] includes = null)
-    {
-      var today = DateTime.Today;
-      var max = new DateTime(today.Year, today.Month, 1);
-      var min = max.AddMonths(-1);
-      return _transactionStorage.getCollection()
-          .Where(s => s.Account.UserId == userId)
-          .Where(s => s.Category == category)
-          .Where(s => s.Date >= min && s.Date < max);
+    public IQueryable<Transaction> GetUserLastMonthTransactionsByCategory (int userId, TransactionCategory category, string[] includes = null) {
+        var today = DateTime.Today;
+        var max = new DateTime (today.Year, today.Month, 1);
+        var min = max.AddMonths (-1);
+        return _transactionStorage.getCollection ()
+            .Where (s => s.Account.UserId == userId)
+            .Where (s => s.Category == category)
+            .Where (s => s.Date >= min && s.Date < max)
+            .Where(s => !s.Disabled);
     }
-    public IQueryable<Transaction> GetTransactionsForBudget(Budget budget)
-    {
-      return _transactionStorage
-          .getCollection()
-          .Where(s => s.Category == budget.Category)
-          .Where(s => s.Date >= budget.DateFrom && s.Date < budget.DateTo);
+    public IQueryable<Transaction> GetTransactionsForBudget (Budget budget) {
+        return _transactionStorage
+            .getCollection()
+            .Where(t => t.Category == budget.Category)
+            .Where(t => t.Date >= budget.DateFrom && t.Date <= budget.DateTo)
+            .Where(t => !t.Disabled);
     }
 
     public List<Budget> FormRecommendedBudgets(int userId)

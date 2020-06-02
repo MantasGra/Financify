@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Models;
 using server.ResourceManagers;
+using server.DTO;
 
 namespace server.Controllers
 {
@@ -28,7 +29,7 @@ namespace server.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Budget> GetBudgets([FromQuery] int? userId)
+        public ActionResult<List<BudgetDto>> GetBudgets([FromQuery] int? userId)
         {
             var budgets = _budgetManager.GetBudgets(userId);
             return Ok(budgets);
@@ -49,7 +50,7 @@ namespace server.Controllers
             {
                 return NotFound("User was not found.");
             }
-
+            budget.Status = _budgetManager.GetBudgetStatus(budget);
             _budgetManager.AddBudget(budget);
 
             return CreatedAtAction(nameof(GetBudgets), new { Id = budget.Id }, budget);
