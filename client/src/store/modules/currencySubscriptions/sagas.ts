@@ -1,5 +1,6 @@
 import { toDictionary } from 'utils/parsers';
 import { call, put, takeEvery, all, fork } from 'redux-saga/effects';
+import { AxiosResponse } from 'axios';
 import * as globalActions from '../global/actions';
 import {
   CurrencySubscription,
@@ -28,22 +29,36 @@ function* getCurrencySubscriptionsWatcher() {
 function* createCurrencySubscriptionSaga(
   action: ReturnType<typeof actions.createCurrencySubscription>
 ) {
-  const currencySubscription: CurrencySubscription = yield call(
-    createCurrencySubscription,
-    action.payload.currencySubscriptionForm
-  );
-  if (currencySubscription) {
-    yield put(actions.storeAddCurrencySubscription(currencySubscription));
-    if (action.payload) {
-      yield call(action.payload.callback);
-    }
-    yield put(
-      globalActions.setSnackbar({
-        severity: 'success',
-        text: 'Currency subscription succesfully created',
-        isOpen: true,
-      })
+  try {
+    const currencySubscription: AxiosResponse = yield call(
+      createCurrencySubscription,
+      action.payload.currencySubscriptionForm
     );
+    if (currencySubscription.status === 201) {
+      yield put(actions.storeAddCurrencySubscription(
+        currencySubscription.data
+      ));
+      if (action.payload) {
+        yield call(action.payload.callback);
+      }
+      yield put(
+        globalActions.setSnackbar({
+          severity: 'success',
+          text: 'Currency subscription succesfully created',
+          isOpen: true,
+        })
+      );
+    } 
+  } catch(err) {
+    if(err.response.status === 400) {
+      yield put(
+        globalActions.setSnackbar({
+          severity: 'error',
+          text: 'You are already subscribed to this currency',
+          isOpen: true,
+        })
+      );
+    }
   }
 }
 

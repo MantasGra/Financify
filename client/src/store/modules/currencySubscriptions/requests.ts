@@ -26,5 +26,5 @@ export const createCurrencySubscription = (
       currency: CurrencySubscriptionCurrencies[data.currency],
       userId: 1,
     })
-    .then((res: AxiosResponse) => res.data);
+    .then((res: AxiosResponse) => res);
 };

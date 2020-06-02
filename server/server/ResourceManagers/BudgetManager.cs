@@ -19,7 +19,6 @@ namespace server.ResourceManagers
         {
             _budgetStorage = budgetStorage;
             _transactionManager = transactionManager;
-            _context = context;
         }
         public Budget GetBudget(int id) 
         {
