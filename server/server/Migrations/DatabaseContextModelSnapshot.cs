@@ -107,8 +107,8 @@ namespace server.Migrations
                             Id = 1,
                             Amount = 1250.3099999999999,
                             Category = 6,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 166, DateTimeKind.Local).AddTicks(9513),
+                            DateFrom = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
+                            DateTo = new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(491),
                             Status = 0,
                             UserId = 1
                         },
@@ -117,8 +117,8 @@ namespace server.Migrations
                             Id = 2,
                             Amount = 25.609999999999999,
                             Category = 8,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(299),
+                            DateFrom = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
+                            DateTo = new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1467),
                             Status = 2,
                             UserId = 1
                         },
@@ -127,8 +127,8 @@ namespace server.Migrations
                             Id = 3,
                             Amount = 400.69,
                             Category = 5,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(333),
+                            DateFrom = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
+                            DateTo = new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1498),
                             Status = 4,
                             UserId = 1
                         },
@@ -137,8 +137,8 @@ namespace server.Migrations
                             Id = 4,
                             Amount = 138.50999999999999,
                             Category = 1,
-                            DateFrom = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
-                            DateTo = new DateTime(2020, 5, 30, 17, 34, 32, 167, DateTimeKind.Local).AddTicks(337),
+                            DateFrom = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
+                            DateTo = new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1502),
                             Status = 1,
                             UserId = 1
                         });
@@ -341,7 +341,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 125.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -351,7 +351,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 13.99,
                             Category = 8,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Disabled = false
                         },
                         new
@@ -360,7 +360,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 4.6500000000000004,
                             Category = 0,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "McDonalds",
                             Disabled = true
                         },
@@ -370,7 +370,7 @@ namespace server.Migrations
                             AccountId = 3,
                             Amount = 87.439999999999998,
                             Category = 7,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Disabled = false
                         },
                         new
@@ -379,7 +379,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 15.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -389,7 +389,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 12.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -399,7 +399,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 25.309999999999999,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -409,7 +409,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 45.310000000000002,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -419,7 +419,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 16.309999999999999,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         },
@@ -429,7 +429,7 @@ namespace server.Migrations
                             AccountId = 1,
                             Amount = 115.31,
                             Category = 6,
-                            Date = new DateTime(2020, 4, 30, 17, 34, 32, 163, DateTimeKind.Local).AddTicks(7519),
+                            Date = new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780),
                             Description = "Some description",
                             Disabled = false
                         });
@@ -492,7 +492,7 @@ namespace server.Migrations
                         new
                         {
                             Id = 3,
-                            Email = "lanac91245@dfb55.com",
+                            Email = "DavidDReed@rhyta.com",
                             Fullname = "David D. Reed",
                             Password = "123456789",
                             RegistrationDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)

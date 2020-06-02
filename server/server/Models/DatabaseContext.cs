@@ -52,7 +52,6 @@ namespace server.Models {
                 new { Id = 8, Amount = 45.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
                 new { Id = 9, Amount = 16.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 },
                 new { Id = 10, Amount = 115.31, Date = LastMonth, Category = TransactionCategory.Bills, Description = "Some description", Disabled = false, AccountId = 1 }
-
             );
 
             modelBuilder.Entity<Budget> ().HasData (

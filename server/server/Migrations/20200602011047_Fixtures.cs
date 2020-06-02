@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace server.Migrations
 {
-    public partial class Models : Migration
+    public partial class Fixtures : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -201,6 +201,71 @@ namespace server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "EmailTemplates",
+                columns: new[] { "Id", "Content", "Title" },
+                values: new object[] { 1, "We are informing you about a good currency price which you are subscribing - {0}. Its price now is equal to {1} compared to 1 USD.", "Good currency price" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Discriminator", "Email", "Fullname", "Password", "RegistrationDate" },
+                values: new object[,]
+                {
+                    { 1, "User", "admin@financify.net", "Admin Financify", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, "User", "StephanieTMacha@armyspy.com", "Stephanie T. Macha", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, "User", "DavidDReed@rhyta.com", "David D. Reed", "123456789", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Accounts",
+                columns: new[] { "Id", "Name", "Type", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Cash", 0, 1 },
+                    { 2, "Main", 1, 1 },
+                    { 3, "Cash", 0, 2 },
+                    { 4, "Default", 0, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Budgets",
+                columns: new[] { "Id", "Amount", "Category", "DateFrom", "DateTo", "Status", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1250.3099999999999, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(491), 0, 1 },
+                    { 2, 25.609999999999999, 8, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1467), 2, 1 },
+                    { 3, 400.69, 5, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1498), 4, 1 },
+                    { 4, 138.50999999999999, 1, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), new DateTime(2020, 6, 2, 4, 10, 46, 856, DateTimeKind.Local).AddTicks(1502), 1, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CurrencySubscriptions",
+                columns: new[] { "Id", "Currency", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "USD", 1 },
+                    { 2, "EUR", 1 },
+                    { 3, "GBP", 2 },
+                    { 4, "EUR", 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Transactions",
+                columns: new[] { "Id", "AccountId", "Amount", "Category", "Date", "Description", "Disabled" },
+                values: new object[,]
+                {
+                    { 1, 1, 125.31, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 2, 1, 13.99, 8, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), null, false },
+                    { 3, 1, 4.6500000000000004, 0, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "McDonalds", true },
+                    { 5, 1, 15.31, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 6, 1, 12.31, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 7, 1, 25.309999999999999, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 8, 1, 45.310000000000002, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 9, 1, 16.309999999999999, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 10, 1, 115.31, 6, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), "Some description", false },
+                    { 4, 3, 87.439999999999998, 7, new DateTime(2020, 5, 2, 4, 10, 46, 853, DateTimeKind.Local).AddTicks(5780), null, false }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Accounts_UserId",
                 table: "Accounts",
@@ -240,6 +305,12 @@ namespace server.Migrations
                 name: "IX_Transactions_AccountId",
                 table: "Transactions",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
